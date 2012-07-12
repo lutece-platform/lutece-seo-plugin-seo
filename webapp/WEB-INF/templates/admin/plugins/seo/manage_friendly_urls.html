@@ -1,0 +1,61 @@
+  
+  <div class="content-box" >
+    <h2>#i18n{seo.manage_friendly_urls.labelUrlList}</h2>    
+    <table>
+        <tr>
+            <th>URL explicite</th>
+            <th>URL technique</th>
+            <th align="center">URL canonique</th>
+            <th align="center">Inclure dans le sitemap</th>
+            <th align="center">Dernière modification<br/>(sitemap)<br/>(lastmod)</th>
+            <th align="center">Fréquence de mise à jour<br/>(sitemap)<br/>(changefreq)</th>
+            <th align="center">Priorité<br/>(sitemap)<br/>(priority)</th>
+            <th>Actions</th>
+        </tr>
+        <#list friendly_url_list as url >
+         <tr>
+             
+ 	     <td>${url.friendlyUrl}</td>
+ 	     <td>${url.technicalUrl}</td>
+             <td align="center">
+                 <#if url.canonical >
+                     <img src="images/admin/skin/enable.png" alt="enabled" />
+                 <#else>
+                     <img src="images/admin/skin/enable.png" alt="enabled" />
+                 </#if>
+             </td>
+             <td align="center">
+                 <#if url.sitemap >
+                     <img src="images/admin/skin/enable.png" alt="enabled" />
+                 <#else>
+                     <img src="images/admin/skin/enable.png" alt="enabled" />
+                 </#if>
+             </td align="center">
+ 	     <td align="center">${url.sitemapLastmod!"-"}</td>
+ 	     <td align="center">${url.sitemapChangeFreq}</td>
+ 	     <td align="center">${url.sitemapPriority}</td>
+             <td>
+                <a href="jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_url=${url.id}" >
+                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.util.labelDelete}" title="#i18n{portal.util.labelDelete}" />
+                </a>
+                <a href="jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${url.id}" >
+                    <img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.util.labelModify}" title="#i18n{portal.util.labelModify}" />
+                </a>
+             </td>
+        </tr>
+        </#list>
+    </table>
+
+    <form method="post"  action="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
+    </form>
+
+    <form method="post"  action="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerateAlias}" class="button" />
+    </form>
+
+    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerate}" class="button" />
+    </form>
+</div>
+

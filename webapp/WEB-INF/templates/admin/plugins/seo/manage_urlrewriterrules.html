@@ -1,0 +1,39 @@
+  
+  <div class="content-box" >
+    <h2>#i18n{seo.manage_urlrewriterrules.labelRules}</h2>    
+    <table>
+        <tr>
+ 			<th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</th>
+ 			<th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</th>
+ 			<th>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</th>
+ 			<th>#i18n{seo.manage_urlrewriterrules.columnActions}</th>
+        </tr>
+        <#list urlrewriterrule_list as urlrewriterrule >
+         <tr>
+             <td>${urlrewriterrule.idRule}</td>
+ 			 <td>${urlrewriterrule.ruleFrom}</td>
+ 			 <td>${urlrewriterrule.ruleTo}</td>
+             <td>
+                <a href="jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" >
+                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.util.labelDelete}" title="#i18n{portal.util.labelDelete}" />
+                </a>
+                <a href="jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" >
+                    <img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.util.labelModify}" title="#i18n{portal.util.labelModify}" />
+                </a>
+             </td>
+        </tr>
+        </#list>
+    </table>
+
+    <form method="post"  action="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
+    </form>
+
+    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerate}" class="button" />
+    </form>
+</div>
+
+  
+
+

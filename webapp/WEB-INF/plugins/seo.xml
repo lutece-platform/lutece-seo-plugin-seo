@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
+    
+    <!-- Plugin Informations -->
+    <name>seo</name>
+    <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
+    <version>1.0.0</version>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
+    <description>seo.plugin.description</description>
+    <provider>seo.plugin.provider</provider>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>images/admin/skin/plugins/seo/seo.png</icon-url>
+    <copyright>Copyright 2001-2009 Mairie de Paris</copyright>
+    <core-version-dependency>
+		<min-core-version>2.3.0</min-core-version>
+		<max-core-version/>	
+	</core-version-dependency>
+    <db-pool-required>1</db-pool-required>
+    
+    <!-- filters -->
+    <filters>
+        <filter>
+            <filter-name>seo_urlrewriter</filter-name>
+            <url-pattern>/*</url-pattern>
+            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+
+        <!-- set the amount of seconds the conf file will be checked for reload
+        can be a valid integer (0 denotes check every time,
+        -1 denotes no reload check, default -1) -->
+            <init-param>
+                <param-name>confReloadCheckInterval</param-name>
+                <param-value>60</param-value>
+            </init-param>
+
+        <!-- if you need to the conf file path can be changed
+        it is specified as a path relative to the root of your context
+        (default /WEB-INF/urlrewrite.xml) -->
+            <init-param>
+                <param-name>confPath</param-name>
+                <param-value>/WEB-INF/plugins/seo/urlrewrite.xml</param-value>
+            </init-param>
+
+        <!-- sets up log level (will be logged to context log)
+        can be: TRACE, DEBUG, INFO (default), WARN, ERROR, FATAL, log4j, commons,
+        sysout:{level} (ie, sysout:DEBUG)
+        if you are having trouble using normal levels use sysout:DEBUG
+        (default WARN) -->
+            <init-param>
+                <param-name>logLevel</param-name>
+                <param-value>WARN</param-value>
+            </init-param>
+
+        <!-- you can change status path so that it does not
+        conflict with your installed apps (note, defaults
+        to /rewrite-status) note, must start with / -->
+            <init-param>
+                <param-name>statusPath</param-name>
+                <param-value>/status</param-value>
+            </init-param>
+
+        <!-- you can disable status page if desired
+        can be: true, false (default true) -->
+            <init-param>
+                <param-name>statusEnabled</param-name>
+                <param-value>true</param-value>
+            </init-param>
+
+        <!-- you may want to allow more hosts to look at the status page
+        statusEnabledOnHosts is a comma delimited list of hosts, * can
+        be used as a wildcard (defaults to "localhost, local, 127.0.0.1") -->
+            <init-param>
+                <param-name>statusEnabledOnHosts</param-name>
+                <param-value>localhost</param-value>
+            </init-param>
+
+        <!-- you may want to allow more hosts to look at the status page
+        statusEnabledOnHosts is a comma delimited list of hosts, * can
+        be used as a wildcard (defaults to "localhost, local, 127.0.0.1") -->
+            <init-param>
+                <param-name>statusEnabledOnHosts</param-name>
+                <param-value>localhost</param-value>
+            </init-param>
+
+        <!-- defaults to false. use mod_rewrite style configuration file (if this is true and confPath
+        is not specified confPath will be set to /WEB-INF/.htaccess) -->
+            <init-param>
+                <param-name>modRewriteConf</param-name>
+                <param-value>false</param-value>
+            </init-param>
+
+        <!-- load mod_rewrite style configuration from this parameter's value.
+                note, Setting this parameter will mean that all other conf parameters are ignored.
+            <init-param>
+                <param-name>modRewriteConfText</param-name>
+                <param-value>
+                    RewriteRule ^/~([^/]+)/?(.*) /u/$1/$2 [R]
+                    RewriteRule ^/([uge])/([^/]+)$ /$1/$2/ [R]
+                </param-value>
+            </init-param>
+        -->
+        </filter>
+    </filters>
+
+    <admin-features>
+        <admin-feature>
+            <feature-id>SEO_MANAGEMENT</feature-id>
+            <feature-title>seo.adminFeature.seo_management.name</feature-title>
+            <feature-description>seo.adminFeature.seo_management.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/seo/ManageSEO.jsp</feature-url>
+            <feature-icon-url>images/admin/skin/plugins/seo/seo_feature.png</feature-icon-url>
+        </admin-feature>
+    </admin-features>
+    
+    <!-- Applications
+    <applications>
+        <application>
+            <application-id>seo</application-id>
+            <application-class>fr.paris.lutece.plugins.seo.web.seoApp</application-class>
+        </application>
+    </applications>
+     -->
+</plug-in>

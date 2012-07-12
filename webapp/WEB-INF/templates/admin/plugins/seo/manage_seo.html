@@ -1,0 +1,37 @@
+<div class="content-box" >
+    <h2>Gestion des URL explicites (Friendly URL)</h2>    
+    <p>
+    Le référencement est amélioré lorsque les URL des pages du sites sont explicites,
+    c'est à dire qu'elles contiennent que des termes lisibles et non techniques.
+    <form action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
+        <input type="hidden" name="plugin_name" value ="seo" />
+        <input type="submit" class="button" value="Gérer les URL explicites" />
+    </form>
+    <p>
+</div>
+
+<div class="content-box" >
+    <h2>Gestion des règles génériques de réécriture des URL</h2>    
+
+    <form action="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp" method="GET">
+        <input type="hidden" name="plugin_name" value ="seo" />
+        <input type="submit" class="button" value="Gérer les redirections génériques" />
+    </form>
+</div>
+
+<div class="content-box" >
+    <div class="highlight-box-content" >
+        <h2>Gestion du sitemap</h2>
+    <form action="" method="GET">
+        <input type="submit" class="button" value="Afficher le contenu du fichier" />
+    </form>
+    <form action="" method="GET">
+        <input type="submit" class="button" value="Regénérer le fichier" />
+    </form>
+    <form action="" method="GET">
+        <input type="hidden" name="plugin_name" value ="seo" />
+        <input type="checkbox" class="checkbox" value="1" /> Activer la génération automatique du fichier sietmap.xml
+    </form>
+
+    </div>
+</div>
