@@ -87,7 +87,7 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
     {
         Page page = PageHome.findByPrimaryKey( nPage );
         FriendlyUrl url = new FriendlyUrl(  );
-        String strAlias = GeneratorUtils.convertToAlias( page.getName(  ) );
+        String strAlias = FriendlyUrlUtils.convertToFriendlyUrl( page.getName(  ) );
         String strChildPath = ( strPath.equals( EMPTY ) ) ? SLASH : ( strPath + strAlias + SLASH );
         String strFriendlyUrl = ( options.isAddPath(  ) ) ? ( strPath + strAlias ) : ( SLASH + strAlias );
         strFriendlyUrl = ( strPath.equals( EMPTY ) ) ? ( SLASH + strAlias ) : strFriendlyUrl;

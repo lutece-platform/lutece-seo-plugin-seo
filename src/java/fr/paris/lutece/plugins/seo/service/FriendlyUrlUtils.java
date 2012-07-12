@@ -33,26 +33,64 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
-import fr.paris.lutece.util.string.StringUtil;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+import java.util.Map;
 
 
 /**
- * Alias Generator Utils
+ * Friendly URL Utils
  */
-public class GeneratorUtils
+public class FriendlyUrlUtils
 {
+    private static final String ANCHOR = "href=\"";
+    private static final String END_URL = "\"";
+
     /**
-     * Normalize a string to alias
+     * Normalize a string to a friendly URL
      * @param strSource The source
      * @return The converted string
      */
-    public static String convertToAlias( String strSource )
+    public static String convertToFriendlyUrl( String strSource )
     {
-        String strConverted = strSource.toLowerCase(  );
+        String strConverted = Normalizer.normalize( strSource, Form.NFD).replaceAll("[^\\p{ASCII}]","");
         strConverted = strConverted.replace( " ", "-" );
-        strConverted = strConverted.replace( "'", "-" );
-        strConverted = StringUtil.replaceAccent( strConverted );
+        strConverted = strConverted.toLowerCase();
 
         return strConverted;
+    }
+    
+    /**
+     * Replace in the source all URL found in the map
+     * @param strSource The source
+     * @param map The Map that contains Friendly URL mapping
+     * @return The source with found URL replaced
+     */
+    public static String replaceByFriendlyUrl( String strSource , Map<String,String> map )
+    {
+        StringBuilder sbOutput = new StringBuilder();
+        String strCurrent = strSource;
+        String strUrl;
+        String strFriendlyUrl;
+        int nPosBeginUrl;
+        int nPosEndUrl;
+        
+        int nPos = strCurrent.indexOf( ANCHOR );
+        
+        while( nPos >= 0 )
+        {
+            nPosBeginUrl = nPos + ANCHOR.length();
+            sbOutput.append( strCurrent.substring( 0 , nPosBeginUrl ));
+            strCurrent = strCurrent.substring( nPosBeginUrl );
+            nPosEndUrl = strCurrent.indexOf( END_URL );
+            strUrl = strCurrent.substring( 0 , nPosEndUrl);
+            strFriendlyUrl = map.get(strUrl);
+            sbOutput.append( (strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
+            strCurrent = strCurrent.substring( nPosEndUrl );
+            nPos = strCurrent.indexOf( ANCHOR );
+        }
+        sbOutput.append( strCurrent );
+        
+        return sbOutput.toString();
     }
 }
