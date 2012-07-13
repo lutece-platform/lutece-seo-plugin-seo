@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2011, Mairie de Paris
+ * Copyright (c) 2002-2012, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,54 +31,47 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.business;
+package fr.paris.lutece.plugins.seo.service;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 
-import java.util.List;
+import java.util.Map;
 
 
 /**
-* IFriendlyUrlDAO Interface
-*/
-public interface IFriendlyUrlDAO
+ *
+ * @author pierre
+ */
+public class FriendlyUrlContentPostProcessor implements ContentPostProcessor
 {
+    private static final String NAME = "SEO Friendly Url replacer";
+    private static Map<String, String> _mapFriendlyUrls;
+    private boolean _bInit;
+
+    public void init(  )
+    {
+        _mapFriendlyUrls = FriendlyUrlService.getFriendlyUrlMap(  );
+        _bInit = true;
+    }
+
     /**
-     * Insert a new record in the table.
-     * @param friendlyUrl instance of the FriendlyUrl object to inssert
-     * @param plugin the Plugin
+     * {@inheritDoc }
      */
-    void insert( FriendlyUrl friendlyUrl, Plugin plugin );
+    public String getName(  )
+    {
+        return NAME;
+    }
 
     /**
-    * Update the record in the table
-    * @param friendlyUrl the reference of the FriendlyUrl
-    * @param plugin the Plugin
-    */
-    void store( FriendlyUrl friendlyUrl, Plugin plugin );
-
-    /**
-     * Delete a record from the table
-     * @param nIdFriendlyUrl int identifier of the FriendlyUrl to delete
-     * @param plugin the Plugin
+     * {@inheritDoc }
      */
-    void delete( int nIdFriendlyUrl, Plugin plugin );
+    public String process( String strContent )
+    {
+        if ( !_bInit )
+        {
+            init(  );
+        }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Finders
-
-    /**
-     * Load the data from the table
-     * @param strId The identifier of the friendlyUrl
-     * @param plugin the Plugin
-     * @return The instance of the friendlyUrl
-     */
-    FriendlyUrl load( int nKey, Plugin plugin );
-
-    /**
-    * Load the data of all the friendlyUrl objects and returns them as a List
-    * @param plugin the Plugin
-    * @return The List which contains the data of all the friendlyUrl objects
-    */
-    List<FriendlyUrl> selectFriendlyUrlsList( Plugin plugin );
+        return FriendlyUrlUtils.replaceByFriendlyUrl( strContent, _mapFriendlyUrls );
+    }
 }

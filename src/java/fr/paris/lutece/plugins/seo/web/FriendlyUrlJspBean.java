@@ -37,8 +37,8 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
-import fr.paris.lutece.plugins.seo.service.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlGeneratorService;
+import fr.paris.lutece.plugins.seo.service.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.RuleFileService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -143,8 +143,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_URLREWRITERRULE_LIST, paginator.getPageItems(  ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FRIENDLY_URL, getLocale(  ),
-                model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FRIENDLY_URL, getLocale(  ), model );
 
         return getAdminPage( templateList.getHtml(  ) );
     }

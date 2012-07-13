@@ -115,7 +115,7 @@ public class FriendlyUrlGeneratorService
         {
             if ( options.isHtmlSuffix(  ) )
             {
-                url.setFriendlyUrl( url.getFriendlyUrl() + SUFFIX_HTML );
+                url.setFriendlyUrl( url.getFriendlyUrl(  ) + SUFFIX_HTML );
             }
 
             int nExistingRuleId = getExistingRuleId( listExisting, url );
@@ -127,18 +127,18 @@ public class FriendlyUrlGeneratorService
                     // update the existing alias
                     url.setId( nExistingRuleId );
                     FriendlyUrlHome.update( url );
-                    AppLogService.info( "Updated : " + url.getFriendlyUrl() + " -> " + url.getTechnicalUrl() );
+                    AppLogService.info( "Updated : " + url.getFriendlyUrl(  ) + " -> " + url.getTechnicalUrl(  ) );
                 }
                 else
                 {
-                    AppLogService.info( "Ignored : " + url.getFriendlyUrl() + " -> " + url.getTechnicalUrl() );
+                    AppLogService.info( "Ignored : " + url.getFriendlyUrl(  ) + " -> " + url.getTechnicalUrl(  ) );
                 }
             }
             else
             {
                 // create a new alias
                 FriendlyUrlHome.create( url );
-                AppLogService.info( "Created : " + url.getFriendlyUrl() + " -> " + url.getTechnicalUrl() );
+                AppLogService.info( "Created : " + url.getFriendlyUrl(  ) + " -> " + url.getTechnicalUrl(  ) );
             }
         }
     }
@@ -147,7 +147,7 @@ public class FriendlyUrlGeneratorService
     {
         for ( FriendlyUrl u : listExisting )
         {
-            if ( u.getTechnicalUrl().equals( url.getTechnicalUrl() ) )
+            if ( u.getTechnicalUrl(  ).equals( url.getTechnicalUrl(  ) ) )
             {
                 return u.getId(  );
             }

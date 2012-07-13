@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
 <beans>
- <bean id="seo.friendlyUrlDAO"  class="fr.paris.lutece.plugins.seo.business.FriendlyUrlDAO" />  
- <bean id="seo.urlRewriterRuleDAO"  class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />  
- <bean id="seo.pageFriendlyUrlGenerator" class="fr.paris.lutece.plugins.seo.service.PageFriendlyUrlGenerator" />
+    <bean id="seo.friendlyUrlDAO"  class="fr.paris.lutece.plugins.seo.business.FriendlyUrlDAO" />  
+    <bean id="seo.urlRewriterRuleDAO"  class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />  
+    <bean id="seo.pageFriendlyUrlGenerator" class="fr.paris.lutece.plugins.seo.service.PageFriendlyUrlGenerator" />
+    <bean id="seo.friendlyUrlContentPostProcessor" class="fr.paris.lutece.plugins.seo.service.FriendlyUrlContentPostProcessor" />
 </beans>

@@ -26,6 +26,13 @@
         </rule>
     </#list>
     
+    <#list url_list as url>
+        <rule>
+            <from>${url.friendlyUrl}</from>
+            <to>${url.technicalUrl}</to>
+        </rule>
+    </#list>
+
     <outbound-rule>
         <note>
             The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)

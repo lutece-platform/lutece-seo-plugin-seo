@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+
 import java.util.Map;
 
 
@@ -53,44 +56,52 @@ public class FriendlyUrlUtils
      */
     public static String convertToFriendlyUrl( String strSource )
     {
-        String strConverted = Normalizer.normalize( strSource, Form.NFD).replaceAll("[^\\p{ASCII}]","");
+        String strConverted = Normalizer.normalize( strSource, Form.NFD ).replaceAll( "[^\\p{ASCII}]", "" );
         strConverted = strConverted.replace( " ", "-" );
-        strConverted = strConverted.toLowerCase();
+        strConverted = strConverted.toLowerCase(  );
 
         return strConverted;
     }
-    
+
     /**
      * Replace in the source all URL found in the map
      * @param strSource The source
      * @param map The Map that contains Friendly URL mapping
      * @return The source with found URL replaced
      */
-    public static String replaceByFriendlyUrl( String strSource , Map<String,String> map )
+    public static String replaceByFriendlyUrl( String strSource, Map<String, String> map )
     {
-        StringBuilder sbOutput = new StringBuilder();
+        StringBuilder sbOutput = new StringBuilder(  );
         String strCurrent = strSource;
         String strUrl;
         String strFriendlyUrl;
         int nPosBeginUrl;
         int nPosEndUrl;
-        
+
         int nPos = strCurrent.indexOf( ANCHOR );
-        
-        while( nPos >= 0 )
+
+        while ( nPos >= 0 )
         {
-            nPosBeginUrl = nPos + ANCHOR.length();
-            sbOutput.append( strCurrent.substring( 0 , nPosBeginUrl ));
+            nPosBeginUrl = nPos + ANCHOR.length(  );
+            sbOutput.append( strCurrent.substring( 0, nPosBeginUrl ) );
             strCurrent = strCurrent.substring( nPosBeginUrl );
             nPosEndUrl = strCurrent.indexOf( END_URL );
-            strUrl = strCurrent.substring( 0 , nPosEndUrl);
-            strFriendlyUrl = map.get(strUrl);
-            sbOutput.append( (strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
+            strUrl = strCurrent.substring( 0, nPosEndUrl );
+            strFriendlyUrl = map.get( strUrl );
+            sbOutput.append( ( strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
+
+            // FIXME remove trace
+            if ( strFriendlyUrl != null )
+            {
+                AppLogService.debug( "Url : " + strUrl + " replaced by : " + strFriendlyUrl );
+            }
+
             strCurrent = strCurrent.substring( nPosEndUrl );
             nPos = strCurrent.indexOf( ANCHOR );
         }
+
         sbOutput.append( strCurrent );
-        
-        return sbOutput.toString();
+
+        return sbOutput.toString(  );
     }
 }

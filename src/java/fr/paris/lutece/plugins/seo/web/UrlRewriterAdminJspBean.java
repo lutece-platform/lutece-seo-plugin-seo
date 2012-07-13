@@ -305,5 +305,4 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
 
         return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
     }
-
 }

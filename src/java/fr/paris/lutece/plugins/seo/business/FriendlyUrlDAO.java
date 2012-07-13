@@ -39,12 +39,12 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * This class provides Data Access methods for FriendlyUrl objects
  */
 public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 {
-
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_url ) FROM seo_friendly_url";
     private static final String SQL_QUERY_SELECT = "SELECT id_url, friendly_url, technical_url, date_creation, date_modification, is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority FROM seo_friendly_url WHERE id_url = ?";
@@ -59,21 +59,21 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      * @param plugin The Plugin
      * @return The new primary key
      */
-    public int newPrimaryKey(Plugin plugin)
+    public int newPrimaryKey( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil(SQL_QUERY_NEW_PK, plugin);
-        daoUtil.executeQuery();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
+        daoUtil.executeQuery(  );
 
         int nKey;
 
-        if (!daoUtil.next())
+        if ( !daoUtil.next(  ) )
         {
             // if the table is empty
             nKey = 1;
         }
 
-        nKey = daoUtil.getInt(1) + 1;
-        daoUtil.free();
+        nKey = daoUtil.getInt( 1 ) + 1;
+        daoUtil.free(  );
 
         return nKey;
     }
@@ -84,25 +84,25 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      * @param friendlyUrl instance of the FriendlyUrl object to insert
      * @param plugin The plugin
      */
-    public void insert(FriendlyUrl friendlyUrl, Plugin plugin)
+    public void insert( FriendlyUrl friendlyUrl, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil(SQL_QUERY_INSERT, plugin);
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
 
-        friendlyUrl.setId(newPrimaryKey(plugin));
+        friendlyUrl.setId( newPrimaryKey( plugin ) );
 
-        daoUtil.setInt(1, friendlyUrl.getId());
-        daoUtil.setString(2, friendlyUrl.getFriendlyUrl());
-        daoUtil.setString(3, friendlyUrl.getTechnicalUrl());
-        daoUtil.setTimestamp(4, friendlyUrl.getDateCreation());
-        daoUtil.setTimestamp(5, friendlyUrl.getDateModification());
-        daoUtil.setBoolean(6, friendlyUrl.isCanonical());
-        daoUtil.setBoolean(7, friendlyUrl.isSitemap());
-        daoUtil.setString(8, friendlyUrl.getSitemapLastmod());
-        daoUtil.setString(9, friendlyUrl.getSitemapChangeFreq());
-        daoUtil.setString(10, friendlyUrl.getSitemapPriority());
+        daoUtil.setInt( 1, friendlyUrl.getId(  ) );
+        daoUtil.setString( 2, friendlyUrl.getFriendlyUrl(  ) );
+        daoUtil.setString( 3, friendlyUrl.getTechnicalUrl(  ) );
+        daoUtil.setTimestamp( 4, friendlyUrl.getDateCreation(  ) );
+        daoUtil.setTimestamp( 5, friendlyUrl.getDateModification(  ) );
+        daoUtil.setBoolean( 6, friendlyUrl.isCanonical(  ) );
+        daoUtil.setBoolean( 7, friendlyUrl.isSitemap(  ) );
+        daoUtil.setString( 8, friendlyUrl.getSitemapLastmod(  ) );
+        daoUtil.setString( 9, friendlyUrl.getSitemapChangeFreq(  ) );
+        daoUtil.setString( 10, friendlyUrl.getSitemapPriority(  ) );
 
-        daoUtil.executeUpdate();
-        daoUtil.free();
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     /**
@@ -112,31 +112,32 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      * @param plugin The plugin
      * @return the instance of the FriendlyUrl
      */
-    public FriendlyUrl load(int nId, Plugin plugin)
+    public FriendlyUrl load( int nId, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil(SQL_QUERY_SELECT, plugin);
-        daoUtil.setInt(1, nId);
-        daoUtil.executeQuery();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
+        daoUtil.setInt( 1, nId );
+        daoUtil.executeQuery(  );
 
         FriendlyUrl friendlyUrl = null;
 
-        if (daoUtil.next())
+        if ( daoUtil.next(  ) )
         {
-            friendlyUrl = new FriendlyUrl();
+            friendlyUrl = new FriendlyUrl(  );
 
-            friendlyUrl.setId(daoUtil.getInt(1));
-            friendlyUrl.setFriendlyUrl(daoUtil.getString(2));
-            friendlyUrl.setTechnicalUrl(daoUtil.getString(3));
-            friendlyUrl.setDateCreation(daoUtil.getTimestamp(4));
-            friendlyUrl.setDateModification(daoUtil.getTimestamp(5));
-            friendlyUrl.setCanonical(daoUtil.getBoolean(6));
-            friendlyUrl.setSitemap(daoUtil.getBoolean(7));
-            friendlyUrl.setSitemapLastmod(daoUtil.getString(8));
-            friendlyUrl.setSitemapChangeFreq(daoUtil.getString(9));
-            friendlyUrl.setSitemapPriority(daoUtil.getString(10));
+            friendlyUrl.setId( daoUtil.getInt( 1 ) );
+            friendlyUrl.setFriendlyUrl( daoUtil.getString( 2 ) );
+            friendlyUrl.setTechnicalUrl( daoUtil.getString( 3 ) );
+            friendlyUrl.setDateCreation( daoUtil.getTimestamp( 4 ) );
+            friendlyUrl.setDateModification( daoUtil.getTimestamp( 5 ) );
+            friendlyUrl.setCanonical( daoUtil.getBoolean( 6 ) );
+            friendlyUrl.setSitemap( daoUtil.getBoolean( 7 ) );
+            friendlyUrl.setSitemapLastmod( daoUtil.getString( 8 ) );
+            friendlyUrl.setSitemapChangeFreq( daoUtil.getString( 9 ) );
+            friendlyUrl.setSitemapPriority( daoUtil.getString( 10 ) );
         }
 
-        daoUtil.free();
+        daoUtil.free(  );
+
         return friendlyUrl;
     }
 
@@ -146,12 +147,12 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      * @param nFriendlyUrlId The identifier of the friendlyUrl
      * @param plugin The plugin
      */
-    public void delete(int nFriendlyUrlId, Plugin plugin)
+    public void delete( int nFriendlyUrlId, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil(SQL_QUERY_DELETE, plugin);
-        daoUtil.setInt(1, nFriendlyUrlId);
-        daoUtil.executeUpdate();
-        daoUtil.free();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
+        daoUtil.setInt( 1, nFriendlyUrlId );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     /**
@@ -160,24 +161,24 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      * @param friendlyUrl The reference of the friendlyUrl
      * @param plugin The plugin
      */
-    public void store(FriendlyUrl friendlyUrl, Plugin plugin)
+    public void store( FriendlyUrl friendlyUrl, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil(SQL_QUERY_UPDATE, plugin);
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
 
-        daoUtil.setInt(1, friendlyUrl.getId());
-        daoUtil.setString(2, friendlyUrl.getFriendlyUrl());
-        daoUtil.setString(3, friendlyUrl.getTechnicalUrl());
-        daoUtil.setTimestamp(4, friendlyUrl.getDateCreation());
-        daoUtil.setTimestamp(5, friendlyUrl.getDateModification());
-        daoUtil.setBoolean(6, friendlyUrl.isCanonical());
-        daoUtil.setBoolean(7, friendlyUrl.isSitemap());
-        daoUtil.setString(8, friendlyUrl.getSitemapLastmod());
-        daoUtil.setString(9, friendlyUrl.getSitemapChangeFreq());
-        daoUtil.setString(10, friendlyUrl.getSitemapPriority());
-        daoUtil.setInt(11, friendlyUrl.getId());
+        daoUtil.setInt( 1, friendlyUrl.getId(  ) );
+        daoUtil.setString( 2, friendlyUrl.getFriendlyUrl(  ) );
+        daoUtil.setString( 3, friendlyUrl.getTechnicalUrl(  ) );
+        daoUtil.setTimestamp( 4, friendlyUrl.getDateCreation(  ) );
+        daoUtil.setTimestamp( 5, friendlyUrl.getDateModification(  ) );
+        daoUtil.setBoolean( 6, friendlyUrl.isCanonical(  ) );
+        daoUtil.setBoolean( 7, friendlyUrl.isSitemap(  ) );
+        daoUtil.setString( 8, friendlyUrl.getSitemapLastmod(  ) );
+        daoUtil.setString( 9, friendlyUrl.getSitemapChangeFreq(  ) );
+        daoUtil.setString( 10, friendlyUrl.getSitemapPriority(  ) );
+        daoUtil.setInt( 11, friendlyUrl.getId(  ) );
 
-        daoUtil.executeUpdate();
-        daoUtil.free();
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     /**
@@ -186,31 +187,32 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      * @param plugin The plugin
      * @return The List which contains the data of all the friendlyUrls
      */
-    public List<FriendlyUrl> selectFriendlyUrlsList(Plugin plugin)
+    public List<FriendlyUrl> selectFriendlyUrlsList( Plugin plugin )
     {
-        List<FriendlyUrl> friendlyUrlList = new ArrayList<FriendlyUrl>();
-        DAOUtil daoUtil = new DAOUtil(SQL_QUERY_SELECTALL, plugin);
-        daoUtil.executeQuery();
+        List<FriendlyUrl> friendlyUrlList = new ArrayList<FriendlyUrl>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        daoUtil.executeQuery(  );
 
-        while (daoUtil.next())
+        while ( daoUtil.next(  ) )
         {
-            FriendlyUrl friendlyUrl = new FriendlyUrl();
+            FriendlyUrl friendlyUrl = new FriendlyUrl(  );
 
-            friendlyUrl.setId(daoUtil.getInt(1));
-            friendlyUrl.setFriendlyUrl(daoUtil.getString(2));
-            friendlyUrl.setTechnicalUrl(daoUtil.getString(3));
-            friendlyUrl.setDateCreation(daoUtil.getTimestamp(4));
-            friendlyUrl.setDateModification(daoUtil.getTimestamp(5));
-            friendlyUrl.setCanonical(daoUtil.getBoolean(6));
-            friendlyUrl.setSitemap(daoUtil.getBoolean(7));
-            friendlyUrl.setSitemapLastmod(daoUtil.getString(8));
-            friendlyUrl.setSitemapChangeFreq(daoUtil.getString(9));
-            friendlyUrl.setSitemapPriority(daoUtil.getString(10));
+            friendlyUrl.setId( daoUtil.getInt( 1 ) );
+            friendlyUrl.setFriendlyUrl( daoUtil.getString( 2 ) );
+            friendlyUrl.setTechnicalUrl( daoUtil.getString( 3 ) );
+            friendlyUrl.setDateCreation( daoUtil.getTimestamp( 4 ) );
+            friendlyUrl.setDateModification( daoUtil.getTimestamp( 5 ) );
+            friendlyUrl.setCanonical( daoUtil.getBoolean( 6 ) );
+            friendlyUrl.setSitemap( daoUtil.getBoolean( 7 ) );
+            friendlyUrl.setSitemapLastmod( daoUtil.getString( 8 ) );
+            friendlyUrl.setSitemapChangeFreq( daoUtil.getString( 9 ) );
+            friendlyUrl.setSitemapPriority( daoUtil.getString( 10 ) );
 
-            friendlyUrlList.add(friendlyUrl);
+            friendlyUrlList.add( friendlyUrl );
         }
 
-        daoUtil.free();
+        daoUtil.free(  );
+
         return friendlyUrlList;
     }
 }

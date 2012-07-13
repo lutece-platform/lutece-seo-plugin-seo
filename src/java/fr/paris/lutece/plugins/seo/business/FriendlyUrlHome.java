@@ -31,34 +31,29 @@
  *
  * License 1.0
  */
- 
 package fr.paris.lutece.plugins.seo.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-import java.util.List;
 
+import java.util.List;
 
 
 /**
  * This class provides instances management methods (create, find, ...) for FriendlyUrl objects
  */
-
 public final class FriendlyUrlHome
 {
     private static final String PLUGIN_NAME = "seo";
-    
     private static Plugin _plugin = PluginService.getPlugin( PLUGIN_NAME );
 
     // Static variable pointed at the DAO instance
-    private static IFriendlyUrlDAO _dao = ( IFriendlyUrlDAO ) SpringContextService.getBean( "seo.friendlyUrlDAO" );
-
+    private static IFriendlyUrlDAO _dao = (IFriendlyUrlDAO) SpringContextService.getBean( "seo.friendlyUrlDAO" );
 
     /**
      * Private constructor - this class need not be instantiated
      */
-
     private FriendlyUrlHome(  )
     {
     }
@@ -68,64 +63,53 @@ public final class FriendlyUrlHome
      * @param friendlyUrl The instance of the FriendlyUrl which contains the informations to store
      * @return The  instance of friendlyUrl which has been created with its primary key.
      */
-
     public static FriendlyUrl create( FriendlyUrl friendlyUrl )
     {
-        _dao.insert( friendlyUrl , _plugin );
+        _dao.insert( friendlyUrl, _plugin );
 
         return friendlyUrl;
     }
-
 
     /**
      * Update of the friendlyUrl data specified in parameter
      * @param friendlyUrl The instance of the FriendlyUrl which contains the data to store
      * @return The instance of the  friendlyUrl which has been updated
      */
-
     public static FriendlyUrl update( FriendlyUrl friendlyUrl )
     {
-        _dao.store( friendlyUrl , _plugin );
+        _dao.store( friendlyUrl, _plugin );
 
         return friendlyUrl;
     }
-
 
     /**
      * Remove the friendlyUrl whose identifier is specified in parameter
      * @param nFriendlyUrlId The friendlyUrl Id
      */
-
-
     public static void remove( int nFriendlyUrlId )
     {
-        _dao.delete( nFriendlyUrlId , _plugin );
+        _dao.delete( nFriendlyUrlId, _plugin );
     }
-
 
     ///////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
-     * Returns an instance of a friendlyUrl whose identifier is specified in parameter   
+     * Returns an instance of a friendlyUrl whose identifier is specified in parameter
      * @param nKey The friendlyUrl primary key
      * @return an instance of FriendlyUrl
      */
-
     public static FriendlyUrl findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey , _plugin );
+        return _dao.load( nKey, _plugin );
     }
-
 
     /**
      * Load the data of all the friendlyUrl objects and returns them in form of a collection
      * @return the list which contains the data of all the friendlyUrl objects
      */
-
-    public static List<FriendlyUrl> findAll()
+    public static List<FriendlyUrl> findAll(  )
     {
         return _dao.selectFriendlyUrlsList( _plugin );
     }
-
 }

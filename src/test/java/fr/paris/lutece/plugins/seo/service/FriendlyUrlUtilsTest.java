@@ -4,10 +4,11 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -21,25 +22,28 @@ public class FriendlyUrlUtilsTest
      * Test of convertToAlias method, of class GeneratorUtils.
      */
     @Test
-    public void testConvertToAlias()
+    public void testConvertToAlias(  )
     {
-        System.out.println("convertToAlias");
+        System.out.println( "convertToAlias" );
+
         String strSource = "";
         String expResult = "";
-        String result = FriendlyUrlUtils.convertToFriendlyUrl(strSource);
+        String result = FriendlyUrlUtils.convertToFriendlyUrl( strSource );
     }
 
     /**
      * Test of replaceLink method, of class GeneratorUtils.
      */
     @Test
-    public void testReplaceLink()
+    public void testReplaceLink(  )
     {
-        System.out.println("replaceLink");
+        System.out.println( "replaceLink" );
+
         String strSource = SOURCE;
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("toto", "replaced" );
-        String result = FriendlyUrlUtils.replaceByFriendlyUrl(strSource, map);
-        System.out.println(result);
+        Map<String, String> map = new HashMap<String, String>(  );
+        map.put( "toto", "replaced" );
+
+        String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map );
+        System.out.println( result );
     }
 }

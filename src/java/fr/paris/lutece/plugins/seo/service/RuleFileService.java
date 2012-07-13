@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
+import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
+import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -47,6 +49,7 @@ import java.io.IOException;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -57,6 +60,7 @@ public final class RuleFileService
 {
     private static final String TEMPLATE_FILE = "/admin/plugins/seo/urlrewrite.xml";
     private static final String MARK_RULES_LIST = "rules_list";
+    private static final String MARK_URL_LIST = "url_list";
     private static final String PROPERTY_FILE = "seo.configFilePath";
 
     /**
@@ -85,7 +89,10 @@ public final class RuleFileService
     {
         HashMap model = new HashMap(  );
         Collection<UrlRewriterRule> listRules = UrlRewriterRuleHome.findAll(  );
+        List<FriendlyUrl> listUrl = FriendlyUrlHome.findAll(  );
+
         model.put( MARK_RULES_LIST, listRules );
+        model.put( MARK_URL_LIST, listUrl );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_FILE, Locale.getDefault(  ), model );
 

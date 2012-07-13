@@ -31,13 +31,14 @@
  *
  * License 1.0
  */
-        
 package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
+
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * Friendly Url Service
@@ -46,18 +47,22 @@ public class FriendlyUrlService
 {
     /**
      * Returns the map of Friendly URL
-     * @return The map 
+     * @return The map
      */
-
-    public static Map<String, String> getFriendlyUrlMap()
+    public static Map<String, String> getFriendlyUrlMap(  )
     {
-        Map<String, String> map = new HashMap<String, String>();
-        
-        for( FriendlyUrl url : FriendlyUrlHome.findAll() )
+        Map<String, String> map = new HashMap<String, String>(  );
+
+        for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
         {
-            map.put( url.getTechnicalUrl(), url.getFriendlyUrl() );
+            String strT = url.getTechnicalUrl(  );
+            strT = ( strT.startsWith( "/" ) ) ? strT.substring( 1, strT.length(  ) ) : strT;
+
+            String strF = url.getFriendlyUrl(  );
+            strF = ( strF.startsWith( "/" ) ) ? strF.substring( 1, strF.length(  ) ) : strF;
+            map.put( strT, strF );
         }
+
         return map;
     }
-    
 }

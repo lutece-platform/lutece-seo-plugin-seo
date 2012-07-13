@@ -36,7 +36,9 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * SEO JSP Bean
@@ -48,13 +50,14 @@ public class SEOJspBean extends PluginAdminPageJspBean
 
     // Right
     public static final String RIGHT_MANAGE_SEO = "SEO_MANAGEMENT";
-    
+
     // templates
     private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
 
     public String getManageSEO( HttpServletRequest request )
     {
-        HtmlTemplate template = AppTemplateService.getTemplate(TEMPLATE_MANAGE_SEO);
-        return getAdminPage( template.getHtml());
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO );
+
+        return getAdminPage( template.getHtml(  ) );
     }
 }

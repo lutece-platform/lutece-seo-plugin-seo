@@ -93,10 +93,10 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
         strFriendlyUrl = ( strPath.equals( EMPTY ) ) ? ( SLASH + strAlias ) : strFriendlyUrl;
         url.setFriendlyUrl( strFriendlyUrl );
         url.setTechnicalUrl( TECHNICAL_URL + page.getId(  ) );
-        url.setCanonical(true);
-        url.setSitemap(true);
-        url.setSitemapChangeFreq("monthly");
-        url.setSitemapPriority("0.7");
+        url.setCanonical( true );
+        url.setSitemap( true );
+        url.setSitemapChangeFreq( "monthly" );
+        url.setSitemapPriority( "0.7" );
         list.add( url );
 
         for ( Page childPage : PageHome.getChildPages( nPage ) )
