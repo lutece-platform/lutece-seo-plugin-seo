@@ -31,55 +31,48 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web;
+package fr.paris.lutece.plugins.seo.web.panel;
 
-import fr.paris.lutece.plugins.seo.web.panel.SEOPanel;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * SEO JSP Bean
+ * Friendly URL Panel
  */
-public class SEOJspBean extends PluginAdminPageJspBean
+public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
 {
-    ////////////////////////////////////////////////////////////////////////////
-    // Constants
-
-    // Right
-    public static final String RIGHT_MANAGE_SEO = "SEO_MANAGEMENT";
-
-    // templates
-    private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
-    private static final String MARK_PANELS_LIST = "panels_list";
+    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/friendly_urls_panel.html";
+    private static final String PROPERTY_TITlE = "seo.panel.friendly_urls.title";
+    private static final int ORDER = 1;
 
     /**
-     * Manage SEO Home page
-     * @param request The HTTP request
-     * @return The page
+     * {@inheritDoc }
      */
-    public String getManageSEO( HttpServletRequest request )
+    @Override
+    public String getTitle(  )
     {
-        List<SEOPanel> listPanels = SpringContextService.getBeansOfType( SEOPanel.class );
+        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
+    }
 
-        for ( SEOPanel panel : listPanels )
-        {
-            panel.setLocale( getLocale(  ) );
-        }
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getContent(  )
+    {
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_PANELS_LIST, listPanels );
+        return template.getHtml(  );
+    }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int getOrder(  )
+    {
+        return ORDER;
     }
 }

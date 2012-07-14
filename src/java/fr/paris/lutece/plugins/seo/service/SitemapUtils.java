@@ -31,55 +31,22 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web;
+package fr.paris.lutece.plugins.seo.service;
 
-import fr.paris.lutece.plugins.seo.web.panel.SEOPanel;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
-import fr.paris.lutece.util.html.HtmlTemplate;
+import java.sql.Timestamp;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 
 
 /**
- * SEO JSP Bean
+ * Sitemap Utils
  */
-public class SEOJspBean extends PluginAdminPageJspBean
+public class SitemapUtils
 {
-    ////////////////////////////////////////////////////////////////////////////
-    // Constants
+    private static SimpleDateFormat _formater = new SimpleDateFormat( "yyyy-MM-dd" );
 
-    // Right
-    public static final String RIGHT_MANAGE_SEO = "SEO_MANAGEMENT";
-
-    // templates
-    private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
-    private static final String MARK_PANELS_LIST = "panels_list";
-
-    /**
-     * Manage SEO Home page
-     * @param request The HTTP request
-     * @return The page
-     */
-    public String getManageSEO( HttpServletRequest request )
+    public static String formatDate( Timestamp date )
     {
-        List<SEOPanel> listPanels = SpringContextService.getBeansOfType( SEOPanel.class );
-
-        for ( SEOPanel panel : listPanels )
-        {
-            panel.setLocale( getLocale(  ) );
-        }
-
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_PANELS_LIST, listPanels );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
+        return _formater.format( date );
     }
 }

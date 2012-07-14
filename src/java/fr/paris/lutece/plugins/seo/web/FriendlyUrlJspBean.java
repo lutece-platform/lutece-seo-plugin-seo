@@ -35,8 +35,6 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
-import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
-import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlGeneratorService;
 import fr.paris.lutece.plugins.seo.service.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.RuleFileService;
@@ -62,7 +60,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * This class provides the user interface to manage UrlRewriterRule features (
+ * This class provides the user interface to manage FriendlyUrl features (
  * manage, create, modify, remove )
  */
 public class FriendlyUrlJspBean extends PluginAdminPageJspBean
@@ -93,18 +91,19 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_PAGE_TITLE_MANAGE_FRIENDLY_URLS = "seo.manage_friendly_urls.pageTitle";
 
     // Markers
-    private static final String MARK_RULE = "rule";
-    private static final String MARK_URLREWRITERRULE_LIST = "friendly_url_list";
+    private static final String MARK_RULE = "url";
+    private static final String MARK_FRIENDLY_URLS_LIST = "friendly_url_list";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_GENERATORS_LIST = "generators_list";
 
     // Jsp Definition
     private static final String JSP_DO_DELETE_RULE = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
-    private static final String JSP_MANAGE_URLREWRITERRULES = "jsp/admin/plugins/seo/ManageFriendlyUrls.jsp";
+    private static final String JSP_URL_MANAGE_FRIENDLY_URLS = "jsp/admin/plugins/seo/ManageFriendlyUrls.jsp";
+    private static final String JSP_MANAGE_FRIENDLY_URLS = "ManageFriendlyUrls.jsp";
 
     // Properties
-    private static final String PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE = "seo.listUrlRewriterRules.itemsPerPage";
+    private static final String PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE = "seo.listFriendlyUrls.itemsPerPage";
 
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_RULE = "seo.message.confirmRemoveRule";
@@ -131,7 +130,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        UrlItem url = new UrlItem( JSP_MANAGE_URLREWRITERRULES );
+        UrlItem url = new UrlItem( JSP_URL_MANAGE_FRIENDLY_URLS );
         String strUrl = url.getUrl(  );
         Collection<FriendlyUrl> listURLREWRITERRULEs = FriendlyUrlHome.findAll(  );
         Paginator paginator = new Paginator( (List<FriendlyUrl>) listURLREWRITERRULEs, _nItemsPerPage, strUrl,
@@ -141,7 +140,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_URLREWRITERRULE_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_FRIENDLY_URLS_LIST, paginator.getPageItems(  ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FRIENDLY_URL, getLocale(  ), model );
 
@@ -149,12 +148,12 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Provides the create rule page
+     * Provides the create url page
      *
      * @param request The HTTP request
      * @return The page
      */
-    public String getCreateRule( HttpServletRequest request )
+    public String getCreateUrl( HttpServletRequest request )
     {
         HashMap model = new HashMap(  );
 
@@ -164,41 +163,41 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Create a new rule
+     * Create a new url
      *
      * @param request The HTTP request
      * @return the forward url
      */
-    public String doCreateRule( HttpServletRequest request )
+    public String doCreateUrl( HttpServletRequest request )
     {
-        UrlRewriterRule rule = new UrlRewriterRule(  );
-        String strErrorUrl = getData( request, rule );
+        FriendlyUrl url = new FriendlyUrl(  );
+        String strErrorUrl = getData( request, url );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
         }
 
-        UrlRewriterRuleHome.create( rule );
+        FriendlyUrlHome.create( url );
 
         return getHomeUrl( request );
     }
 
     /**
-     * Provides the modify rule page
+     * Provides the modify url page
      *
      * @param request The HTTP request
      * @return The page
      */
-    public String getModifyRule( HttpServletRequest request )
+    public String getModifyUrl( HttpServletRequest request )
     {
         String strRuleId = request.getParameter( PARAMETER_RULE_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 
-        UrlRewriterRule rule = UrlRewriterRuleHome.findByPrimaryKey( nRuleId );
+        FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
 
         HashMap model = new HashMap(  );
-        model.put( MARK_RULE, rule );
+        model.put( MARK_RULE, url );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale(  ), model );
 
@@ -206,37 +205,37 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Modify rule's attributes
+     * Modify url's attributes
      *
      * @param request The HTTP request
      * @return The forward url
      */
-    public String doModifyRule( HttpServletRequest request )
+    public String doModifyUrl( HttpServletRequest request )
     {
         String strRuleId = request.getParameter( PARAMETER_RULE_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 
-        UrlRewriterRule rule = UrlRewriterRuleHome.findByPrimaryKey( nRuleId );
-        String strErrorUrl = getData( request, rule );
+        FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
+        String strErrorUrl = getData( request, url );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
         }
 
-        UrlRewriterRuleHome.update( rule );
+        FriendlyUrlHome.update( url );
 
         return getHomeUrl( request );
     }
 
     /**
-     * Fills rule infos from the request
+     * Fills url infos from the request
      *
      * @param request The HTTP request
-     * @param rule The rule object to fill
+     * @param url The url object to fill
      * @return An ErrorUrl or null if no error
      */
-    private String getData( HttpServletRequest request, UrlRewriterRule rule )
+    private String getData( HttpServletRequest request, FriendlyUrl url )
     {
         String strFrom = request.getParameter( PARAMETER_FROM );
         String strTo = request.getParameter( PARAMETER_TO );
@@ -246,14 +245,14 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        rule.setRuleFrom( strFrom );
-        rule.setRuleTo( strTo.replaceAll( "&", "&amp;" ) );
+        url.setFriendlyUrl( strFrom );
+        url.setTechnicalUrl( strTo.replaceAll( "&", "&amp;" ) );
 
         return null;
     }
 
     /**
-     * Confirm the rule deletion
+     * Confirm the url deletion
      *
      * @param request The HTTP request
      * @return The forward url
@@ -269,7 +268,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Delete the rule
+     * Delete the url
      *
      * @param request The HTTP request
      * @return The forward url
@@ -279,13 +278,13 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         String strRuleId = request.getParameter( PARAMETER_RULE_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 
-        UrlRewriterRuleHome.remove( nRuleId );
+        FriendlyUrlHome.remove( nRuleId );
 
         return getHomeUrl( request );
     }
 
     /**
-     * Generate the rule file
+     * Generate the url file
      *
      * @param request The HTTP request
      * @return The forward url
@@ -301,7 +300,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         }
         catch ( IOException e )
         {
-            AppLogService.error( "Error generating rule file : " + e.getMessage(  ), e );
+            AppLogService.error( "Error generating url file : " + e.getMessage(  ), e );
             strMessage = MESSAGE_GENERATION_FAILED;
             nMessageType = AdminMessage.TYPE_STOP;
         }
@@ -341,7 +340,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         FriendlyUrlGeneratorService.instance(  ).generate( options );
 
-        return "ManageFriendlyUrls.jsp";
+        return JSP_MANAGE_FRIENDLY_URLS;
     }
 
     /**

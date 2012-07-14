@@ -96,6 +96,7 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
         url.setCanonical( true );
         url.setSitemap( true );
         url.setSitemapChangeFreq( "monthly" );
+        url.setSitemapLastmod( SitemapUtils.formatDate( page.getDateUpdate(  ) ) );
         url.setSitemapPriority( "0.7" );
         list.add( url );
 

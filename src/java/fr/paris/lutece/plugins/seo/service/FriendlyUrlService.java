@@ -55,12 +55,8 @@ public class FriendlyUrlService
 
         for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
         {
-            String strT = url.getTechnicalUrl(  );
-            strT = ( strT.startsWith( "/" ) ) ? strT.substring( 1, strT.length(  ) ) : strT;
-
-            String strF = url.getFriendlyUrl(  );
-            strF = ( strF.startsWith( "/" ) ) ? strF.substring( 1, strF.length(  ) ) : strF;
-            map.put( strT, strF );
+            map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
+                FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
         }
 
         return map;

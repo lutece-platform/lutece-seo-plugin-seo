@@ -31,55 +31,37 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web;
+package fr.paris.lutece.plugins.seo.web.panel;
 
-import fr.paris.lutece.plugins.seo.web.panel.SEOPanel;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 
 /**
- * SEO JSP Bean
+ * Interface SEO Panel
  */
-public class SEOJspBean extends PluginAdminPageJspBean
+public interface SEOPanel
 {
-    ////////////////////////////////////////////////////////////////////////////
-    // Constants
-
-    // Right
-    public static final String RIGHT_MANAGE_SEO = "SEO_MANAGEMENT";
-
-    // templates
-    private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
-    private static final String MARK_PANELS_LIST = "panels_list";
+    /**
+     * Returns the panel's title
+     * @return  The title
+     */
+    String getTitle(  );
 
     /**
-     * Manage SEO Home page
-     * @param request The HTTP request
-     * @return The page
+     * Returns the panel's content
+     * @return The content
      */
-    public String getManageSEO( HttpServletRequest request )
-    {
-        List<SEOPanel> listPanels = SpringContextService.getBeansOfType( SEOPanel.class );
+    String getContent(  );
 
-        for ( SEOPanel panel : listPanels )
-        {
-            panel.setLocale( getLocale(  ) );
-        }
+    /**
+     * Returns the panel's order
+     * @return The order
+     */
+    int getOrder(  );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_PANELS_LIST, listPanels );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
-    }
+    /**
+     * Sets the panel's locale
+     * @param locale The locale
+     */
+    void setLocale( Locale locale );
 }

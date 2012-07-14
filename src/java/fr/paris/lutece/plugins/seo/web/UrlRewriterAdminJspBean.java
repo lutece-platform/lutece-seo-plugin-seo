@@ -74,16 +74,11 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_FROM = "rule_from";
     private static final String PARAMETER_TO = "rule_to";
     private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "urlrewriterrule_page_index";
-    private static final String PARAMETER_OPTION_FORCE_UPDATE = "option_force_update";
-    private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
-    private static final String PARAMETER_OPTION_HTML_SUFFIX = "option_html_suffix";
-    private static final String VALUE_ON = "on";
 
     // templates
     private static final String TEMPLATE_MANAGE_URLREWRITERRULES = "/admin/plugins/seo/manage_urlrewriterrules.html";
     private static final String TEMPLATE_CREATE_RULE = "/admin/plugins/seo/create_urlrewriterrule.html";
     private static final String TEMPLATE_MODIFY_RULE = "/admin/plugins/seo/modify_urlrewriterrule.html";
-    private static final String TEMPLATE_GENERATE_ALIAS = "/admin/plugins/seo/generate_alias_rules.html";
 
     // properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_URLREWRITERRULES = "seo.manage_urlrewriterrules.pageTitle";
@@ -93,11 +88,11 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
     private static final String MARK_URLREWRITERRULE_LIST = "urlrewriterrule_list";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
-    private static final String MARK_GENERATORS_LIST = "generators_list";
 
     // Jsp Definition
     private static final String JSP_DO_DELETE_RULE = "jsp/admin/plugins/seo/DoRemoveUrlRewriterRule.jsp";
     private static final String JSP_MANAGE_URLREWRITERRULES = "jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp";
+    private static final String JSP_MANAGE_URL_REWRITER_RULES = "ManageUrlRewriterRules.jsp";
 
     // Properties
     private static final String PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE = "seo.listUrlRewriterRules.itemsPerPage";
@@ -178,7 +173,7 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
 
         UrlRewriterRuleHome.create( rule );
 
-        return getHomeUrl( request );
+        return JSP_MANAGE_URL_REWRITER_RULES;
     }
 
     /**
@@ -223,7 +218,7 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
 
         UrlRewriterRuleHome.update( rule );
 
-        return getHomeUrl( request );
+        return JSP_MANAGE_URL_REWRITER_RULES;
     }
 
     /**
@@ -278,7 +273,7 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
 
         UrlRewriterRuleHome.remove( nRuleId );
 
-        return getHomeUrl( request );
+        return JSP_MANAGE_URL_REWRITER_RULES;
     }
 
     /**

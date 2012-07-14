@@ -48,6 +48,7 @@ public class FriendlyUrlUtils
 {
     private static final String ANCHOR = "href=\"";
     private static final String END_URL = "\"";
+    private static final String SLASH = "/";
 
     /**
      * Normalize a string to a friendly URL
@@ -56,11 +57,8 @@ public class FriendlyUrlUtils
      */
     public static String convertToFriendlyUrl( String strSource )
     {
-        String strConverted = Normalizer.normalize( strSource, Form.NFD ).replaceAll( "[^\\p{ASCII}]", "" );
-        strConverted = strConverted.replace( " ", "-" );
-        strConverted = strConverted.toLowerCase(  );
-
-        return strConverted;
+        return Normalizer.normalize( strSource.toLowerCase(  ), Form.NFD )
+                         .replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" ).replaceAll( "[^\\p{Alnum}]+", "-" );
     }
 
     /**
@@ -103,5 +101,10 @@ public class FriendlyUrlUtils
         sbOutput.append( strCurrent );
 
         return sbOutput.toString(  );
+    }
+
+    public static String cleanSlash( String strUrl )
+    {
+        return ( strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length(  ) ) : strUrl );
     }
 }

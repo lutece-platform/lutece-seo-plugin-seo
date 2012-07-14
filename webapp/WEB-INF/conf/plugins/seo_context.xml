@@ -2,8 +2,20 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
+    
+    <!-- DAO -->
     <bean id="seo.friendlyUrlDAO"  class="fr.paris.lutece.plugins.seo.business.FriendlyUrlDAO" />  
-    <bean id="seo.urlRewriterRuleDAO"  class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />  
+    <bean id="seo.urlRewriterRuleDAO"  class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />
+    
+    <!-- FrienlyURL Generators -->
     <bean id="seo.pageFriendlyUrlGenerator" class="fr.paris.lutece.plugins.seo.service.PageFriendlyUrlGenerator" />
+
+    <!-- Content Post Processors -->
     <bean id="seo.friendlyUrlContentPostProcessor" class="fr.paris.lutece.plugins.seo.service.FriendlyUrlContentPostProcessor" />
+
+    <!-- Panels -->
+    <bean id="seo.panelFriendlyUrls" class="fr.paris.lutece.plugins.seo.web.panel.FriendlyUrlPanel" />
+    <bean id="seo.panelSitemap" class="fr.paris.lutece.plugins.seo.web.panel.SitemapPanel" />
+    <bean id="seo.panelUrlRewriterRules" class="fr.paris.lutece.plugins.seo.web.panel.UrlRewriterRulesPanel" />
+    
 </beans>
