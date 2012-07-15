@@ -31,55 +31,70 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
-
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
-import fr.paris.lutece.plugins.seo.service.SEOPropertiesService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import java.util.HashMap;
-import java.util.Map;
+package fr.paris.lutece.plugins.seo.business;
 
 
 /**
- * Sitemap Panel
+ * This is the business class for the object SEOProperty
  */
-public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
+public class SEOProperty
 {
-    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/sitemap_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
-    private static final int ORDER = 1;
-    private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
+    // Variables declarations 
+    private String _strPropertyKey;
+    private String _strPropertyValue;
 
     /**
-     * {@inheritDoc }
+     * Constructor
      */
-    @Override
-    public String getTitle(  )
+    public SEOProperty()
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
+        
+    }
+    
+    /**
+     * Constructor
+     * @param strKey The key
+     * @param strValue The value
+     */
+    public SEOProperty( String strKey , String strValue )
+    {
+        _strPropertyKey = strKey;
+        _strPropertyValue = strValue;
+    }
+    
+    /**
+     * Returns the PropertyKey
+     * @return The PropertyKey
+     */
+    public String getPropertyKey(  )
+    {
+        return _strPropertyKey;
     }
 
     /**
-     * {@inheritDoc }
+     * Sets the PropertyKey
+     * @param strPropertyKey The PropertyKey
      */
-    @Override
-    public String getContent(  )
+    public void setPropertyKey( String strPropertyKey )
     {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_LAST_GENERATION, SEOPropertiesService.getProperty(SEOProperties.SITEMAP_UPDATE_LOG , "" ));
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
-
-        return template.getHtml(  );
+        _strPropertyKey = strPropertyKey;
     }
 
     /**
-     * {@inheritDoc }
+     * Returns the PropertyValue
+     * @return The PropertyValue
      */
-    @Override
-    public int getOrder(  )
+    public String getPropertyValue(  )
     {
-        return ORDER;
+        return _strPropertyValue;
+    }
+
+    /**
+     * Sets the PropertyValue
+     * @param strPropertyValue The PropertyValue
+     */
+    public void setPropertyValue( String strPropertyValue )
+    {
+        _strPropertyValue = strPropertyValue;
     }
 }

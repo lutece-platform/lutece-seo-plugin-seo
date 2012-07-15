@@ -4,8 +4,9 @@
 <beans>
     
     <!-- DAO -->
-    <bean id="seo.friendlyUrlDAO"  class="fr.paris.lutece.plugins.seo.business.FriendlyUrlDAO" />  
-    <bean id="seo.urlRewriterRuleDAO"  class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />
+    <bean id="seo.friendlyUrlDAO" class="fr.paris.lutece.plugins.seo.business.FriendlyUrlDAO" />  
+    <bean id="seo.urlRewriterRuleDAO" class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />
+    <bean id="seo.propertyDAO" class="fr.paris.lutece.plugins.seo.business.SEOPropertyDAO" />
     
     <!-- FrienlyURL Generators -->
     <bean id="seo.pageFriendlyUrlGenerator" class="fr.paris.lutece.plugins.seo.service.PageFriendlyUrlGenerator" />

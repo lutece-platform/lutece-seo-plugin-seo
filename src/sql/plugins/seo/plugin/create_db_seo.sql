@@ -8,7 +8,6 @@ CREATE TABLE seo_rule (
   rule_from VARCHAR(255) DEFAULT '' NOT NULL,
   rule_to VARCHAR(255) DEFAULT '' NOT NULL,
   PRIMARY KEY (id_rule)  
- 
 );
 
 DROP TABLE IF EXISTS seo_friendly_url;
@@ -24,5 +23,11 @@ CREATE TABLE seo_friendly_url (
   sitemap_changefreq VARCHAR(255) DEFAULT '' NULL,
   sitemap_priority VARCHAR(255) DEFAULT '' NULL,
   PRIMARY KEY (id_url)  
+);
 
+DROP TABLE IF EXISTS seo_properties;
+CREATE TABLE seo_properties (		
+   property_key VARCHAR(255) NOT NULL,
+   property_value VARCHAR(255) DEFAULT '' NOT NULL,
+   PRIMARY KEY (property_key)  
 );

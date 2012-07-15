@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2011, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,55 +31,54 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
+package fr.paris.lutece.plugins.seo.business;
 
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
-import fr.paris.lutece.plugins.seo.service.SEOPropertiesService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import java.util.HashMap;
-import java.util.Map;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+
+import java.util.List;
 
 
 /**
- * Sitemap Panel
- */
-public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
+* ISEOPropertyDAO Interface
+*/
+public interface ISEOPropertyDAO
 {
-    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/sitemap_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
-    private static final int ORDER = 1;
-    private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
+    /**
+     * Insert a new record in the table.
+     * @param property instance of the SEOProperty object to inssert
+     * @param plugin the Plugin
+     */
+    void insert( SEOProperty property, Plugin plugin );
 
     /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getTitle(  )
-    {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
-    }
+    * Update the record in the table
+    * @param property the reference of the SEOProperty
+    * @param plugin the Plugin
+    */
+    void store( SEOProperty property, Plugin plugin );
 
     /**
-     * {@inheritDoc }
+     * Delete a record from the table
+     * @param strKey The identifier of the SEOProperty to delete
+     * @param plugin the Plugin
      */
-    @Override
-    public String getContent(  )
-    {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_LAST_GENERATION, SEOPropertiesService.getProperty(SEOProperties.SITEMAP_UPDATE_LOG , "" ));
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
+    void delete( String strKey, Plugin plugin );
 
-        return template.getHtml(  );
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    // Finders
 
     /**
-     * {@inheritDoc }
+     * Load the data from the table
+     * @param strKey The identifier of the property
+     * @param plugin the Plugin
+     * @return The instance of the property
      */
-    @Override
-    public int getOrder(  )
-    {
-        return ORDER;
-    }
+    SEOProperty load( String strKey, Plugin plugin );
+
+    /**
+    * Load the data of all the property objects and returns them as a List
+    * @param plugin the Plugin
+    * @return The List which contains the data of all the property objects
+    */
+    List<SEOProperty> selectSEOPropertysList( Plugin plugin );
 }

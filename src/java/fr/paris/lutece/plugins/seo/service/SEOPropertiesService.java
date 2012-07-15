@@ -31,55 +31,45 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
+package fr.paris.lutece.plugins.seo.service;
 
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
-import fr.paris.lutece.plugins.seo.service.SEOPropertiesService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import java.util.HashMap;
-import java.util.Map;
-
+import fr.paris.lutece.plugins.seo.business.SEOProperty;
+import fr.paris.lutece.plugins.seo.business.SEOPropertyHome;
 
 /**
- * Sitemap Panel
+ *  SEOPropertiesService
  */
-public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
+public class SEOPropertiesService 
 {
-    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/sitemap_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
-    private static final int ORDER = 1;
-    private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
-
     /**
-     * {@inheritDoc }
+     * Get property
+     * @param strKey The property's key
+     * @param strDefault The default value
+     * @return The value
      */
-    @Override
-    public String getTitle(  )
+    public static String getProperty( String strKey , String strDefault )
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
+        SEOProperty property = SEOPropertyHome.findByPrimaryKey(strKey);
+        return ( property != null ) ? property.getPropertyValue() : strDefault;
     }
-
+    
     /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getContent(  )
+     * Get property
+     * @param strKey The property's key
+     * @param strValue The value
+     */ 
+    public static void setProperty( String strKey , String strValue )
     {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_LAST_GENERATION, SEOPropertiesService.getProperty(SEOProperties.SITEMAP_UPDATE_LOG , "" ));
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
-
-        return template.getHtml(  );
+        SEOProperty p = new SEOProperty( strKey, strValue );
+        SEOProperty property = SEOPropertyHome.findByPrimaryKey(strKey);
+        if( property != null )
+        {
+            SEOPropertyHome.update( p );
+        }
+        else
+        {
+            SEOPropertyHome.create( p );
+        }
     }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public int getOrder(  )
-    {
-        return ORDER;
-    }
+    
 }

@@ -31,55 +31,18 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
-
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
-import fr.paris.lutece.plugins.seo.service.SEOPropertiesService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import java.util.HashMap;
-import java.util.Map;
-
+package fr.paris.lutece.plugins.seo.service;
 
 /**
- * Sitemap Panel
+ *
+ * @author pierre
  */
-public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
+public final class SEOProperties 
 {
-    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/sitemap_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
-    private static final int ORDER = 1;
-    private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getTitle(  )
-    {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getContent(  )
-    {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_LAST_GENERATION, SEOPropertiesService.getProperty(SEOProperties.SITEMAP_UPDATE_LOG , "" ));
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
-
-        return template.getHtml(  );
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public int getOrder(  )
-    {
-        return ORDER;
-    }
+    public static final String SITEMAP_UPDATE_LOG = "sitemap.update.log";
+    public static final String REWRITE_CONFIG_UPDATE = "rewrite.config.lastUpdate";
+    public static final String CONFIG_UPTODATE = "config.uptodate";
+    public static final String VALUE_TRUE = "true";
+    public static final String VALUE_FALSE = "false";
+    
 }

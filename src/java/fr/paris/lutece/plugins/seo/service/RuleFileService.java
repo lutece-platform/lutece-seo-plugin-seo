@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -47,10 +48,9 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.util.*;
 
 
 /**
@@ -62,6 +62,7 @@ public final class RuleFileService
     private static final String MARK_RULES_LIST = "rules_list";
     private static final String MARK_URL_LIST = "url_list";
     private static final String PROPERTY_FILE = "seo.configFilePath";
+    private static final String PROPERTY_REWRITE_CONFIG_LOG = "seo.config.log";
 
     /**
      * Private constructor
@@ -96,6 +97,14 @@ public final class RuleFileService
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_FILE, Locale.getDefault(  ), model );
 
+        String strResult = "OK";
+        String strDate = DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
+        Object[] args = { strDate, listRules.size(  ) + listUrl.size() , strResult };
+        String strLogFormat = I18nService.getLocalizedString( PROPERTY_REWRITE_CONFIG_LOG, Locale.getDefault(  ) );
+        String strLog = MessageFormat.format( strLogFormat, args );
+        SEOPropertiesService.setProperty( SEOProperties.REWRITE_CONFIG_UPDATE , strLog );
+        SEOPropertiesService.setProperty( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_TRUE );
+        
         return t.getHtml(  );
     }
 }

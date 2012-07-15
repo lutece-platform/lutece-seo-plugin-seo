@@ -47,7 +47,6 @@ public class SitemapService
         String strSiteMapFilePath = AppPathService.getWebAppPath(  ) + FILE_SITEMAP;
         File fileSiteMap = new File( strSiteMapFilePath );
 
-        String strDate = DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
 
         String strResult = "OK";
 
@@ -61,9 +60,11 @@ public class SitemapService
             strResult = "Error : " + e.getMessage(  );
         }
 
+        String strDate = DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
         Object[] args = { strDate, list.size(  ), strResult };
         String strLogFormat = I18nService.getLocalizedString( PROPERTY_SITEMAP_LOG, Locale.getDefault(  ) );
         String strLog = MessageFormat.format( strLogFormat, args );
+        SEOPropertiesService.setProperty( SEOProperties.SITEMAP_UPDATE_LOG , strLog );
 
         return strLog;
     }

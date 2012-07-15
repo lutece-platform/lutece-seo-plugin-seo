@@ -1,11 +1,14 @@
-    <form action="sitemap.xml" method="GET">
-        <input type="submit" class="button" value="Afficher le contenu du fichier" />
-    </form>
+    <p>
+    ${sitemapLastGeneration}
+    </p>
     <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-        <input type="submit" class="button" value="Regénérer le fichier" />
+        <input type="submit" class="button" value="Mettre à jour le fichier" />
     </form>
     <form action="" method="GET">
         <input type="hidden" name="plugin_name" value ="seo" />
         <input type="checkbox" class="checkbox" value="1" /> Activer la génération automatique du fichier sitemap.xml
+    </form>
+    <form action="sitemap.xml" method="GET">
+        <input type="submit" class="button" value="Afficher le contenu du fichier" />
     </form>
 

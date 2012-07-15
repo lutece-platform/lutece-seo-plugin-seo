@@ -92,6 +92,7 @@ public class FriendlyUrlGeneratorService
         }
 
         processRuleList( listRules, listExisting, options );
+        SEOPropertiesService.setProperty( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_FALSE );
     }
 
     /**

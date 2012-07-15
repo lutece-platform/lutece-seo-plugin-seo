@@ -33,9 +33,13 @@
  */
 package fr.paris.lutece.plugins.seo.web.panel;
 
+import fr.paris.lutece.plugins.seo.service.SEOProperties;
+import fr.paris.lutece.plugins.seo.service.SEOPropertiesService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -44,6 +48,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
 {
     private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/friendly_urls_panel.html";
+    private static final String MARK_REWRITE_CONFIG_UPDATE = "rewrite_onfig_last_update";
+    private static final String MARK_CONFIG_UPTODATE = "config_uptodate";
     private static final String PROPERTY_TITlE = "seo.panel.friendly_urls.title";
     private static final int ORDER = 1;
 
@@ -62,7 +68,10 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
     @Override
     public String getContent(  )
     {
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) );
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put( MARK_REWRITE_CONFIG_UPDATE, SEOPropertiesService.getProperty(SEOProperties.REWRITE_CONFIG_UPDATE , "" ));
+        model.put( MARK_CONFIG_UPTODATE, SEOPropertiesService.getProperty(SEOProperties.CONFIG_UPTODATE , "" ).equals( SEOProperties.VALUE_TRUE));
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
 
         return template.getHtml(  );
     }
