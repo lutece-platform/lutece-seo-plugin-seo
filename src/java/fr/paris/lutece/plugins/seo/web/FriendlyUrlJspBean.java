@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlGeneratorService;
 import fr.paris.lutece.plugins.seo.service.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.RuleFileService;
+import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -75,6 +76,10 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_URL_ID = "id_url";
     private static final String PARAMETER_FROM = "rule_from";
     private static final String PARAMETER_TO = "rule_to";
+    private static final String PARAMETER_CANONICAL = "canonical";
+    private static final String PARAMETER_SITEMAP = "sitemap";
+    private static final String PARAMETER_CHANGE_FREQ = "change_freq";
+    private static final String PARAMETER_PRIORITY = "priority";
     private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "friendly_url_page_index";
     private static final String PARAMETER_OPTION_FORCE_UPDATE = "option_force_update";
     private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
@@ -96,6 +101,12 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_GENERATORS_LIST = "generators_list";
+    private static final String MARK_CHECKED_CANONICAL = "checked_canonical";
+    private static final String MARK_CHECKED_SITEMAP = "checked_sitemap";
+    private static final String MARK_CHANGE_FREQ_LIST = "change_freq_list";
+    private static final String MARK_SELECTED_CHANGE_FREQ = "selected_change_freq";
+    private static final String MARK_PRIORITY_LIST = "priority_list";
+    private static final String MARK_SELECTED_PRIORITY = "selected_priority";
 
     // Jsp Definition
     private static final String JSP_DO_DELETE_URL = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
@@ -155,8 +166,14 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      */
     public String getCreateUrl( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
-
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        
+        model.put( MARK_CHECKED_CANONICAL , 1 );
+        model.put( MARK_CHECKED_SITEMAP , 1 );
+        model.put( MARK_CHANGE_FREQ_LIST , SitemapUtils.getChangeFrequencyValues() );
+        model.put( MARK_SELECTED_CHANGE_FREQ , SitemapUtils.CHANGE_FREQ_VALUES[3] );
+        model.put( MARK_PRIORITY_LIST , SitemapUtils.getPriorityValues() );
+        model.put( MARK_SELECTED_PRIORITY , SitemapUtils.PRIORITY_VALUES[0] );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RULE, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
@@ -239,6 +256,10 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     {
         String strFrom = request.getParameter( PARAMETER_FROM );
         String strTo = request.getParameter( PARAMETER_TO );
+        String strCanonical = request.getParameter( PARAMETER_CANONICAL );
+        String strSitemap = request.getParameter( PARAMETER_SITEMAP );
+        String strChangeFreq = request.getParameter( PARAMETER_CHANGE_FREQ );
+        String strPriority = request.getParameter( PARAMETER_PRIORITY );
 
         if ( ( strFrom == null ) || ( strFrom.equals( "" ) ) || ( strTo == null ) || ( strTo.equals( "" ) ) )
         {
@@ -247,6 +268,10 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         url.setFriendlyUrl( strFrom );
         url.setTechnicalUrl( strTo.replaceAll( "&", "&amp;" ) );
+        url.setCanonical( strCanonical != null );
+        url.setSitemap( strSitemap != null );
+        url.setSitemapChangeFreq(strChangeFreq);
+        url.setSitemapPriority(strPriority);
 
         return null;
     }

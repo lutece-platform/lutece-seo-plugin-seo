@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.seo.service.sitemap;
 
+import fr.paris.lutece.util.ReferenceList;
 import java.sql.Timestamp;
 
 import java.text.SimpleDateFormat;
@@ -43,10 +44,50 @@ import java.text.SimpleDateFormat;
  */
 public class SitemapUtils
 {
+    public static final String[] CHANGE_FREQ_VALUES = { 
+    "always","hourly", "daily", "weekly", "monthly", "yearly", "never" };
+    public static final String[] PRIORITY_VALUES = { 
+    "1.0", "0.9", "0.8", "0.7", "0.6", "0.5", "0.4", "0.3", "0.2", "0.1", "0.0" };
+
     private static SimpleDateFormat _formater = new SimpleDateFormat( "yyyy-MM-dd" );
 
+    /**
+     * Date formater using Sitemaps standard
+     * @param date The Date
+     * @return The formated date
+     */
     public static String formatDate( Timestamp date )
     {
         return _formater.format( date );
     }
+
+    /**
+     * Get Change Frequency values
+     * @return The list of values 
+     */
+    public static ReferenceList getChangeFrequencyValues() 
+    {
+        ReferenceList list = new ReferenceList();
+        for( int i = 0 ; i < CHANGE_FREQ_VALUES.length ; i++ )
+        {
+            list.addItem( CHANGE_FREQ_VALUES[i], CHANGE_FREQ_VALUES[i] );
+        }
+        return list;
+    }
+    
+    /**
+     * Get priority values
+     * @return The list of values 
+     */
+    public static ReferenceList getPriorityValues() 
+    {
+        ReferenceList list = new ReferenceList();
+        for( int i = 0 ; i < PRIORITY_VALUES.length ; i++ )
+        {
+            list.addItem( PRIORITY_VALUES[i], PRIORITY_VALUES[i] );
+        }
+        return list;
+    }
+    
+    
 }

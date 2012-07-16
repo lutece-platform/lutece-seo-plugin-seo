@@ -1,5 +1,3 @@
-
-
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
 <jsp:useBean id="seoUrlRewriter" scope="session" class="fr.paris.lutece.plugins.seo.web.UrlRewriterAdminJspBean" />

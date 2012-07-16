@@ -32,8 +32,8 @@
                  </#if>
              </td align="center">
  	     <td align="center">${url.sitemapLastmod!"-"}</td>
- 	     <td align="center">${url.sitemapChangeFreq}</td>
- 	     <td align="center">${url.sitemapPriority}</td>
+ 	     <td align="center">${url.sitemapChangeFreq!"-"}</td>
+ 	     <td align="center">${url.sitemapPriority!"-"}</td>
              <td>
                 <a href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" >
                     <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.util.labelDelete}" title="#i18n{portal.util.labelDelete}" />
@@ -54,8 +54,5 @@
         <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerateAlias}" class="button" />
     </form>
 
-    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
-        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerate}" class="button" />
-    </form>
 </div>
 
