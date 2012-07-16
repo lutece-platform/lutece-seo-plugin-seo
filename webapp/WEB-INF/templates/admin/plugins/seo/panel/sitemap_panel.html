@@ -1,14 +1,51 @@
-    <p>
-    ${sitemapLastGeneration}
-    </p>
-    <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-        <input type="submit" class="button" value="Mettre à jour le fichier" />
-    </form>
-    <form action="" method="GET">
-        <input type="hidden" name="plugin_name" value ="seo" />
-        <input type="checkbox" class="checkbox" value="1" /> Activer la génération automatique du fichier sitemap.xml
-    </form>
-    <form action="sitemap.xml" method="GET">
-        <input type="submit" class="button" value="Afficher le contenu du fichier" />
-    </form>
+<div class="highlight-box">
+    <div class="highlight-box-content" >
+        <p>
+            Le ou les fichiers "sitemap" permettent aux webmasters d'indiquer facilement aux moteurs de recherche 
+            les pages de leurs sites à explorer. Les robots d'exploration peuvent extraire toutes les URL du plan 
+            Sitemap et de recueillir des informations sur ces URL à l'aide des métadonnées associées. 
+        </p>    
+        <p>
+            <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">En savoir plus ...</a>
+        </p>
 
+        <p>
+            ${sitemapLastGeneration}
+        </p>
+        <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
+            <input type="submit" class="button" value="Mettre Ã  jour le fichier" />
+        </form>
+        <form action="" method="GET">
+            <input type="hidden" name="plugin_name" value ="seo" />
+            <input type="checkbox" class="checkbox" value="1" /> Activer la gÃ©nÃ©ration automatique du fichier sitemap.xml
+        </form>
+        <form action="sitemap.xml" method="GET">
+            <input type="submit" class="button" value="Afficher le contenu du fichier" />
+        </form>
+    </div>
+</div>
+
+<div class="highlight-box">
+    <div class="highlight-box-content" >
+        <p>
+            La mise à jour du fichier Sitemap peut être automatisée.
+        </p>
+        <p>
+            <if config_uptodate >
+            <img src="images/admin/skin/enable.png" alt="on" /> 
+            La mise à jour automatique est activée.
+        <form method="post"  action="">
+            <input type="submit" value="Désactiver la mise à jour automatique" class="button" />
+        </form>
+            <!--
+        <else>
+        <img src="images/admin/skin/disable.png" alt="off" />
+        La mise à jour automatique n'est pas activée.
+        <form method="post"  action="">
+            <input type="submit" value="Activer la mise à jour automatique" class="button" />
+        </form>
+        </if>
+            -->
+        </p>
+    </div>
+</div>
