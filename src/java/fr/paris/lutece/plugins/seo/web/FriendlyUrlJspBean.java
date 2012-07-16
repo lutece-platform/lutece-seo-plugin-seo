@@ -72,7 +72,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
 
     // parameters
-    private static final String PARAMETER_RULE_ID = "id_rule";
+    private static final String PARAMETER_URL_ID = "id_url";
     private static final String PARAMETER_FROM = "rule_from";
     private static final String PARAMETER_TO = "rule_to";
     private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "friendly_url_page_index";
@@ -98,7 +98,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String MARK_GENERATORS_LIST = "generators_list";
 
     // Jsp Definition
-    private static final String JSP_DO_DELETE_RULE = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
+    private static final String JSP_DO_DELETE_URL = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
     private static final String JSP_URL_MANAGE_FRIENDLY_URLS = "jsp/admin/plugins/seo/ManageFriendlyUrls.jsp";
     private static final String JSP_MANAGE_FRIENDLY_URLS = "ManageFriendlyUrls.jsp";
 
@@ -106,7 +106,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE = "seo.listFriendlyUrls.itemsPerPage";
 
     // Messages
-    private static final String MESSAGE_CONFIRM_REMOVE_RULE = "seo.message.confirmRemoveRule";
+    private static final String MESSAGE_CONFIRM_REMOVE_URL = "seo.message.confirmRemoveUrl";
     private static final String MESSAGE_GENERATION_SUCCESSFUL = "seo.message.generationSuccessful";
     private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationSuccessful";
 
@@ -180,7 +180,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         FriendlyUrlHome.create( url );
 
-        return getHomeUrl( request );
+        return JSP_MANAGE_FRIENDLY_URLS;
     }
 
     /**
@@ -191,7 +191,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      */
     public String getModifyUrl( HttpServletRequest request )
     {
-        String strRuleId = request.getParameter( PARAMETER_RULE_ID );
+        String strRuleId = request.getParameter( PARAMETER_URL_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 
         FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
@@ -212,7 +212,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      */
     public String doModifyUrl( HttpServletRequest request )
     {
-        String strRuleId = request.getParameter( PARAMETER_RULE_ID );
+        String strRuleId = request.getParameter( PARAMETER_URL_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 
         FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
@@ -225,7 +225,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         FriendlyUrlHome.update( url );
 
-        return getHomeUrl( request );
+        return JSP_MANAGE_FRIENDLY_URLS;
     }
 
     /**
@@ -257,13 +257,14 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      * @param request The HTTP request
      * @return The forward url
      */
-    public String deleteRule( HttpServletRequest request )
+    public String deleteUrl( HttpServletRequest request )
     {
-        String strRuleId = request.getParameter( PARAMETER_RULE_ID );
-        UrlItem url = new UrlItem( JSP_DO_DELETE_RULE );
-        url.addParameter( PARAMETER_RULE_ID, strRuleId );
+        String strUrlId = request.getParameter( PARAMETER_URL_ID );
+        UrlItem url = new UrlItem( JSP_DO_DELETE_URL );
+        
+        url.addParameter( PARAMETER_URL_ID, strUrlId );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RULE, url.getUrl(  ),
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_URL, url.getUrl(  ),
             AdminMessage.TYPE_CONFIRMATION );
     }
 
@@ -273,14 +274,14 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      * @param request The HTTP request
      * @return The forward url
      */
-    public String doDeleteRule( HttpServletRequest request )
+    public String doDeleteUrl( HttpServletRequest request )
     {
-        String strRuleId = request.getParameter( PARAMETER_RULE_ID );
-        int nRuleId = Integer.parseInt( strRuleId );
+        String strUrlId = request.getParameter( PARAMETER_URL_ID );
+        int nUrlId = Integer.parseInt( strUrlId );
 
-        FriendlyUrlHome.remove( nRuleId );
+        FriendlyUrlHome.remove( nUrlId );
 
-        return getHomeUrl( request );
+        return JSP_MANAGE_FRIENDLY_URLS;
     }
 
     /**

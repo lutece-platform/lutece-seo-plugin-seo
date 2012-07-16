@@ -114,6 +114,16 @@
         </admin-feature>
     </admin-features>
     
+    <daemons>
+        <daemon>
+            <daemon-id>seoSitemapGenerator</daemon-id>
+            <daemon-name>seo.daemon.sitemapGenerator.name</daemon-name>
+            <daemon-description>seo.daemon.sitemapGenerator.description</daemon-description>
+            <daemon-class>fr.paris.lutece.plugins.seo.service.sitemap.SitemapDaemon</daemon-class>
+        </daemon>
+    </daemons>
+
+    
     <!-- Applications
     <applications>
         <application>

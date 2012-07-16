@@ -1,16 +1,16 @@
-﻿<div class="highlight-box">
+<div class="highlight-box">
     <div class="highlight-box-content" >
         <p>
-            Le référencement est amélioré lorsque les URL des pages du sites sont explicites,
-            c'est à dire qu'elles contiennent que des termes lisibles et non techniques.
-            En utilisant la technique de réécriture d'URL, il est possible de définir des
+            Le r&eacute;f&eacute;rencement est am&eacute;lior&eacute; lorsque les URL des pages du sites sont explicites,
+            c'est &agrave; dire qu'elles contiennent que des termes lisibles et non techniques.
+            En utilisant la technique de r&eacute;&eacute;criture d'URL, il est possible de d&eacute;finir des
             URL explicites et configurer leur redirection vers les URL techniques
-            correspondantes. Les règles de redirection sont décrites dans un fichier qu'il convient
-            de regénérer dès que des nouvelles règles ont été ajoutées.
+            correspondantes. Les r&egrave;gles de redirection sont d&eacute;crites dans un fichier qu'il convient
+            de reg&eacute;n&eacute;rer d&egrave;s que des nouvelles r&egrave;gles ont &eacute;t&eacute; ajout&eacute;es.
         </p>
         <form action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
             <input type="hidden" name="plugin_name" value ="seo" />
-            <input type="submit" class="button" value="Gérer les URL explicites" />
+            <input type="submit" class="button" value="G&eacute;rer les URL explicites" />
         </form>
     </div>
 </div>
@@ -22,13 +22,13 @@
         </p>
         <p>
             <#if config_uptodate >
-            <img src="images/admin/skin/enable.png" alt="ok" /> Le fichier de configuration est à jour.
+            <img src="images/admin/skin/enable.png" alt="ok" /> Le fichier de configuration est &agrave; jour.
             <#else>
-            <img src="images/admin/skin/plugins/seo/warning.png" alt="warning" /> Le fichier de configuration n'est pas à jour.
+            <img src="images/admin/skin/plugins/seo/warning.png" alt="warning" /> Le fichier de configuration n'est pas &agrave; jour.
             </#if>
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
-            <input type="submit" value="Mettre à jour le fichier de configuration" class="button" />
+            <input type="submit" value="Mettre &agrave; jour le fichier de configuration" class="button" />
         </form>
     </div>
 </div>
@@ -36,23 +36,23 @@
 <div class="highlight-box">
     <div class="highlight-box-content" >
         <p>
-            Lutece peut convertir à la volée les liens techniques contenus dans les
-            pages par des liens utilisant des URL explicites. Cette fonctionnalité
-            a un léger impact sur les performances. Elle ne doit être activée que
-            si des URL explicites sont utilisées.
+            Lutece peut convertir &agrave; la vol&eacute;e les liens techniques contenus dans les
+            pages par des liens utilisant des URL explicites. Cette fonctionnalit&eacute;
+            a un l&eacute;ger impact sur les performances. Elle ne doit &ecirc;tre activ&eacute;e que
+            si des URL explicites sont utilis&eacute;es.
         </p>
         <p>
             <#if config_uptodate >
             <img src="images/admin/skin/enable.png" alt="on" /> 
-            La réécriture des liens pour utiliser des URL explicites est activée.
+            La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
             <form method="post"  action="">
-                <input type="submit" value="Désactiver la réécriture des liens dans les pages" class="button" />
+                <input type="submit" value="D&eacute;sactiver la r&eacute;&eacute;criture des liens dans les pages" class="button" />
             </form>
             <#else>
             <img src="images/admin/skin/disable.png" alt="off" />
-            La réécriture des liens pour utiliser des URL explicites n'est pas activée.
+            La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
             <form method="post"  action="">
-                <input type="submit" value="Activer la réécriture des liens dans les pages" class="button" />
+                <input type="submit" value="Activer la r&eacute;&eacute;criture des liens dans les pages" class="button" />
             </form>
             </#if>
         </p>

@@ -7,9 +7,9 @@
             <th>URL technique</th>
             <th align="center">URL canonique</th>
             <th align="center">Inclure dans le sitemap</th>
-            <th align="center">Dernière modification<br/>(sitemap)<br/>(lastmod)</th>
-            <th align="center">Fréquence de mise à jour<br/>(sitemap)<br/>(changefreq)</th>
-            <th align="center">Priorité<br/>(sitemap)<br/>(priority)</th>
+            <th align="center">Derni&egrave;re modification<br/>(sitemap)<br/>(lastmod)</th>
+            <th align="center">Fr&eacute;quence de mise &agrave; jour<br/>(sitemap)<br/>(changefreq)</th>
+            <th align="center">Priorit&eacute;<br/>(sitemap)<br/>(priority)</th>
             <th>Actions</th>
         </tr>
         <#list friendly_url_list as url >
@@ -35,10 +35,10 @@
  	     <td align="center">${url.sitemapChangeFreq}</td>
  	     <td align="center">${url.sitemapPriority}</td>
              <td>
-                <a href="jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_url=${url.id}" >
+                <a href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" >
                     <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.util.labelDelete}" title="#i18n{portal.util.labelDelete}" />
                 </a>
-                <a href="jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${url.id}" >
+                <a href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" >
                     <img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.util.labelModify}" title="#i18n{portal.util.labelModify}" />
                 </a>
              </td>
@@ -46,7 +46,7 @@
         </#list>
     </table>
 
-    <form method="post"  action="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp">
+    <form method="post"  action="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
         <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
     </form>
 

@@ -51,6 +51,7 @@ public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
     private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
     private static final int ORDER = 1;
     private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
+    private static final String MARK_DAEMON_ENABLED = "daemon_enabled";
 
     /**
      * {@inheritDoc }
@@ -67,8 +68,11 @@ public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
     @Override
     public String getContent(  )
     {
+        String strDeamon = SEOPropertiesService.getProperty(SEOProperties.SITEMAP_DEAMON_ENABLED, SEOProperties.VALUE_FALSE);
+
         Map<String, Object> model = new HashMap<String, Object>();
         model.put( MARK_LAST_GENERATION, SEOPropertiesService.getProperty(SEOProperties.SITEMAP_UPDATE_LOG , "" ));
+        model.put( MARK_DAEMON_ENABLED, strDeamon.equals( SEOProperties.VALUE_TRUE ));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
 
         return template.getHtml(  );
