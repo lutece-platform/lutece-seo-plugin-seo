@@ -33,30 +33,22 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 
-import java.util.Map;
 
 
 /**
  *
  * @author pierre
  */
-public class FriendlyUrlContentPostProcessor implements ContentPostProcessor
+public class FriendlyUrlContentPostProcessor extends AbstractCacheableService implements ContentPostProcessor
 {
     private static final String NAME = "SEO Friendly Url replacer";
-    private static Map<String, String> _mapFriendlyUrls;
-    private boolean _bInit;
-
-    public void init(  )
-    {
-        _mapFriendlyUrls = FriendlyUrlService.getFriendlyUrlMap(  );
-        _bInit = true;
-    }
-
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getName(  )
     {
         return NAME;
@@ -65,13 +57,10 @@ public class FriendlyUrlContentPostProcessor implements ContentPostProcessor
     /**
      * {@inheritDoc }
      */
+    @Override
     public String process( String strContent )
     {
-        if ( !_bInit )
-        {
-            init(  );
-        }
-
-        return FriendlyUrlUtils.replaceByFriendlyUrl( strContent, _mapFriendlyUrls );
+        return FriendlyUrlUtils.replaceByFriendlyUrl( strContent , FriendlyUrlService.instance().getFriendlyUrlMap() );
     }
+    
 }

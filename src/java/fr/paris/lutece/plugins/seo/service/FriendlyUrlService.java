@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,22 +44,51 @@ import java.util.Map;
 /**
  * Friendly Url Service
  */
-public class FriendlyUrlService
+public class FriendlyUrlService extends AbstractCacheableService
 {
+    private static final String CACHE_KEY = "friendly_url_cache_key";
+    private static final String NAME = "SEO Friendly Url Cache Service";
+
+    private static FriendlyUrlService _singleton = new FriendlyUrlService();
+
+    private FriendlyUrlService()
+    {
+        initCache();
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getName(  )
+    {
+        return NAME;
+    }
+
+    public static FriendlyUrlService instance()
+    {
+        return _singleton;
+    }
+    
     /**
      * Returns the map of Friendly URL
      * @return The map
      */
-    public static Map<String, String> getFriendlyUrlMap(  )
+    public Map<String, String> getFriendlyUrlMap(  )
     {
-        Map<String, String> map = new HashMap<String, String>(  );
-
-        for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
+        Map<String,String> map = (Map<String,String>) getFromCache( CACHE_KEY );
+        if( map == null )
         {
-            map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
-                FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
-        }
+            map = new HashMap<String, String>(  );
 
+            for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
+            {
+                map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
+                FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+            }
+
+            putInCache( CACHE_KEY, map );
+        }
         return map;
     }
 }
