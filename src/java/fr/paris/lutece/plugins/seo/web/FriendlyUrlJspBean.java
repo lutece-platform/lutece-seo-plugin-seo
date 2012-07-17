@@ -85,6 +85,8 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
     private static final String PARAMETER_OPTION_HTML_SUFFIX = "option_html_suffix";
     private static final String VALUE_ON = "on";
+    private static final String CHECKED = "checked";
+    private static final String UNCHECKED = "";
 
     // templates
     private static final String TEMPLATE_MANAGE_FRIENDLY_URL = "/admin/plugins/seo/manage_friendly_urls.html";
@@ -101,6 +103,9 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_GENERATORS_LIST = "generators_list";
+    private static final String MARK_ID_URL = "id_url";
+    private static final String MARK_FRIENDLY_URL = "friendly_url";
+    private static final String MARK_TECHNICAL_URL = "technical_url";
     private static final String MARK_CHECKED_CANONICAL = "checked_canonical";
     private static final String MARK_CHECKED_SITEMAP = "checked_sitemap";
     private static final String MARK_CHANGE_FREQ_LIST = "change_freq_list";
@@ -168,8 +173,6 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         
-        model.put( MARK_CHECKED_CANONICAL , 1 );
-        model.put( MARK_CHECKED_SITEMAP , 1 );
         model.put( MARK_CHANGE_FREQ_LIST , SitemapUtils.getChangeFrequencyValues() );
         model.put( MARK_SELECTED_CHANGE_FREQ , SitemapUtils.CHANGE_FREQ_VALUES[3] );
         model.put( MARK_PRIORITY_LIST , SitemapUtils.getPriorityValues() );
@@ -214,6 +217,15 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
 
         HashMap model = new HashMap(  );
+        model.put( MARK_ID_URL , url.getId() );
+        model.put( MARK_FRIENDLY_URL, url.getFriendlyUrl());
+        model.put( MARK_TECHNICAL_URL, url.getTechnicalUrl());
+        model.put( MARK_CHECKED_CANONICAL , (url.isCanonical()) ? CHECKED : UNCHECKED );
+        model.put( MARK_CHECKED_SITEMAP , (url.isSitemap()) ? CHECKED : UNCHECKED );
+        model.put( MARK_CHANGE_FREQ_LIST , SitemapUtils.getChangeFrequencyValues() );
+        model.put( MARK_SELECTED_CHANGE_FREQ , url.getSitemapChangeFreq() );
+        model.put( MARK_PRIORITY_LIST , SitemapUtils.getPriorityValues() );
+        model.put( MARK_SELECTED_PRIORITY , url.getSitemapPriority() );
         model.put( MARK_RULE, url );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale(  ), model );
