@@ -93,7 +93,7 @@ public class FriendlyUrlGeneratorService
         }
 
         processRuleList( listRules, listExisting, options );
-        DatastoreService.setDataValue( SEOProperties.CONFIG_UPTODATE , DatastoreService.VALUE_FALSE );
+        DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE , DatastoreService.VALUE_FALSE );
     }
 
     /**

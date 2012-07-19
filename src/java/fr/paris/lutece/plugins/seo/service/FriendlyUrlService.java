@@ -56,7 +56,7 @@ public class FriendlyUrlService extends AbstractCacheableService
     private FriendlyUrlService()
     {
         initCache();
-        _bReplaceUrl = DatastoreService.getDataValue(SEOProperties.URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
+        _bReplaceUrl = DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
     }
     
     /**

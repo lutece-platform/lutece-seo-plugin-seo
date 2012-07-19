@@ -406,16 +406,16 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      */
     public String doReplaceToggle( HttpServletRequest request )
     {
-        String strStatus = DatastoreService.getDataValue(SEOProperties.URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
+        String strStatus = DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
         if( strStatus.equals(DatastoreService.VALUE_TRUE))
         {
-            DatastoreService.setDataValue(SEOProperties.URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
+            DatastoreService.setDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
             FriendlyUrlService.instance().setUrlReplaceEnabled(false);
             AppLogService.info("SEO : URL replace service disabled");
         }
         else
         {
-            DatastoreService.setDataValue(SEOProperties.URL_REPLACE_ENABLED, DatastoreService.VALUE_TRUE);
+            DatastoreService.setDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_TRUE);
             FriendlyUrlService.instance().setUrlReplaceEnabled(true);
             AppLogService.info("SEO : URL replace service enabled");
         }

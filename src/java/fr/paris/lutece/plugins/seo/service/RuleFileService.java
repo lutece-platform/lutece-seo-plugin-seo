@@ -103,8 +103,8 @@ public final class RuleFileService
         Object[] args = { strDate, listRules.size(  ) + listUrl.size() , strResult };
         String strLogFormat = I18nService.getLocalizedString( PROPERTY_REWRITE_CONFIG_LOG, Locale.getDefault(  ) );
         String strLog = MessageFormat.format( strLogFormat, args );
-        DatastoreService.setDataValue( SEOProperties.REWRITE_CONFIG_UPDATE , strLog );
-        DatastoreService.setDataValue( SEOProperties.CONFIG_UPTODATE , DatastoreService.VALUE_TRUE );
+        DatastoreService.setDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE , strLog );
+        DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE , DatastoreService.VALUE_TRUE );
         
         return t.getHtml(  );
     }

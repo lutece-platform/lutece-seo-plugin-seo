@@ -4,7 +4,7 @@
  */
 package fr.paris.lutece.plugins.seo.web;
 
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.plugins.seo.service.sitemap.SitemapService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
@@ -43,14 +43,14 @@ public class SitemapJspBean extends PluginAdminPageJspBean
      */
     public String doSitemapDaemonToggle( HttpServletRequest request )
     {
-        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
+        String strDeamon = DatastoreService.getDataValue(SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
         if( strDeamon.equals(DatastoreService.VALUE_TRUE))
         {
-            DatastoreService.setDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
+            DatastoreService.setDataValue(SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
         }
         else
         {
-            DatastoreService.setDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_TRUE);
+            DatastoreService.setDataValue(SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_TRUE);
         }
         return getHomeUrl( request );
 

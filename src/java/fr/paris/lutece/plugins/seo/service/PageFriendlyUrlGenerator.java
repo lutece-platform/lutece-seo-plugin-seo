@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 
 import java.util.List;
@@ -47,10 +48,18 @@ import java.util.List;
  */
 public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
 {
-    private static final String GENERATOR_NAME = "Page Alias Generator";
+    private static final String GENERATOR_NAME = "Page Friendly URL Generator";
     private static final String TECHNICAL_URL = "/jsp/site/Portal.jsp?page_id=";
     private static final String SLASH = "/";
     private static final String EMPTY = "";
+
+    private static final String DEFAULT_CHANGE_FREQ = SitemapUtils.CHANGE_FREQ_VALUES[3];
+    private static final String DEFAULT_PRIORITY = SitemapUtils.PRIORITY_VALUES[3];
+
+    private boolean _bCanonical;
+    private boolean _bSitemap;
+    private String _strChangeFreq;
+    private String _strPriority;
 
     /**
      * {@inheritDoc }
@@ -68,6 +77,13 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
     public String generate( List<FriendlyUrl> list, GeneratorOptions options )
     {
         StringBuilder sbLog = new StringBuilder(  );
+        
+         String strKeyPrefix = SEODataKeys.PREFIX_GENERATOR + getClass().getName();
+        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL, DatastoreService.VALUE_TRUE).equals( DatastoreService.VALUE_TRUE);
+        _bSitemap = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_SITEMAP, DatastoreService.VALUE_TRUE).equals( DatastoreService.VALUE_TRUE);
+        _strChangeFreq = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, DEFAULT_CHANGE_FREQ );
+        _strPriority = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_PRIORITY, DEFAULT_PRIORITY );
+
 
         String strPath = EMPTY;
         findPage( list, PortalService.getRootPageId(  ), strPath, sbLog, options );
@@ -94,11 +110,11 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
         strFriendlyUrl = ( strPath.equals( EMPTY ) ) ? ( SLASH + strAlias ) : strFriendlyUrl;
         url.setFriendlyUrl( strFriendlyUrl );
         url.setTechnicalUrl( TECHNICAL_URL + page.getId(  ) );
-        url.setCanonical( true );
-        url.setSitemap( true );
-        url.setSitemapChangeFreq( "monthly" );
+        url.setCanonical( _bCanonical );
+        url.setSitemap( _bSitemap );
+        url.setSitemapChangeFreq( _strChangeFreq );
         url.setSitemapLastmod( SitemapUtils.formatDate( page.getDateUpdate(  ) ) );
-        url.setSitemapPriority( "0.7" );
+        url.setSitemapPriority( _strPriority );
         list.add( url );
 
         for ( Page childPage : PageHome.getChildPages( nPage ) )

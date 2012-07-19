@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.seo.web.panel;
 
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -70,9 +70,9 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
     public String getContent(  )
     {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue(SEOProperties.REWRITE_CONFIG_UPDATE , "" ));
-        model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue(SEOProperties.CONFIG_UPTODATE , "" ).equals( DatastoreService.VALUE_TRUE));
-        model.put( MARK_URL_REPLACE, DatastoreService.getDataValue(SEOProperties.URL_REPLACE_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
+        model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue(SEODataKeys.KEY_REWRITE_CONFIG_UPDATE , "" ));
+        model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue(SEODataKeys.KEY_CONFIG_UPTODATE , "" ).equals( DatastoreService.VALUE_TRUE));
+        model.put( MARK_URL_REPLACE, DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
 
         return template.getHtml(  );

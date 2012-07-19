@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.seo.service.sitemap;
 
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
@@ -48,7 +48,7 @@ public class SitemapDaemon extends Daemon
     @Override
     public void run() 
     {
-        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
+        String strDeamon = DatastoreService.getDataValue(SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
         String strLog = "Sitemap Deamon isn't enabled";
         
         if( strDeamon.equals( DatastoreService.VALUE_TRUE) )

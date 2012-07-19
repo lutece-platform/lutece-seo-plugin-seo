@@ -36,7 +36,7 @@ package fr.paris.lutece.plugins.seo.service.sitemap;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlUtils;
-import fr.paris.lutece.plugins.seo.service.SEOProperties;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -95,7 +95,7 @@ public class SitemapService
         Object[] args = { strDate, list.size(  ), strResult };
         String strLogFormat = I18nService.getLocalizedString( PROPERTY_SITEMAP_LOG, Locale.getDefault(  ) );
         String strLog = MessageFormat.format( strLogFormat, args );
-        DatastoreService.setDataValue( SEOProperties.SITEMAP_UPDATE_LOG , strLog );
+        DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG , strLog );
 
         return strLog;
     }

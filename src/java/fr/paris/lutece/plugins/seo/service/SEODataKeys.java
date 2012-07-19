@@ -34,15 +34,20 @@
 package fr.paris.lutece.plugins.seo.service;
 
 /**
- *
- * @author pierre
+ * SEO Data keys
  */
-public final class SEOProperties 
+public final class SEODataKeys 
 {
-    public static final String SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
-    public static final String REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
-    public static final String CONFIG_UPTODATE = "seo.config.uptodate";
-    public static final String SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
-    public static final String URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
+    public static final String KEY_SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
+    public static final String KEY_REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
+    public static final String KEY_CONFIG_UPTODATE = "seo.config.uptodate";
+    public static final String KEY_SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
+    public static final String KEY_URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
+    public static final String PREFIX_GENERATOR = "seo.generator.";
+    public static final String SUFFIX_CANONICAL = ".canonical";
+    public static final String SUFFIX_SITEMAP = ".sitemap";
+    public static final String SUFFIX_CHANGE_FREQ = ".changeFreq";
+    public static final String SUFFIX_LAST_MOD = ".lastMod";
+    public static final String SUFFIX_PRIORITY = ".priority";
     
 }
