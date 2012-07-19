@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
@@ -92,7 +93,7 @@ public class FriendlyUrlGeneratorService
         }
 
         processRuleList( listRules, listExisting, options );
-        SEOPropertiesService.setProperty( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_FALSE );
+        DatastoreService.setDataValue( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_FALSE );
     }
 
     /**

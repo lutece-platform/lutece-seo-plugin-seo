@@ -35,6 +35,8 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import javax.servlet.http.HttpServletRequest;
 
 
 
@@ -58,9 +60,10 @@ public class FriendlyUrlContentPostProcessor extends AbstractCacheableService im
      * {@inheritDoc }
      */
     @Override
-    public String process( String strContent )
+    public String process( HttpServletRequest request , String strContent )
     {
-        return FriendlyUrlUtils.replaceByFriendlyUrl( strContent , FriendlyUrlService.instance().getFriendlyUrlMap() );
+        String strBaseUrl = AppPathService.getBaseUrl(request);
+        return FriendlyUrlUtils.replaceByFriendlyUrl( strContent , FriendlyUrlService.instance().getFriendlyUrlMap() , strBaseUrl );
     }
     
 }

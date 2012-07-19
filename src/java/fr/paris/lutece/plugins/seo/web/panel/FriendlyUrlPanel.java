@@ -34,7 +34,7 @@
 package fr.paris.lutece.plugins.seo.web.panel;
 
 import fr.paris.lutece.plugins.seo.service.SEOProperties;
-import fr.paris.lutece.plugins.seo.service.SEOPropertiesService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -69,8 +69,8 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
     public String getContent(  )
     {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_REWRITE_CONFIG_UPDATE, SEOPropertiesService.getProperty(SEOProperties.REWRITE_CONFIG_UPDATE , "" ));
-        model.put( MARK_CONFIG_UPTODATE, SEOPropertiesService.getProperty(SEOProperties.CONFIG_UPTODATE , "" ).equals( SEOProperties.VALUE_TRUE));
+        model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue(SEOProperties.REWRITE_CONFIG_UPDATE , "" ));
+        model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue(SEOProperties.CONFIG_UPTODATE , "" ).equals( SEOProperties.VALUE_TRUE));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
 
         return template.getHtml(  );

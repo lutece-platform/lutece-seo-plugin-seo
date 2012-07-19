@@ -67,7 +67,7 @@ public class FriendlyUrlUtils
      * @param map The Map that contains Friendly URL mapping
      * @return The source with found URL replaced
      */
-    public static String replaceByFriendlyUrl( String strSource, Map<String, String> map )
+    public static String replaceByFriendlyUrl( String strSource, Map<String, String> map , String strBaseUrl )
     {
         StringBuilder sbOutput = new StringBuilder(  );
         String strCurrent = strSource;
@@ -85,6 +85,7 @@ public class FriendlyUrlUtils
             strCurrent = strCurrent.substring( nPosBeginUrl );
             nPosEndUrl = strCurrent.indexOf( END_URL );
             strUrl = strCurrent.substring( 0, nPosEndUrl );
+            strUrl = removeBaseUrl( strUrl, strBaseUrl );
             strFriendlyUrl = map.get( strUrl );
             sbOutput.append( ( strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
 
@@ -106,5 +107,10 @@ public class FriendlyUrlUtils
     public static String cleanSlash( String strUrl )
     {
         return ( strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length(  ) ) : strUrl );
+    }
+
+    private static String removeBaseUrl(String strUrl, String strBaseUrl) 
+    {
+        return ( strUrl.startsWith( strBaseUrl ) ? strUrl.substring( strBaseUrl.length() , strUrl.length(  ) ) : strUrl );
     }
 }

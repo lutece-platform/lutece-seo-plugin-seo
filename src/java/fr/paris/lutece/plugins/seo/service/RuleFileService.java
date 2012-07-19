@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -102,8 +103,8 @@ public final class RuleFileService
         Object[] args = { strDate, listRules.size(  ) + listUrl.size() , strResult };
         String strLogFormat = I18nService.getLocalizedString( PROPERTY_REWRITE_CONFIG_LOG, Locale.getDefault(  ) );
         String strLog = MessageFormat.format( strLogFormat, args );
-        SEOPropertiesService.setProperty( SEOProperties.REWRITE_CONFIG_UPDATE , strLog );
-        SEOPropertiesService.setProperty( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_TRUE );
+        DatastoreService.setDataValue( SEOProperties.REWRITE_CONFIG_UPDATE , strLog );
+        DatastoreService.setDataValue( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_TRUE );
         
         return t.getHtml(  );
     }
