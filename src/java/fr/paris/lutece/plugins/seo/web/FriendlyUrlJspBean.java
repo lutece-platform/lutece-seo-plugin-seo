@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.seo.web;
 
+import fr.paris.lutece.plugins.seo.service.generator.GeneratorOptions;
+import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGeneratorService;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.service.*;
@@ -91,7 +93,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_MANAGE_FRIENDLY_URL = "/admin/plugins/seo/manage_friendly_urls.html";
     private static final String TEMPLATE_CREATE_RULE = "/admin/plugins/seo/create_friendly_url.html";
     private static final String TEMPLATE_MODIFY_RULE = "/admin/plugins/seo/modify_friendly_url.html";
-    private static final String TEMPLATE_GENERATE_ALIAS = "/admin/plugins/seo/generate_alias_rules.html";
+    private static final String TEMPLATE_GENERATE_ALIAS = "/admin/plugins/seo/generate_friendly_urls.html";
 
     // properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_FRIENDLY_URLS = "seo.manage_friendly_urls.pageTitle";
@@ -354,6 +356,8 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     public String getGenerateAliasRules( HttpServletRequest request )
     {
         HashMap model = new HashMap(  );
+        model.put( MARK_CHANGE_FREQ_LIST , SitemapUtils.getChangeFrequencyValues() );
+        model.put( MARK_PRIORITY_LIST , SitemapUtils.getPriorityValues() );
         model.put( MARK_GENERATORS_LIST, FriendlyUrlGeneratorService.instance(  ).getGenerators(  ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_GENERATE_ALIAS, getLocale(  ), model );

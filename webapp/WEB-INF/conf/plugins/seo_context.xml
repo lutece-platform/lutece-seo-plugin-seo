@@ -6,10 +6,9 @@
     <!-- DAO -->
     <bean id="seo.friendlyUrlDAO" class="fr.paris.lutece.plugins.seo.business.FriendlyUrlDAO" />  
     <bean id="seo.urlRewriterRuleDAO" class="fr.paris.lutece.plugins.seo.business.UrlRewriterRuleDAO" />
-    <bean id="seo.propertyDAO" class="fr.paris.lutece.plugins.seo.business.SEOPropertyDAO" />
     
     <!-- FrienlyURL Generators -->
-    <bean id="seo.pageFriendlyUrlGenerator" class="fr.paris.lutece.plugins.seo.service.PageFriendlyUrlGenerator" />
+    <bean id="seo.pageFriendlyUrlGenerator" class="fr.paris.lutece.plugins.seo.service.generator.PageFriendlyUrlGenerator" />
 
     <!-- Content Post Processors -->
     <bean id="seo.friendlyUrlContentPostProcessor" class="fr.paris.lutece.plugins.seo.service.FriendlyUrlContentPostProcessor" />

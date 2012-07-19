@@ -31,10 +31,11 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.service;
+package fr.paris.lutece.plugins.seo.service.generator;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -100,9 +101,22 @@ public class FriendlyUrlGeneratorService
      * Gets the generators list
      * @return The generators list
      */
-    public List<FriendlyUrlGenerator> getGenerators(  )
+    public List<GeneratorSettings> getGenerators(  )
     {
-        return _listGenerators;
+        List<GeneratorSettings> list = new ArrayList<GeneratorSettings>();
+        
+        for( FriendlyUrlGenerator generator : _listGenerators )
+        {
+            GeneratorSettings gs = new GeneratorSettings();
+            String strKey = generator.getClass().getName();
+            gs.setKey( strKey );
+            gs.setName( generator.getName() );
+            String strPrefix = SEODataKeys.PREFIX_GENERATOR + strKey;
+            gs.setDefaultChangeFreq( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, "" ));
+            gs.setDefaultPriority( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_PRIORITY, "" ));
+            list.add(gs);
+        }
+        return list;
     }
 
     private void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting,

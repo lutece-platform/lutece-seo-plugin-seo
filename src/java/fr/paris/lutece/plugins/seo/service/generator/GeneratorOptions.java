@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.service;
+package fr.paris.lutece.plugins.seo.service.generator;
 
 
 /**
