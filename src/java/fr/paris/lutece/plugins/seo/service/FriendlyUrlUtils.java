@@ -46,7 +46,7 @@ import java.util.Map;
  */
 public class FriendlyUrlUtils
 {
-    private static final String ANCHOR = "href=\"";
+    private static final String ANCHOR = "<a href=\"";
     private static final String END_URL = "\"";
     private static final String SLASH = "/";
 
