@@ -43,14 +43,14 @@ public class SitemapJspBean extends PluginAdminPageJspBean
      */
     public String doSitemapDaemonToggle( HttpServletRequest request )
     {
-        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, SEOProperties.VALUE_FALSE);
-        if( strDeamon.equals(SEOProperties.VALUE_TRUE))
+        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
+        if( strDeamon.equals(DatastoreService.VALUE_TRUE))
         {
-            DatastoreService.setDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, SEOProperties.VALUE_FALSE);
+            DatastoreService.setDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
         }
         else
         {
-            DatastoreService.setDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, SEOProperties.VALUE_TRUE);
+            DatastoreService.setDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_TRUE);
         }
         return getHomeUrl( request );
 

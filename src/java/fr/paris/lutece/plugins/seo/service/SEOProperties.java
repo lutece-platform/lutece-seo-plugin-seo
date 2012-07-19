@@ -39,11 +39,10 @@ package fr.paris.lutece.plugins.seo.service;
  */
 public final class SEOProperties 
 {
-    public static final String SITEMAP_UPDATE_LOG = "sitemap.update.log";
-    public static final String REWRITE_CONFIG_UPDATE = "rewrite.config.lastUpdate";
-    public static final String CONFIG_UPTODATE = "config.uptodate";
-    public static final String SITEMAP_DEAMON_ENABLED = "sitmap.daemon.enabled";
-    public static final String VALUE_TRUE = "true";
-    public static final String VALUE_FALSE = "false";
+    public static final String SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
+    public static final String REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
+    public static final String CONFIG_UPTODATE = "seo.config.uptodate";
+    public static final String SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
+    public static final String URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
     
 }

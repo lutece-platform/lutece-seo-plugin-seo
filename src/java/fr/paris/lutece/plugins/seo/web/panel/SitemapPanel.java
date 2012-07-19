@@ -68,11 +68,11 @@ public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
     @Override
     public String getContent(  )
     {
-        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, SEOProperties.VALUE_FALSE);
+        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
 
         Map<String, Object> model = new HashMap<String, Object>();
         model.put( MARK_LAST_GENERATION, DatastoreService.getDataValue(SEOProperties.SITEMAP_UPDATE_LOG , "" ));
-        model.put( MARK_DAEMON_ENABLED, strDeamon.equals( SEOProperties.VALUE_TRUE ));
+        model.put( MARK_DAEMON_ENABLED, strDeamon.equals( DatastoreService.VALUE_TRUE ));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
 
         return template.getHtml(  );

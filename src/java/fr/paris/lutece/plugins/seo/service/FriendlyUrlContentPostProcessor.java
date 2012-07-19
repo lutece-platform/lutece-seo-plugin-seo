@@ -61,9 +61,14 @@ public class FriendlyUrlContentPostProcessor extends AbstractCacheableService im
      */
     @Override
     public String process( HttpServletRequest request , String strContent )
-    {
-        String strBaseUrl = AppPathService.getBaseUrl(request);
-        return FriendlyUrlUtils.replaceByFriendlyUrl( strContent , FriendlyUrlService.instance().getFriendlyUrlMap() , strBaseUrl );
+    {        
+        if( FriendlyUrlService.instance().isUrlReplaceEnabled() )
+        {
+            String strBaseUrl = AppPathService.getBaseUrl(request);
+            return FriendlyUrlUtils.replaceByFriendlyUrl( strContent , FriendlyUrlService.instance().getFriendlyUrlMap() , strBaseUrl );
+        }
+        return strContent;
+
     }
     
 }

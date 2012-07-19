@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.seo.service;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,10 +51,12 @@ public class FriendlyUrlService extends AbstractCacheableService
     private static final String NAME = "SEO Friendly Url Cache Service";
 
     private static FriendlyUrlService _singleton = new FriendlyUrlService();
+    private static boolean _bReplaceUrl;
 
     private FriendlyUrlService()
     {
         initCache();
+        _bReplaceUrl = DatastoreService.getDataValue(SEOProperties.URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
     }
     
     /**
@@ -90,5 +93,23 @@ public class FriendlyUrlService extends AbstractCacheableService
             putInCache( CACHE_KEY, map );
         }
         return map;
+    }
+    
+    /**
+     * Is the URL replace service enabled 
+     * @return True if enabled, otherwise false
+     */
+    public boolean isUrlReplaceEnabled()
+    {
+        return _bReplaceUrl;
+    }
+    
+    /**
+     * Set enabled or disabled the Url Replace Service
+     * @param bEnabled 
+     */
+    public void setUrlReplaceEnabled( boolean bEnabled )
+    {
+        _bReplaceUrl = bEnabled;
     }
 }

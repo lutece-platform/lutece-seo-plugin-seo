@@ -48,10 +48,10 @@ public class SitemapDaemon extends Daemon
     @Override
     public void run() 
     {
-        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, SEOProperties.VALUE_FALSE);
+        String strDeamon = DatastoreService.getDataValue(SEOProperties.SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
         String strLog = "Sitemap Deamon isn't enabled";
         
-        if( strDeamon.equals( SEOProperties.VALUE_TRUE) )
+        if( strDeamon.equals( DatastoreService.VALUE_TRUE) )
         {
             strLog = SitemapService.generateSitemap();
         }

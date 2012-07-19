@@ -42,16 +42,16 @@
             si des URL explicites sont utilis&eacute;es.
         </p>
         <p>
-            <#if config_uptodate >
+            <#if url_replace >
             <img src="images/admin/skin/enable.png" alt="on" /> 
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
-            <form method="post"  action="">
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlReplaceToggle.jsp">
                 <input type="submit" value="D&eacute;sactiver la r&eacute;&eacute;criture des liens dans les pages" class="button" />
             </form>
             <#else>
             <img src="images/admin/skin/disable.png" alt="off" />
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
-            <form method="post"  action="">
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlReplaceToggle.jsp">
                 <input type="submit" value="Activer la r&eacute;&eacute;criture des liens dans les pages" class="button" />
             </form>
             </#if>

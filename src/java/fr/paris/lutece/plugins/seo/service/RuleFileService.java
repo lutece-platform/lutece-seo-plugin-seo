@@ -104,7 +104,7 @@ public final class RuleFileService
         String strLogFormat = I18nService.getLocalizedString( PROPERTY_REWRITE_CONFIG_LOG, Locale.getDefault(  ) );
         String strLog = MessageFormat.format( strLogFormat, args );
         DatastoreService.setDataValue( SEOProperties.REWRITE_CONFIG_UPDATE , strLog );
-        DatastoreService.setDataValue( SEOProperties.CONFIG_UPTODATE , SEOProperties.VALUE_TRUE );
+        DatastoreService.setDataValue( SEOProperties.CONFIG_UPTODATE , DatastoreService.VALUE_TRUE );
         
         return t.getHtml(  );
     }

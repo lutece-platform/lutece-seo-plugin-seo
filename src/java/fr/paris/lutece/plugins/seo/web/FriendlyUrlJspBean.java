@@ -35,10 +35,9 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
-import fr.paris.lutece.plugins.seo.service.FriendlyUrlGeneratorService;
-import fr.paris.lutece.plugins.seo.service.GeneratorOptions;
-import fr.paris.lutece.plugins.seo.service.RuleFileService;
+import fr.paris.lutece.plugins.seo.service.*;
 import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -398,4 +397,30 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         return false;
     }
+    
+    /**
+     * Enable or disable the replace post processor service
+     *
+     * @param request The HTTP request
+     * @return The page
+     */
+    public String doReplaceToggle( HttpServletRequest request )
+    {
+        String strStatus = DatastoreService.getDataValue(SEOProperties.URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
+        if( strStatus.equals(DatastoreService.VALUE_TRUE))
+        {
+            DatastoreService.setDataValue(SEOProperties.URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
+            FriendlyUrlService.instance().setUrlReplaceEnabled(false);
+            AppLogService.info("SEO : URL replace service disabled");
+        }
+        else
+        {
+            DatastoreService.setDataValue(SEOProperties.URL_REPLACE_ENABLED, DatastoreService.VALUE_TRUE);
+            FriendlyUrlService.instance().setUrlReplaceEnabled(true);
+            AppLogService.info("SEO : URL replace service enabled");
+        }
+        return getHomeUrl( request );
+    }
+
+    
 }
