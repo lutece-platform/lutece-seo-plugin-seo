@@ -45,13 +45,15 @@
             <#if url_replace >
             <img src="images/admin/skin/enable.png" alt="on" /> 
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlReplaceToggle.jsp">
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="replace_url_in_content" />
                 <input type="submit" value="D&eacute;sactiver la r&eacute;&eacute;criture des liens dans les pages" class="button" />
             </form>
             <#else>
             <img src="images/admin/skin/disable.png" alt="off" />
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlReplaceToggle.jsp">
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="replace_url_in_content" />
                 <input type="submit" value="Activer la r&eacute;&eacute;criture des liens dans les pages" class="button" />
             </form>
             </#if>
@@ -59,4 +61,26 @@
     </div>
 </div>
 
+
+<div class="highlight-box">
+    <div class="highlight-box-content" >
+        <p>
+            <#if canonical_urls >
+            <img src="images/admin/skin/enable.png" alt="on" /> 
+            L'ajout de l'URL canonique dans la page est activ&eacute;e.
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="add_canonical_url" />
+                <input type="submit" value="D&eacute;sactiver l'insertion des URL canoniques dans les pages" class="button" />
+            </form>
+            <#else>
+            <img src="images/admin/skin/disable.png" alt="off" />
+             L'ajout de l'URL canonique dans la page n'est pas activ&eacute;e.
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="add_canonical_url" />
+                <input type="submit" value="Activer l'insertion des URL canoniques dans les pages" class="button" />
+            </form>
+            </#if>
+        </p>
+    </div>
+</div>
 

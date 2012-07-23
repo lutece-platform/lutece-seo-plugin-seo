@@ -86,6 +86,9 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_OPTION_FORCE_UPDATE = "option_force_update";
     private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
     private static final String PARAMETER_OPTION_HTML_SUFFIX = "option_html_suffix";
+    private static final String PARAMETER_TOGGLE = "toggle";
+    private static final String TOGGLE_CANONICAL_URLS = "add_canonical_url";
+    private static final String TOGGLE_REPLACE_URL = "replace_url_in_content";
     private static final String VALUE_ON = "on";
     private static final String CHECKED = "checked";
     private static final String UNCHECKED = "";
@@ -410,7 +413,21 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
      * @param request The HTTP request
      * @return The page
      */
-    public String doReplaceToggle( HttpServletRequest request )
+    public String doToggle( HttpServletRequest request )
+    {
+        String strToggle = request.getParameter( PARAMETER_TOGGLE );
+        if( strToggle.equals( TOGGLE_REPLACE_URL ))
+        {
+            toggleReplaceUrl();
+        } 
+        else if( strToggle.equals( TOGGLE_CANONICAL_URLS ))
+        {
+            toggleCanonicalUrls();       
+        }
+        return getHomeUrl( request );
+    }
+
+    private void toggleReplaceUrl() 
     {
         String strStatus = DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE);
         if( strStatus.equals(DatastoreService.VALUE_TRUE))
@@ -425,7 +442,23 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
             FriendlyUrlService.instance().setUrlReplaceEnabled(true);
             AppLogService.info("SEO : URL replace service enabled");
         }
-        return getHomeUrl( request );
+    }
+
+    private void toggleCanonicalUrls() 
+    {
+        String strStatus = DatastoreService.getDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_FALSE);
+        if( strStatus.equals(DatastoreService.VALUE_TRUE))
+        {
+            DatastoreService.setDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_FALSE);
+            CanonicalUrlService.instance().setCanonicalUrlsEnabled(false);
+            AppLogService.info("SEO : Canonical URLs disabled");
+        }
+        else
+        {
+            DatastoreService.setDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_TRUE);
+            CanonicalUrlService.instance().setCanonicalUrlsEnabled(true);
+            AppLogService.info("SEO : Canonical URLs enabled");
+        }
     }
 
     /**
@@ -445,4 +478,5 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         return JSP_GENERATE_FRIENDLY_URLS;
         
     }
+
 }

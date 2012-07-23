@@ -51,6 +51,7 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
     private static final String MARK_REWRITE_CONFIG_UPDATE = "rewrite_onfig_last_update";
     private static final String MARK_CONFIG_UPTODATE = "config_uptodate";
     private static final String MARK_URL_REPLACE = "url_replace";
+    private static final String MARK_CANONICAL_URLS = "canonical_urls";
     private static final String PROPERTY_TITlE = "seo.panel.friendly_urls.title";
     private static final int ORDER = 1;
 
@@ -73,6 +74,7 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
         model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue(SEODataKeys.KEY_REWRITE_CONFIG_UPDATE , "" ));
         model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue(SEODataKeys.KEY_CONFIG_UPTODATE , "" ).equals( DatastoreService.VALUE_TRUE));
         model.put( MARK_URL_REPLACE, DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
+        model.put( MARK_CANONICAL_URLS, DatastoreService.getDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
 
         return template.getHtml(  );

@@ -44,8 +44,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CanonicalUrlService
 {
     private static final String HEAD = "<head>";
-    private static final String COMMENT = "\n\t<!-- Canonical URL added by SEO plugin --> ";
-    private static final String CANONICAL_TAG_BEGIN = "\n\t<link rel=\"canonical\" href=\"";
+    private static final String COMMENT = "\n\t\t<!-- Canonical URL added by SEO plugin --> ";
+    private static final String CANONICAL_TAG_BEGIN = "\n\t\t<link rel=\"canonical\" href=\"";
     private static final String CANONICAL_TAG_END = "\" />\n"; 
 
     private static CanonicalUrlService _singleton = new CanonicalUrlService();
@@ -62,11 +62,32 @@ public class CanonicalUrlService
         return _singleton;
     }
     
+    /**
+     * Tells if canonical urls are enabled
+     * @return  True if canonical urls are enabled, otherwise false
+     */
     public boolean isCanonicalUrlsEnabled() 
     {
         return _bCanonical;
     }
 
+    /**
+     * Sets the status of Canonical URLs (Enabled  or Disabled)
+     * @param bEnabled 
+     */
+    public void setCanonicalUrlsEnabled( boolean bEnabled ) 
+    {
+        _bCanonical = bEnabled;
+    }
+
+    /**
+     * Add canonical URL into an HTML page's content
+     * @param strContent The HTML page's content
+     * @param request The HTTP request
+     * @param mapFriendlyUrls The map of friendly URLS
+     * @param strBaseUrl The Base URL
+     * @return The HTML page content with the canonical URL inserted
+     */
     public String addCanonicalUrl (String strContent, HttpServletRequest request, Map<String, String> mapFriendlyUrls, String strBaseUrl) 
     {
         StringBuilder sbUrl = new StringBuilder();
@@ -81,6 +102,12 @@ public class CanonicalUrlService
         
     }
     
+    /**
+     * Add canonical URL into an HTML page's content
+     * @param strContent The HTML page's content
+     * @param strUrl The canonical URL to insert
+     * @return The HTML page content with the canonical URL inserted
+     */
     private String insertCanonicalUrl(String strContent, String strUrl ) 
     {
         StringBuilder sb = new StringBuilder();
@@ -98,5 +125,6 @@ public class CanonicalUrlService
         sb.append( strContent.substring( nPos + HEAD.length() ));
         return sb.toString();
     }
+
 
 }

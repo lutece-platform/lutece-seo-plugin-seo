@@ -4,6 +4,6 @@
 
 <%
     seoFriendlyUrl.init( request, seoFriendlyUrl.RIGHT_MANAGE_SEO );
-    response.sendRedirect( seoFriendlyUrl.doReplaceToggle( request ) );
+    response.sendRedirect( seoFriendlyUrl.doToggle( request ) );
 %>
 

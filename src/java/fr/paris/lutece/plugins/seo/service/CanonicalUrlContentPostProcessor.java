@@ -62,12 +62,12 @@ public class CanonicalUrlContentPostProcessor extends AbstractCacheableService i
     @Override
     public String process( HttpServletRequest request , String strContent )
     {        
-//        if( CanonicalUrlService.instance().isCanonicalUrlsEnabled() )
+        if( CanonicalUrlService.instance().isCanonicalUrlsEnabled() )
         {
             String strBaseUrl = AppPathService.getBaseUrl(request);
             return CanonicalUrlService.instance().addCanonicalUrl( strContent , request , FriendlyUrlService.instance().getCanonicalUrlMap() , strBaseUrl );
         }
-//        return strContent;
+        return strContent;
 
     }
     
