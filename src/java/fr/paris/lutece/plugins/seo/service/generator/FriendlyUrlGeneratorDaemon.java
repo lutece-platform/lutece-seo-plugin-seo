@@ -31,27 +31,40 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.service;
+package fr.paris.lutece.plugins.seo.service.generator;
+
+import fr.paris.lutece.plugins.seo.service.FriendlyUrlService;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
+import fr.paris.lutece.portal.service.daemon.Daemon;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
- * SEO Data keys
+ * Sitemap Deamon
  */
-public final class SEODataKeys 
+public class FriendlyUrlGeneratorDaemon extends Daemon 
 {
-    public static final String KEY_SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
-    public static final String KEY_REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
-    public static final String KEY_CONFIG_UPTODATE = "seo.config.uptodate";
-    public static final String KEY_SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
-    public static final String KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED = "seo.generator.daemon.enabled";
-    public static final String KEY_URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
-    public static final String KEY_CANONICAL_URLS_ENABLED = "seo.canonicalUrls.enabled";
-    public static final String KEY_GENERATOR_ADD_PATH ="seo.generator.option.addPath";
-    public static final String KEY_GENERATOR_ADD_HTML_SUFFIX ="seo.generator.option.addHtmlSuffix";
-    public static final String PREFIX_GENERATOR = "seo.generator.";
-    public static final String SUFFIX_CANONICAL = ".canonical";
-    public static final String SUFFIX_SITEMAP = ".sitemap";
-    public static final String SUFFIX_CHANGE_FREQ = ".changeFreq";
-    public static final String SUFFIX_LAST_MOD = ".lastMod";
-    public static final String SUFFIX_PRIORITY = ".priority";
-    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void run() 
+    {
+        String strDeamon = DatastoreService.getDataValue(SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE);
+        String strLog = "Friendly Url Generator Deamon isn't enabled";
+        
+        if( strDeamon.equals( DatastoreService.VALUE_TRUE) )
+        {
+            GeneratorOptions options = new GeneratorOptions(  );
+
+            options.setForceUpdate( false );
+            options.setAddPath( DatastoreService.getDataValue(SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ).equals( DatastoreService.VALUE_TRUE)); 
+            options.setHtmlSuffix( DatastoreService.getDataValue(SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ).equals( DatastoreService.VALUE_TRUE));
+
+            FriendlyUrlGeneratorService.instance(  ).generate( options );
+            strLog = "Friendly Url Generator Deamon last run : " + DateFormat.getDateTimeInstance().format( new Date() );
+        }
+        setLastRunLogs(strLog);
+    }
 }

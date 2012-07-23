@@ -84,3 +84,27 @@
     </div>
 </div>
 
+
+
+
+<div class="highlight-box">
+    <div class="highlight-box-content" >
+        <p>
+            <#if friendly_url_daemon >
+            <img src="images/admin/skin/enable.png" alt="on" /> 
+            La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources est activ&eacute;e.
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
+                <input type="submit" value="D&eacute;sactiver la g&eacute;n&eacute;ration automatique d'URL explicites" class="button" />
+            </form>
+            <#else>
+            <img src="images/admin/skin/disable.png" alt="off" />
+            La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources n'est pas activ&eacute;e.
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
+                <input type="submit" value="Activer la g&eacute;n&eacute;ration automatique d'URL explicites" class="button" />
+            </form>
+            </#if>
+        </p>
+    </div>
+</div>

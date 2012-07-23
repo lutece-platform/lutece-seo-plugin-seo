@@ -138,5 +138,4 @@ public class FriendlyUrlService extends AbstractCacheableService
         _bReplaceUrl = bEnabled;
     }
 
-
 }

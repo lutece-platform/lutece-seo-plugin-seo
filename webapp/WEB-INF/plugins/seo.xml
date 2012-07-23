@@ -116,6 +116,12 @@
     
     <daemons>
         <daemon>
+            <daemon-id>seoFriendlyUrlGenerator</daemon-id>
+            <daemon-name>seo.daemon.friendlyUrlGenerator.name</daemon-name>
+            <daemon-description>seo.daemon.friendlyUrlGenerator.description</daemon-description>
+            <daemon-class>fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGeneratorDaemon</daemon-class>
+        </daemon>
+        <daemon>
             <daemon-id>seoSitemapGenerator</daemon-id>
             <daemon-name>seo.daemon.sitemapGenerator.name</daemon-name>
             <daemon-description>seo.daemon.sitemapGenerator.description</daemon-description>

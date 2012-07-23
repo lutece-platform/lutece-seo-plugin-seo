@@ -89,6 +89,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_TOGGLE = "toggle";
     private static final String TOGGLE_CANONICAL_URLS = "add_canonical_url";
     private static final String TOGGLE_REPLACE_URL = "replace_url_in_content";
+    private static final String TOGGLE_FRIENDLY_URL_DAEMON = "friendly_url_daemon_enabled";
     private static final String VALUE_ON = "on";
     private static final String CHECKED = "checked";
     private static final String UNCHECKED = "";
@@ -383,7 +384,10 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         options.setForceUpdate( getOption( request, PARAMETER_OPTION_FORCE_UPDATE ) );
         options.setAddPath( getOption( request, PARAMETER_OPTION_ADD_PATH ) );
         options.setHtmlSuffix( getOption( request, PARAMETER_OPTION_HTML_SUFFIX ) );
-
+        
+        DatastoreService.setDataValue(SEODataKeys.KEY_GENERATOR_ADD_PATH, options.isAddPath() ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
+        DatastoreService.setDataValue(SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, options.isHtmlSuffix() ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
+        
         FriendlyUrlGeneratorService.instance(  ).generate( options );
 
         return JSP_MANAGE_FRIENDLY_URLS;
@@ -424,6 +428,10 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         {
             toggleCanonicalUrls();       
         }
+        else if( strToggle.equals( TOGGLE_FRIENDLY_URL_DAEMON ))
+        {
+            toggleFriendlyUrlDaemon();       
+        }
         return getHomeUrl( request );
     }
 
@@ -458,6 +466,21 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
             DatastoreService.setDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_TRUE);
             CanonicalUrlService.instance().setCanonicalUrlsEnabled(true);
             AppLogService.info("SEO : Canonical URLs enabled");
+        }
+    }
+
+    private void toggleFriendlyUrlDaemon() 
+    {
+        String strStatus = DatastoreService.getDataValue(SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE);
+        if( strStatus.equals(DatastoreService.VALUE_TRUE))
+        {
+            DatastoreService.setDataValue(SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE);
+            AppLogService.info("SEO : Friendly URL Daemon disabled");
+        }
+        else
+        {
+            DatastoreService.setDataValue(SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_TRUE);
+            AppLogService.info("SEO : Friendly URL Daemon enabled");
         }
     }
 
