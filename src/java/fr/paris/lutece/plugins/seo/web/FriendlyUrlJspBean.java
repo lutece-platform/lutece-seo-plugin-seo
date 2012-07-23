@@ -81,6 +81,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_SITEMAP = "sitemap";
     private static final String PARAMETER_CHANGE_FREQ = "change_freq";
     private static final String PARAMETER_PRIORITY = "priority";
+    private static final String PARAMETER_GENERATOR_KEY = "generator_key";
     private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "friendly_url_page_index";
     private static final String PARAMETER_OPTION_FORCE_UPDATE = "option_force_update";
     private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
@@ -118,6 +119,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String JSP_DO_DELETE_URL = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
     private static final String JSP_URL_MANAGE_FRIENDLY_URLS = "jsp/admin/plugins/seo/ManageFriendlyUrls.jsp";
     private static final String JSP_MANAGE_FRIENDLY_URLS = "ManageFriendlyUrls.jsp";
+    private static final String JSP_GENERATE_FRIENDLY_URLS = "GenerateAliasRules.jsp";
 
     // Properties
     private static final String PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE = "seo.listFriendlyUrls.itemsPerPage";
@@ -426,5 +428,21 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         return getHomeUrl( request );
     }
 
-    
+    /**
+     * Save update to generator settings
+     * @param request The HTTP request
+     * @return The forward URL
+     */
+    public String doUpdateGeneratorSettings( HttpServletRequest request )
+    {
+        String strKey = request.getParameter(PARAMETER_GENERATOR_KEY);
+        String strChangeFreq = request.getParameter(PARAMETER_CHANGE_FREQ);
+        String strPriority = request.getParameter(PARAMETER_PRIORITY);
+        
+        String strPrefix = SEODataKeys.PREFIX_GENERATOR + strKey;
+        DatastoreService.setDataValue( strPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, strChangeFreq );
+        DatastoreService.setDataValue( strPrefix + SEODataKeys.SUFFIX_PRIORITY, strPriority );
+        return JSP_GENERATE_FRIENDLY_URLS;
+        
+    }
 }

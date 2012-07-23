@@ -10,20 +10,19 @@
 <div class="content-box" >
     <h2>#i18n{seo.generate_friendly_urls.labelTitle}</h2>
 
-    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
         <div class="highlight-box">
             <div class="highlight-box-content">
 
                 <h3>#i18n{seo.generate_friendly_urls.labelGeneratorsList}</h3>
                 <p>
                 <table>
-                    <th>Générateur</th>
-                    <th>Fréquence de modification par défaut</th>
-                    <th>Priorité par défaut</th>
+                    <th>G&eacute;n&eacute;rateur</th>
+                    <th>Fr&eacute;quence de modification par d&eacute;faut</th>
+                    <th>Priorit&eacute; par d&eacute;faut</th>
                     <th>Action</th>
                     <#list generators_list as generator>
-                    <form action="">
-                        <input type="hidden" name="key" value="${generator.key}" />
+                    <form action="jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp" method="POST">
+                        <input type="hidden" name="generator_key" value="${generator.key}" />
                         <tr>    
                     <td>${generator.name}</td>
                     <td><@combo name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq /></td>
@@ -37,6 +36,7 @@
             </div>
         </div>
 
+    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
         <div class="highlight-box">
             <div class="highlight-box-content">
 
