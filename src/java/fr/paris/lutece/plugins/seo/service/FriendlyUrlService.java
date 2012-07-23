@@ -48,6 +48,7 @@ import java.util.Map;
 public class FriendlyUrlService extends AbstractCacheableService
 {
     private static final String CACHE_KEY = "friendly_url_cache_key";
+    private static final String CACHE_KEY_CANONICAL = "canonical_url_cache_key";;
     private static final String NAME = "SEO Friendly Url Cache Service";
 
     private static FriendlyUrlService _singleton = new FriendlyUrlService();
@@ -96,6 +97,30 @@ public class FriendlyUrlService extends AbstractCacheableService
     }
     
     /**
+     * Returns the map of Canonical URL
+     * @return The map
+     */
+    Map<String, String> getCanonicalUrlMap() 
+    {
+        Map<String,String> map = (Map<String,String>) getFromCache( CACHE_KEY_CANONICAL );
+        if( map == null )
+        {
+            map = new HashMap<String, String>(  );
+
+            for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
+            {
+                if( url.isCanonical() )
+                {
+                    map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
+                    FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+                }
+            }
+
+            putInCache( CACHE_KEY_CANONICAL, map );
+        }
+        return map;
+    }
+    /**
      * Is the URL replace service enabled 
      * @return True if enabled, otherwise false
      */
@@ -112,4 +137,6 @@ public class FriendlyUrlService extends AbstractCacheableService
     {
         _bReplaceUrl = bEnabled;
     }
+
+
 }

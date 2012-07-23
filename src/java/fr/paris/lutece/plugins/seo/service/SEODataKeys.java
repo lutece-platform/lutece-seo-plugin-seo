@@ -43,6 +43,7 @@ public final class SEODataKeys
     public static final String KEY_CONFIG_UPTODATE = "seo.config.uptodate";
     public static final String KEY_SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
     public static final String KEY_URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
+    public static final String KEY_CANONICAL_URLS_ENABLED = "seo.canonicalUrls.enabled";
     public static final String PREFIX_GENERATOR = "seo.generator.";
     public static final String SUFFIX_CANONICAL = ".canonical";
     public static final String SUFFIX_SITEMAP = ".sitemap";

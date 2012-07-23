@@ -12,6 +12,7 @@
 
     <!-- Content Post Processors -->
     <bean id="seo.friendlyUrlContentPostProcessor" class="fr.paris.lutece.plugins.seo.service.FriendlyUrlContentPostProcessor" />
+    <bean id="seo.canonicalUrlContentPostProcessor" class="fr.paris.lutece.plugins.seo.service.CanonicalUrlContentPostProcessor" />
 
     <!-- Panels -->
     <bean id="seo.panelFriendlyUrls" class="fr.paris.lutece.plugins.seo.web.panel.FriendlyUrlPanel" />
