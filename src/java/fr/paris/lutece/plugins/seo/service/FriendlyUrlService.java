@@ -48,18 +48,18 @@ import java.util.Map;
 public class FriendlyUrlService extends AbstractCacheableService
 {
     private static final String CACHE_KEY = "friendly_url_cache_key";
-    private static final String CACHE_KEY_CANONICAL = "canonical_url_cache_key";;
+    private static final String CACHE_KEY_CANONICAL = "canonical_url_cache_key";
     private static final String NAME = "SEO Friendly Url Cache Service";
-
-    private static FriendlyUrlService _singleton = new FriendlyUrlService();
+    private static FriendlyUrlService _singleton = new FriendlyUrlService(  );
     private static boolean _bReplaceUrl;
 
-    private FriendlyUrlService()
+    private FriendlyUrlService(  )
     {
-        initCache();
-        _bReplaceUrl = DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
+        initCache(  );
+        _bReplaceUrl = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" )
+                                       .equals( DatastoreService.VALUE_TRUE );
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -69,73 +69,77 @@ public class FriendlyUrlService extends AbstractCacheableService
         return NAME;
     }
 
-    public static FriendlyUrlService instance()
+    public static FriendlyUrlService instance(  )
     {
         return _singleton;
     }
-    
+
     /**
      * Returns the map of Friendly URL
      * @return The map
      */
     public Map<String, String> getFriendlyUrlMap(  )
     {
-        Map<String,String> map = (Map<String,String>) getFromCache( CACHE_KEY );
-        if( map == null )
+        Map<String, String> map = (Map<String, String>) getFromCache( CACHE_KEY );
+
+        if ( map == null )
         {
             map = new HashMap<String, String>(  );
 
             for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
             {
                 map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
-                FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+                    FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
             }
 
             putInCache( CACHE_KEY, map );
         }
+
         return map;
     }
-    
+
     /**
      * Returns the map of Canonical URL
      * @return The map
      */
-    Map<String, String> getCanonicalUrlMap() 
+    Map<String, String> getCanonicalUrlMap(  )
     {
-        Map<String,String> map = (Map<String,String>) getFromCache( CACHE_KEY_CANONICAL );
-        if( map == null )
+        Map<String, String> map = (Map<String, String>) getFromCache( CACHE_KEY_CANONICAL );
+
+        if ( map == null )
         {
             map = new HashMap<String, String>(  );
 
             for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
             {
-                if( url.isCanonical() )
+                if ( url.isCanonical(  ) )
                 {
                     map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
-                    FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+                        FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
                 }
             }
 
             putInCache( CACHE_KEY_CANONICAL, map );
         }
+
         return map;
     }
+
     /**
-     * Is the URL replace service enabled 
+     * Is the URL replace service enabled
      * @return True if enabled, otherwise false
      */
-    public boolean isUrlReplaceEnabled()
+    public boolean isUrlReplaceEnabled(  )
     {
         return _bReplaceUrl;
     }
-    
+
     /**
      * Set enabled or disabled the Url Replace Service
-     * @param bEnabled 
+     * @param bEnabled
      */
     public void setUrlReplaceEnabled( boolean bEnabled )
     {
         _bReplaceUrl = bEnabled;
     }
-
 }

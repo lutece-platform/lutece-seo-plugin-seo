@@ -94,7 +94,7 @@ public class FriendlyUrlGeneratorService
         }
 
         processRuleList( listRules, listExisting, options );
-        DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE , DatastoreService.VALUE_FALSE );
+        DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, DatastoreService.VALUE_FALSE );
     }
 
     /**
@@ -103,19 +103,21 @@ public class FriendlyUrlGeneratorService
      */
     public List<GeneratorSettings> getGenerators(  )
     {
-        List<GeneratorSettings> list = new ArrayList<GeneratorSettings>();
-        
-        for( FriendlyUrlGenerator generator : _listGenerators )
+        List<GeneratorSettings> list = new ArrayList<GeneratorSettings>(  );
+
+        for ( FriendlyUrlGenerator generator : _listGenerators )
         {
-            GeneratorSettings gs = new GeneratorSettings();
-            String strKey = generator.getClass().getName();
+            GeneratorSettings gs = new GeneratorSettings(  );
+            String strKey = generator.getClass(  ).getName(  );
             gs.setKey( strKey );
-            gs.setName( generator.getName() );
+            gs.setName( generator.getName(  ) );
+
             String strPrefix = SEODataKeys.PREFIX_GENERATOR + strKey;
-            gs.setDefaultChangeFreq( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, "" ));
-            gs.setDefaultPriority( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_PRIORITY, "" ));
-            list.add(gs);
+            gs.setDefaultChangeFreq( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, "" ) );
+            gs.setDefaultPriority( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_PRIORITY, "" ) );
+            list.add( gs );
         }
+
         return list;
     }
 

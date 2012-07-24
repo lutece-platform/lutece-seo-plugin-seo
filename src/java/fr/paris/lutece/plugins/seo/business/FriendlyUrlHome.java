@@ -67,7 +67,7 @@ public final class FriendlyUrlHome
     public static FriendlyUrl create( FriendlyUrl friendlyUrl )
     {
         _dao.insert( friendlyUrl, _plugin );
-        notifyUpdate();
+        notifyUpdate(  );
 
         return friendlyUrl;
     }
@@ -80,7 +80,7 @@ public final class FriendlyUrlHome
     public static FriendlyUrl update( FriendlyUrl friendlyUrl )
     {
         _dao.store( friendlyUrl, _plugin );
-        notifyUpdate();
+        notifyUpdate(  );
 
         return friendlyUrl;
     }
@@ -92,7 +92,7 @@ public final class FriendlyUrlHome
     public static void remove( int nFriendlyUrlId )
     {
         _dao.delete( nFriendlyUrlId, _plugin );
-        notifyUpdate();
+        notifyUpdate(  );
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -116,13 +116,12 @@ public final class FriendlyUrlHome
     {
         return _dao.selectFriendlyUrlsList( _plugin );
     }
-    
+
     /**
      * On change
      */
-    private static void notifyUpdate()
+    private static void notifyUpdate(  )
     {
-        FriendlyUrlService.instance().resetCache();
+        FriendlyUrlService.instance(  ).resetCache(  );
     }
-    
 }

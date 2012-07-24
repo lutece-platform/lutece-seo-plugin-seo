@@ -35,8 +35,11 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Canonical Url Service
@@ -46,36 +49,35 @@ public class CanonicalUrlService
     private static final String HEAD = "<head>";
     private static final String COMMENT = "\n\t\t<!-- Canonical URL added by SEO plugin --> ";
     private static final String CANONICAL_TAG_BEGIN = "\n\t\t<link rel=\"canonical\" href=\"";
-    private static final String CANONICAL_TAG_END = "\" />\n"; 
-
-    private static CanonicalUrlService _singleton = new CanonicalUrlService();
+    private static final String CANONICAL_TAG_END = "\" />\n";
+    private static CanonicalUrlService _singleton = new CanonicalUrlService(  );
     private static boolean _bCanonical;
 
-    
-    private CanonicalUrlService()
+    private CanonicalUrlService(  )
     {
-        _bCanonical = DatastoreService.getDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
+        _bCanonical = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" )
+                                      .equals( DatastoreService.VALUE_TRUE );
     }
-    
-    public static CanonicalUrlService instance()
+
+    public static CanonicalUrlService instance(  )
     {
         return _singleton;
     }
-    
+
     /**
      * Tells if canonical urls are enabled
      * @return  True if canonical urls are enabled, otherwise false
      */
-    public boolean isCanonicalUrlsEnabled() 
+    public boolean isCanonicalUrlsEnabled(  )
     {
         return _bCanonical;
     }
 
     /**
      * Sets the status of Canonical URLs (Enabled  or Disabled)
-     * @param bEnabled 
+     * @param bEnabled
      */
-    public void setCanonicalUrlsEnabled( boolean bEnabled ) 
+    public void setCanonicalUrlsEnabled( boolean bEnabled )
     {
         _bCanonical = bEnabled;
     }
@@ -88,43 +90,48 @@ public class CanonicalUrlService
      * @param strBaseUrl The Base URL
      * @return The HTML page content with the canonical URL inserted
      */
-    public String addCanonicalUrl (String strContent, HttpServletRequest request, Map<String, String> mapFriendlyUrls, String strBaseUrl) 
+    public String addCanonicalUrl( String strContent, HttpServletRequest request, Map<String, String> mapFriendlyUrls,
+        String strBaseUrl )
     {
-        StringBuilder sbUrl = new StringBuilder();
-        sbUrl.append( request.getRequestURI().substring( request.getContextPath().length() + 1 ));
-        sbUrl.append( "?" ).append( request.getQueryString() );
-        String strFriendlyUrl = mapFriendlyUrls.get( sbUrl.toString() );
-        if( strFriendlyUrl != null )
+        StringBuilder sbUrl = new StringBuilder(  );
+        sbUrl.append( request.getRequestURI(  ).substring( request.getContextPath(  ).length(  ) + 1 ) );
+        sbUrl.append( "?" ).append( request.getQueryString(  ) );
+
+        String strFriendlyUrl = mapFriendlyUrls.get( sbUrl.toString(  ) );
+
+        if ( strFriendlyUrl != null )
         {
             return insertCanonicalUrl( strContent, strBaseUrl + strFriendlyUrl );
         }
+
         return strContent;
-        
     }
-    
+
     /**
      * Add canonical URL into an HTML page's content
      * @param strContent The HTML page's content
      * @param strUrl The canonical URL to insert
      * @return The HTML page content with the canonical URL inserted
      */
-    private String insertCanonicalUrl(String strContent, String strUrl ) 
+    private String insertCanonicalUrl( String strContent, String strUrl )
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(  );
         int nPos = strContent.indexOf( HEAD );
-        if( nPos < 0 )
+
+        if ( nPos < 0 )
         {
             AppLogService.error( "CanonicalUrl Service : no HEAD tag found in " + strUrl );
+
             return strContent;
         }
-        sb.append( strContent.substring(0, nPos + HEAD.length() ));
+
+        sb.append( strContent.substring( 0, nPos + HEAD.length(  ) ) );
         sb.append( COMMENT );
         sb.append( CANONICAL_TAG_BEGIN );
         sb.append( strUrl );
         sb.append( CANONICAL_TAG_END );
-        sb.append( strContent.substring( nPos + HEAD.length() ));
-        return sb.toString();
+        sb.append( strContent.substring( nPos + HEAD.length(  ) ) );
+
+        return sb.toString(  );
     }
-
-
 }

@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.plugins.seo.service.generator;
 
-import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGenerator;
-import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlUtils;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
+import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGenerator;
+import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -55,10 +55,8 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
     private static final String TECHNICAL_URL = "/jsp/site/Portal.jsp?page_id=";
     private static final String SLASH = "/";
     private static final String EMPTY = "";
-
     private static final String DEFAULT_CHANGE_FREQ = SitemapUtils.CHANGE_FREQ_VALUES[3];
     private static final String DEFAULT_PRIORITY = SitemapUtils.PRIORITY_VALUES[3];
-
     private boolean _bCanonical;
     private boolean _bSitemap;
     private String _strChangeFreq;
@@ -80,13 +78,15 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
     public String generate( List<FriendlyUrl> list, GeneratorOptions options )
     {
         StringBuilder sbLog = new StringBuilder(  );
-        
-         String strKeyPrefix = SEODataKeys.PREFIX_GENERATOR + getClass().getName();
-        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL, DatastoreService.VALUE_TRUE).equals( DatastoreService.VALUE_TRUE);
-        _bSitemap = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_SITEMAP, DatastoreService.VALUE_TRUE).equals( DatastoreService.VALUE_TRUE);
-        _strChangeFreq = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, DEFAULT_CHANGE_FREQ );
-        _strPriority = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_PRIORITY, DEFAULT_PRIORITY );
 
+        String strKeyPrefix = SEODataKeys.PREFIX_GENERATOR + getClass(  ).getName(  );
+        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL,
+                DatastoreService.VALUE_TRUE ).equals( DatastoreService.VALUE_TRUE );
+        _bSitemap = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_SITEMAP,
+                DatastoreService.VALUE_TRUE ).equals( DatastoreService.VALUE_TRUE );
+        _strChangeFreq = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ,
+                DEFAULT_CHANGE_FREQ );
+        _strPriority = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_PRIORITY, DEFAULT_PRIORITY );
 
         String strPath = EMPTY;
         findPage( list, PortalService.getRootPageId(  ), strPath, sbLog, options );

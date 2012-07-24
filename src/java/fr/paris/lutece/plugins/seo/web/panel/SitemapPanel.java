@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,12 +69,14 @@ public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
     @Override
     public String getContent(  )
     {
-        String strDeamon = DatastoreService.getDataValue(SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE);
+        String strDeamon = DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED,
+                DatastoreService.VALUE_FALSE );
 
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_LAST_GENERATION, DatastoreService.getDataValue(SEODataKeys.KEY_SITEMAP_UPDATE_LOG , "" ));
-        model.put( MARK_DAEMON_ENABLED, strDeamon.equals( DatastoreService.VALUE_TRUE ));
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_LAST_GENERATION, DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, "" ) );
+        model.put( MARK_DAEMON_ENABLED, strDeamon.equals( DatastoreService.VALUE_TRUE ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ), model );
 
         return template.getHtml(  );
     }

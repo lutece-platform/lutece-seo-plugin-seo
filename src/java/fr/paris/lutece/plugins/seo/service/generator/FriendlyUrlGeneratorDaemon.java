@@ -37,34 +37,42 @@ import fr.paris.lutece.plugins.seo.service.FriendlyUrlService;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+
 import java.text.DateFormat;
+
 import java.util.Date;
+
 
 /**
  * Sitemap Deamon
  */
-public class FriendlyUrlGeneratorDaemon extends Daemon 
+public class FriendlyUrlGeneratorDaemon extends Daemon
 {
     /**
      * {@inheritDoc }
      */
     @Override
-    public void run() 
+    public void run(  )
     {
-        String strDeamon = DatastoreService.getDataValue(SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE);
+        String strDeamon = DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED,
+                DatastoreService.VALUE_FALSE );
         String strLog = "Friendly Url Generator Deamon isn't enabled";
-        
-        if( strDeamon.equals( DatastoreService.VALUE_TRUE) )
+
+        if ( strDeamon.equals( DatastoreService.VALUE_TRUE ) )
         {
             GeneratorOptions options = new GeneratorOptions(  );
 
             options.setForceUpdate( false );
-            options.setAddPath( DatastoreService.getDataValue(SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ).equals( DatastoreService.VALUE_TRUE)); 
-            options.setHtmlSuffix( DatastoreService.getDataValue(SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ).equals( DatastoreService.VALUE_TRUE));
+            options.setAddPath( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" )
+                                                .equals( DatastoreService.VALUE_TRUE ) );
+            options.setHtmlSuffix( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" )
+                                                   .equals( DatastoreService.VALUE_TRUE ) );
 
             FriendlyUrlGeneratorService.instance(  ).generate( options );
-            strLog = "Friendly Url Generator Deamon last run : " + DateFormat.getDateTimeInstance().format( new Date() );
+            strLog = "Friendly Url Generator Deamon last run : " +
+                DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
         }
-        setLastRunLogs(strLog);
+
+        setLastRunLogs( strLog );
     }
 }

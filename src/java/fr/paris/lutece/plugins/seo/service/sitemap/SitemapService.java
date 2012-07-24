@@ -78,7 +78,6 @@ public class SitemapService
         String strSiteMapFilePath = AppPathService.getWebAppPath(  ) + FILE_SITEMAP;
         File fileSiteMap = new File( strSiteMapFilePath );
 
-
         String strResult = "OK";
 
         try
@@ -95,7 +94,7 @@ public class SitemapService
         Object[] args = { strDate, list.size(  ), strResult };
         String strLogFormat = I18nService.getLocalizedString( PROPERTY_SITEMAP_LOG, Locale.getDefault(  ) );
         String strLog = MessageFormat.format( strLogFormat, args );
-        DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG , strLog );
+        DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, strLog );
 
         return strLog;
     }

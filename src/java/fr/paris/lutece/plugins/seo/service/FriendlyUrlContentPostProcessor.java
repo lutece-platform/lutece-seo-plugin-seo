@@ -36,8 +36,8 @@ package fr.paris.lutece.plugins.seo.service;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FriendlyUrlContentPostProcessor extends AbstractCacheableService implements ContentPostProcessor
 {
     private static final String NAME = "SEO Friendly Url replacer";
+
     /**
      * {@inheritDoc }
      */
@@ -60,15 +61,16 @@ public class FriendlyUrlContentPostProcessor extends AbstractCacheableService im
      * {@inheritDoc }
      */
     @Override
-    public String process( HttpServletRequest request , String strContent )
-    {        
-        if( FriendlyUrlService.instance().isUrlReplaceEnabled() )
+    public String process( HttpServletRequest request, String strContent )
+    {
+        if ( FriendlyUrlService.instance(  ).isUrlReplaceEnabled(  ) )
         {
-            String strBaseUrl = AppPathService.getBaseUrl(request);
-            return FriendlyUrlUtils.replaceByFriendlyUrl( strContent , FriendlyUrlService.instance().getFriendlyUrlMap() , strBaseUrl );
-        }
-        return strContent;
+            String strBaseUrl = AppPathService.getBaseUrl( request );
 
+            return FriendlyUrlUtils.replaceByFriendlyUrl( strContent,
+                FriendlyUrlService.instance(  ).getFriendlyUrlMap(  ), strBaseUrl );
+        }
+
+        return strContent;
     }
-    
 }

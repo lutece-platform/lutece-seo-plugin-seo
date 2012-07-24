@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,13 +72,21 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
     @Override
     public String getContent(  )
     {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue(SEODataKeys.KEY_REWRITE_CONFIG_UPDATE , "" ));
-        model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue(SEODataKeys.KEY_CONFIG_UPTODATE , "" ).equals( DatastoreService.VALUE_TRUE));
-        model.put( MARK_URL_REPLACE, DatastoreService.getDataValue(SEODataKeys.KEY_URL_REPLACE_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
-        model.put( MARK_CANONICAL_URLS, DatastoreService.getDataValue(SEODataKeys.KEY_CANONICAL_URLS_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
-        model.put( MARK_FRIENDLY_URL_DAEMON, DatastoreService.getDataValue(SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED , "" ).equals( DatastoreService.VALUE_TRUE));
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) , model );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_REWRITE_CONFIG_UPDATE,
+            DatastoreService.getDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, "" ) );
+        model.put( MARK_CONFIG_UPTODATE,
+            DatastoreService.getDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "" ).equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_URL_REPLACE,
+            DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_CANONICAL_URLS,
+            DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" )
+                            .equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_FRIENDLY_URL_DAEMON,
+            DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, "" )
+                            .equals( DatastoreService.VALUE_TRUE ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ), model );
 
         return template.getHtml(  );
     }

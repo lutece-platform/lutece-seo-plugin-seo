@@ -36,8 +36,8 @@ package fr.paris.lutece.plugins.seo.service;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CanonicalUrlContentPostProcessor extends AbstractCacheableService implements ContentPostProcessor
 {
     private static final String NAME = "SEO Canonical Url replacer";
+
     /**
      * {@inheritDoc }
      */
@@ -60,15 +61,17 @@ public class CanonicalUrlContentPostProcessor extends AbstractCacheableService i
      * {@inheritDoc }
      */
     @Override
-    public String process( HttpServletRequest request , String strContent )
-    {        
-        if( CanonicalUrlService.instance().isCanonicalUrlsEnabled() )
+    public String process( HttpServletRequest request, String strContent )
+    {
+        if ( CanonicalUrlService.instance(  ).isCanonicalUrlsEnabled(  ) )
         {
-            String strBaseUrl = AppPathService.getBaseUrl(request);
-            return CanonicalUrlService.instance().addCanonicalUrl( strContent , request , FriendlyUrlService.instance().getCanonicalUrlMap() , strBaseUrl );
-        }
-        return strContent;
+            String strBaseUrl = AppPathService.getBaseUrl( request );
 
+            return CanonicalUrlService.instance(  )
+                                      .addCanonicalUrl( strContent, request,
+                FriendlyUrlService.instance(  ).getCanonicalUrlMap(  ), strBaseUrl );
+        }
+
+        return strContent;
     }
-    
 }

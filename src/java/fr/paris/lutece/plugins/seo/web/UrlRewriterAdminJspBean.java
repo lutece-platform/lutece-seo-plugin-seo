@@ -126,8 +126,8 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_MANAGE_URLREWRITERRULES );
         String strUrl = url.getUrl(  );
         Collection<UrlRewriterRule> listRules = UrlRewriterRuleHome.findAll(  );
-        LocalizedPaginator paginator = new LocalizedPaginator( (List<UrlRewriterRule>) listRules, _nItemsPerPage, strUrl,
-                PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex , getLocale() );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<UrlRewriterRule>) listRules, _nItemsPerPage,
+                strUrl, PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
 

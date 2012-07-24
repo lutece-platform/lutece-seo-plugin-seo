@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
+
 /**
  * SEO Data keys
  */
-public final class SEODataKeys 
+public final class SEODataKeys
 {
     public static final String KEY_SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
     public static final String KEY_REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
@@ -45,13 +46,12 @@ public final class SEODataKeys
     public static final String KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED = "seo.generator.daemon.enabled";
     public static final String KEY_URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
     public static final String KEY_CANONICAL_URLS_ENABLED = "seo.canonicalUrls.enabled";
-    public static final String KEY_GENERATOR_ADD_PATH ="seo.generator.option.addPath";
-    public static final String KEY_GENERATOR_ADD_HTML_SUFFIX ="seo.generator.option.addHtmlSuffix";
+    public static final String KEY_GENERATOR_ADD_PATH = "seo.generator.option.addPath";
+    public static final String KEY_GENERATOR_ADD_HTML_SUFFIX = "seo.generator.option.addHtmlSuffix";
     public static final String PREFIX_GENERATOR = "seo.generator.";
     public static final String SUFFIX_CANONICAL = ".canonical";
     public static final String SUFFIX_SITEMAP = ".sitemap";
     public static final String SUFFIX_CHANGE_FREQ = ".changeFreq";
     public static final String SUFFIX_LAST_MOD = ".lastMod";
     public static final String SUFFIX_PRIORITY = ".priority";
-    
 }

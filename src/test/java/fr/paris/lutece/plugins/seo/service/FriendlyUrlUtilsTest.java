@@ -48,6 +48,7 @@ public class FriendlyUrlUtilsTest
 {
     private static final String SOURCE = "<html> <body> <a href=\"toto\" >toto</a> text <a href=\"titi\" >titi</a> <a href=\"http://lutece.paris.fr/mywebapp/tutu\"> tutu </a>  </body></html>";
     private static final String BASE_URL = "http://lutece.paris.fr/mywebapp/";
+
     /**
      * Test of convertToAlias method, of class GeneratorUtils.
      */
@@ -59,7 +60,7 @@ public class FriendlyUrlUtilsTest
         String strSource = "L'élément à intégrer";
         String expResult = "l-element-a-integrer";
         String result = FriendlyUrlUtils.convertToFriendlyUrl( strSource );
-        assertEquals(expResult, result);
+        assertEquals( expResult, result );
     }
 
     /**
@@ -75,7 +76,7 @@ public class FriendlyUrlUtilsTest
         map.put( "toto", "replaced" );
         map.put( "tutu", "replaced" );
 
-        String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map , BASE_URL );
+        String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map, BASE_URL );
         System.out.println( result );
     }
 }

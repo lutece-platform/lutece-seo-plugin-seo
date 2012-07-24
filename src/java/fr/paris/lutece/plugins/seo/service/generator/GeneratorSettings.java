@@ -33,87 +33,86 @@
  */
 package fr.paris.lutece.plugins.seo.service.generator;
 
+
 /**
- * Generator Settings 
+ * Generator Settings
  */
-public class GeneratorSettings 
+public class GeneratorSettings
 {
     private String _strKey;
     private String _strName;
     private String _strDefaultChangeFreq;
     private String _strDefaultPriority;
-    
-    
-       /**
-        * Returns the Key
-        * @return The Key
-        */ 
-    public String getKey()
+
+    /**
+     * Returns the Key
+     * @return The Key
+     */
+    public String getKey(  )
     {
         return _strKey;
     }
-    
-       /**
-        * Sets the Key
-        * @param strKey The Key
-        */ 
+
+    /**
+     * Sets the Key
+     * @param strKey The Key
+     */
     public void setKey( String strKey )
     {
         _strKey = strKey;
     }
-    
-       /**
-        * Returns the Name
-        * @return The Name
-        */ 
-    public String getName()
+
+    /**
+     * Returns the Name
+     * @return The Name
+     */
+    public String getName(  )
     {
         return _strName;
     }
-    
-       /**
-        * Sets the Name
-        * @param strName The Name
-        */ 
+
+    /**
+     * Sets the Name
+     * @param strName The Name
+     */
     public void setName( String strName )
     {
         _strName = strName;
     }
-    
-       /**
-        * Returns the DefaultChangeFreq
-        * @return The DefaultChangeFreq
-        */ 
-    public String getDefaultChangeFreq()
+
+    /**
+     * Returns the DefaultChangeFreq
+     * @return The DefaultChangeFreq
+     */
+    public String getDefaultChangeFreq(  )
     {
         return _strDefaultChangeFreq;
     }
-    
-       /**
-        * Sets the DefaultChangeFreq
-        * @param strDefaultChangeFreq The DefaultChangeFreq
-        */ 
+
+    /**
+     * Sets the DefaultChangeFreq
+     * @param strDefaultChangeFreq The DefaultChangeFreq
+     */
     public void setDefaultChangeFreq( String strDefaultChangeFreq )
     {
         _strDefaultChangeFreq = strDefaultChangeFreq;
     }
-    
-       /**
-        * Returns the DefaultPriority
-        * @return The DefaultPriority
-        */ 
-    public String getDefaultPriority()
+
+    /**
+     * Returns the DefaultPriority
+     * @return The DefaultPriority
+     */
+    public String getDefaultPriority(  )
     {
         return _strDefaultPriority;
     }
-    
-       /**
-        * Sets the DefaultPriority
-        * @param strDefaultPriority The DefaultPriority
-        */ 
+
+    /**
+     * Sets the DefaultPriority
+     * @param strDefaultPriority The DefaultPriority
+     */
     public void setDefaultPriority( String strDefaultPriority )
     {
         _strDefaultPriority = strDefaultPriority;
     }
-     
 }
