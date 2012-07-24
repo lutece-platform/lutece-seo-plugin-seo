@@ -1,6 +1,17 @@
-  
+<div id="content-box-actions">
+    <form method="post"  action="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
+    </form>
+
+    <form method="post"  action="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerateAlias}" class="button" />
+    </form>
+
+</div>
+
   <div class="content-box" >
-    <h2>#i18n{seo.manage_friendly_urls.labelUrlList}</h2>    
+    <h2>#i18n{seo.manage_friendly_urls.labelUrlList}</h2>
+    <@paginationAdmin paginator=paginator combo=1 />
     <table>
         <tr>
             <th>URL explicite</th>
@@ -45,14 +56,7 @@
         </tr>
         </#list>
     </table>
-
-    <form method="post"  action="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
-        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
-    </form>
-
-    <form method="post"  action="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
-        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerateAlias}" class="button" />
-    </form>
+    <@paginationAdmin paginator=paginator />
 
 </div>
 

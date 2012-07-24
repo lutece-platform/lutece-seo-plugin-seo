@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
@@ -155,9 +156,9 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_URL_MANAGE_FRIENDLY_URLS );
         String strUrl = url.getUrl(  );
-        Collection<FriendlyUrl> listURLREWRITERRULEs = FriendlyUrlHome.findAll(  );
-        Paginator paginator = new Paginator( (List<FriendlyUrl>) listURLREWRITERRULEs, _nItemsPerPage, strUrl,
-                PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex );
+        Collection<FriendlyUrl> listFrinedlyUrls = FriendlyUrlHome.findAll(  );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<FriendlyUrl>) listFrinedlyUrls, _nItemsPerPage, strUrl,
+                PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex , getLocale() );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
 

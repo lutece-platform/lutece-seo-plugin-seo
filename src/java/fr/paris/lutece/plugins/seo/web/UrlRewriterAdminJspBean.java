@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
@@ -124,9 +125,9 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_MANAGE_URLREWRITERRULES );
         String strUrl = url.getUrl(  );
-        Collection<UrlRewriterRule> listURLREWRITERRULEs = UrlRewriterRuleHome.findAll(  );
-        Paginator paginator = new Paginator( (List<UrlRewriterRule>) listURLREWRITERRULEs, _nItemsPerPage, strUrl,
-                PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex );
+        Collection<UrlRewriterRule> listRules = UrlRewriterRuleHome.findAll(  );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<UrlRewriterRule>) listRules, _nItemsPerPage, strUrl,
+                PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex , getLocale() );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
 

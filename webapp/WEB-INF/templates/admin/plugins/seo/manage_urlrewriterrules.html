@@ -1,6 +1,16 @@
-  
-  <div class="content-box" >
+<div id="content-box-actions">
+    <form method="post"  action="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
+    </form>
+
+    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
+        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerate}" class="button" />
+    </form>
+</div>
+
+<div class="content-box" >
     <h2>#i18n{seo.manage_urlrewriterrules.labelRules}</h2>    
+    <@paginationAdmin paginator=paginator combo=1 />
     <table>
         <tr>
  			<th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</th>
@@ -24,14 +34,8 @@
         </tr>
         </#list>
     </table>
+    <@paginationAdmin paginator=paginator />
 
-    <form method="post"  action="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp">
-        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonCreate}" class="button" />
-    </form>
-
-    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
-        <input type="submit" value="#i18n{seo.manage_urlrewriterrules.buttonGenerate}" class="button" />
-    </form>
 </div>
 
   

@@ -1,47 +1,39 @@
 
-
-
-
-
-
-
-
-
 <div class="content-box" >
     <h2>#i18n{seo.generate_friendly_urls.labelTitle}</h2>
 
-        <div class="highlight-box">
-            <div class="highlight-box-content">
+    <div class="highlight-box">
+        <div class="highlight-box-content">
 
-                <h3>#i18n{seo.generate_friendly_urls.labelGeneratorsList}</h3>
-                <p>
-                <table>
-                    <th>G&eacute;n&eacute;rateur</th>
-                    <th>Fr&eacute;quence de modification par d&eacute;faut</th>
-                    <th>Priorit&eacute; par d&eacute;faut</th>
-                    <th>Action</th>
-                    <#list generators_list as generator>
-                    <form action="jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp" method="POST">
-                        <input type="hidden" name="generator_key" value="${generator.key}" />
-                        <tr>    
-                    <td>${generator.name}</td>
-                    <td><@combo name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq /></td>
-                    <td><@combo name="priority"  items=priority_list default_value=generator.defaultPriority /></td>
-                    <td><input type="submit" class="button" value="Modifier" /></td>
-                        </tr>
-                    </form>
-                    </#list>
-                </table>
-                </p>
-            </div>
+            <h3>#i18n{seo.generate_friendly_urls.labelGeneratorsList}</h3>
+            <p>
+            <table>
+                <th>G&eacute;n&eacute;rateur</th>
+                <th>Fr&eacute;quence de modification par d&eacute;faut</th>
+                <th>Priorit&eacute; par d&eacute;faut</th>
+                <th>Action</th>
+                <#list generators_list as generator>
+                <form action="jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp" method="POST">
+                    <input type="hidden" name="generator_key" value="${generator.key}" />
+                    <tr>    
+                        <td>${generator.name}</td>
+                        <td><@combo name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq /></td>
+                        <td><@combo name="priority"  items=priority_list default_value=generator.defaultPriority /></td>
+                        <td><input type="submit" class="button" value="Modifier" /></td>
+                    </tr>
+                </form>
+                </#list>
+            </table>
+            </p>
         </div>
+    </div>
 
-    <form method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
-        <div class="highlight-box">
-            <div class="highlight-box-content">
-
-
+    <div class="highlight-box">
+        <div class="highlight-box-content">
+            <form method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
                 <h3>#i18n{seo.generate_friendly_urls.labelOptions}</h3>    
+                <input class="button-right" type="submit" value="#i18n{seo.generate_friendly_urls.buttonGenerate}" />
+
                 <p>
                     <label for="option_force_update">#i18n{seo.generate_friendly_urls.optionForceUpdate}</label>
                     <input name="option_force_update" id="option_force_update" type="checkbox" class="checkbox" value="on"/> 
@@ -56,11 +48,7 @@
                     <input name="option_html_suffix" id="option_html_suffix" type="checkbox" class="checkbox" value="on"/> 
                 </p>
 
-            </div>
+            </form>
         </div>
-        <p>
-            <input type="submit" value="#i18n{seo.generate_friendly_urls.buttonGenerate}" class="button" />
-        </p>
-    </form>
-
+    </div>
 </div>
