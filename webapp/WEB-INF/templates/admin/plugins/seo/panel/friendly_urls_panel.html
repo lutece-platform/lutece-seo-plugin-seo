@@ -1,5 +1,9 @@
 <div class="highlight-box">
     <div class="highlight-box-content" >
+        <form action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
+            <input type="hidden" name="plugin_name" value ="seo" />
+            <input type="submit" class="button-right" value="G&eacute;rer les URL explicites" />
+        </form>
         <p>
             Le r&eacute;f&eacute;rencement est am&eacute;lior&eacute; lorsque les URL des pages du sites sont explicites,
             c'est &agrave; dire qu'elles contiennent que des termes lisibles et non techniques.
@@ -8,15 +12,14 @@
             correspondantes. Les r&egrave;gles de redirection sont d&eacute;crites dans un fichier qu'il convient
             de reg&eacute;n&eacute;rer d&egrave;s que des nouvelles r&egrave;gles ont &eacute;t&eacute; ajout&eacute;es.
         </p>
-        <form action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
-            <input type="hidden" name="plugin_name" value ="seo" />
-            <input type="submit" class="button" value="G&eacute;rer les URL explicites" />
-        </form>
     </div>
 </div>
 
 <div class="highlight-box">
     <div class="highlight-box-content" >
+        <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
+            <input class="button-right" type="submit" value="Mettre &agrave; jour le fichier de configuration" />
+        </form>
         <p>
             ${rewrite_onfig_last_update}
         </p>
@@ -27,11 +30,32 @@
             <img src="images/admin/skin/plugins/seo/warning.png" alt="warning" /> Le fichier de configuration n'est pas &agrave; jour.
             </#if>
         </p>
-        <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
-            <input type="submit" value="Mettre &agrave; jour le fichier de configuration" class="button" />
-        </form>
     </div>
 </div>
+
+
+<div class="highlight-box">
+    <div class="highlight-box-content" >
+        
+            <#if friendly_url_daemon >
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
+                <input class="button-right" type="submit" value="D&eacute;sactiver la g&eacute;n&eacute;ration automatique d'URL explicites" />
+            </form>
+            <img src="images/admin/skin/enable.png" alt="on" /> 
+            La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources est activ&eacute;e.
+            <#else>
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
+                <input class="button-right" type="submit" value="Activer la g&eacute;n&eacute;ration automatique d'URL explicites" />
+            </form>
+            <img src="images/admin/skin/disable.png" alt="off" />
+            La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources n'est pas activ&eacute;e.
+            </#if>
+        
+    </div>
+</div>
+
 
 <div class="highlight-box">
     <div class="highlight-box-content" >
@@ -41,70 +65,54 @@
             a un l&eacute;ger impact sur les performances. Elle ne doit &ecirc;tre activ&eacute;e que
             si des URL explicites sont utilis&eacute;es.
         </p>
-        <p>
+        
             <#if url_replace >
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="replace_url_in_content" />
+                <input class="button-right" type="submit" value="D&eacute;sactiver la r&eacute;&eacute;criture des liens dans les pages" />
+            </form>
             <img src="images/admin/skin/enable.png" alt="on" /> 
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
+            
+            <#else>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
                 <input type="hidden" name="toggle" value="replace_url_in_content" />
-                <input type="submit" value="D&eacute;sactiver la r&eacute;&eacute;criture des liens dans les pages" class="button" />
+                <input class="button-right" type="submit" value="Activer la r&eacute;&eacute;criture des liens dans les pages" />
             </form>
-            <#else>
             <img src="images/admin/skin/disable.png" alt="off" />
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
-                <input type="hidden" name="toggle" value="replace_url_in_content" />
-                <input type="submit" value="Activer la r&eacute;&eacute;criture des liens dans les pages" class="button" />
-            </form>
             </#if>
-        </p>
+        
     </div>
 </div>
 
 
 <div class="highlight-box">
     <div class="highlight-box-content" >
+        <h3>URL canoniques bas&eacute;es sur les URL explicites</h3>
         <p>
-            <#if canonical_urls >
+        Lorsque plusieurs URL renvoient le m&ecirc;me contenu (URL technique et URL explicite par exemple), les 
+        moteurs de recherche souhaite conna&icirc;tre celle qui fait foi et s'assurer qu'il ne s'agit
+        pas de contenu dupliq&eacute;. L'URL canonique permet de d&eacute;finir l'URL &agrave; prendre en compte 
+        par les moteurs.
+        <a href="http://support.google.com/webmasters/bin/answer.py?hl=fr&answer=139394" title="Lien vers site Google"> En savoir plus ... </a>
+        </p>
+        <#if canonical_urls >
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="add_canonical_url" />
+                <input class="button-right" type="submit" value="D&eacute;sactiver l'insertion de l'URL canonique dans la page" />
+            </form>
             <img src="images/admin/skin/enable.png" alt="on" /> 
             L'ajout de l'URL canonique dans la page est activ&eacute;e.
+         <#else>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
                 <input type="hidden" name="toggle" value="add_canonical_url" />
-                <input type="submit" value="D&eacute;sactiver l'insertion des URL canoniques dans les pages" class="button" />
+                <input class="button-right" type="submit" value="Activer l'insertion de l'URL canonique dans la page" />
             </form>
-            <#else>
             <img src="images/admin/skin/disable.png" alt="off" />
              L'ajout de l'URL canonique dans la page n'est pas activ&eacute;e.
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
-                <input type="hidden" name="toggle" value="add_canonical_url" />
-                <input type="submit" value="Activer l'insertion des URL canoniques dans les pages" class="button" />
-            </form>
-            </#if>
-        </p>
+         </#if>
     </div>
 </div>
 
 
-
-
-<div class="highlight-box">
-    <div class="highlight-box-content" >
-        <p>
-            <#if friendly_url_daemon >
-            <img src="images/admin/skin/enable.png" alt="on" /> 
-            La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources est activ&eacute;e.
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
-                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
-                <input type="submit" value="D&eacute;sactiver la g&eacute;n&eacute;ration automatique d'URL explicites" class="button" />
-            </form>
-            <#else>
-            <img src="images/admin/skin/disable.png" alt="off" />
-            La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources n'est pas activ&eacute;e.
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
-                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
-                <input type="submit" value="Activer la g&eacute;n&eacute;ration automatique d'URL explicites" class="button" />
-            </form>
-            </#if>
-        </p>
-    </div>
-</div>
