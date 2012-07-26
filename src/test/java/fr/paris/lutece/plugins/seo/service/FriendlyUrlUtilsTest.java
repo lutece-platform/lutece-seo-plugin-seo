@@ -46,7 +46,7 @@ import java.util.Map;
  */
 public class FriendlyUrlUtilsTest
 {
-    private static final String SOURCE = "<html> <body> <a href=\"toto\" >toto</a> text <a href=\"titi\" >titi</a> <a href=\"http://lutece.paris.fr/mywebapp/tutu\"> tutu </a>  </body></html>";
+    private static final String SOURCE = "<html> <body> <a id=\"link\" href=\"toto\" >toto</a> text <a href=\"titi\" >titi</a> <a href=\"http://lutece.paris.fr/mywebapp/tutu\"> tutu </a>  </body></html>";
     private static final String BASE_URL = "http://lutece.paris.fr/mywebapp/";
 
     /**

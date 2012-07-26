@@ -46,7 +46,8 @@ import java.util.Map;
  */
 public class FriendlyUrlUtils
 {
-    private static final String ANCHOR = "<a href=\"";
+    private static final String ANCHOR = "<a ";
+    private static final String HREF = "href=\"";
     private static final String END_URL = "\"";
     private static final String SLASH = "/";
 
@@ -80,16 +81,16 @@ public class FriendlyUrlUtils
 
         while ( nPos >= 0 )
         {
-            nPosBeginUrl = nPos + ANCHOR.length(  );
-            sbOutput.append( strCurrent.substring( 0, nPosBeginUrl ) );
-            strCurrent = strCurrent.substring( nPosBeginUrl );
+            String strEnd = strCurrent.substring( nPos );
+            nPosBeginUrl = strEnd.indexOf( HREF ) + HREF.length(  );
+            sbOutput.append( strCurrent.substring( 0, nPos + nPosBeginUrl ) );
+            strCurrent = strEnd.substring( nPosBeginUrl );
             nPosEndUrl = strCurrent.indexOf( END_URL );
             strUrl = strCurrent.substring( 0, nPosEndUrl );
             strUrl = removeBaseUrl( strUrl, strBaseUrl );
             strFriendlyUrl = map.get( strUrl );
             sbOutput.append( ( strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
 
-            // FIXME remove trace
             if ( strFriendlyUrl != null )
             {
                 AppLogService.debug( "Url : " + strUrl + " replaced by : " + strFriendlyUrl );
