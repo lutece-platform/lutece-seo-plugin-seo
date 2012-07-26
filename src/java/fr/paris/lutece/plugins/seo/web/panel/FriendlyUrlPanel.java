@@ -49,7 +49,7 @@ import java.util.Map;
 public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
 {
     private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/friendly_urls_panel.html";
-    private static final String MARK_REWRITE_CONFIG_UPDATE = "rewrite_onfig_last_update";
+    private static final String MARK_REWRITE_CONFIG_UPDATE = "rewrite_config_last_update";
     private static final String MARK_CONFIG_UPTODATE = "config_uptodate";
     private static final String MARK_URL_REPLACE = "url_replace";
     private static final String MARK_CANONICAL_URLS = "canonical_urls";

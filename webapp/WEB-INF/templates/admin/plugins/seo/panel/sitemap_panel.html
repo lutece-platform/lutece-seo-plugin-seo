@@ -9,7 +9,8 @@
             Sitemap et de recueillir des informations sur ces URL &agrave; l'aide des m&eacute;tadonn&eacute;es associ&eacute;es. 
         </p>    
         <p>
-            <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">En savoir plus ...</a>
+            <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">
+                <img class="text-icon" src="images/admin/skin/documentation.png" /> En savoir plus ...</a>
         </p>
 
         <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
@@ -27,13 +28,13 @@
                 <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
                     <input class="button-right" type="submit" value="D&eacute;sactiver la mise &agrave; jour automatique" />
                 </form>
-                <img src="images/admin/skin/enable.png" alt="on" /> 
+                <img class="text-icon" src="images/admin/skin/enable.png" alt="on" /> 
                 La mise &agrave; jour automatique est activ&eacute;e.
             <#else>
                 <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
                     <input class="button-right" type="submit" value="Activer la mise &agrave; jour automatique" />
                 </form>
-                <img src="images/admin/skin/disable.png" alt="off" />
+                <img class="text-icon" src="images/admin/skin/disable.png" alt="off" />
                 La mise &agrave; jour automatique n'est pas activ&eacute;e.
             </#if>
            
