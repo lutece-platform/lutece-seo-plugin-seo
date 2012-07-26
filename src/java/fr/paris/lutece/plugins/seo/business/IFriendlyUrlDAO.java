@@ -69,7 +69,7 @@ public interface IFriendlyUrlDAO
 
     /**
      * Load the data from the table
-     * @param strId The identifier of the friendlyUrl
+     * @param nKey The identifier of the friendlyUrl
      * @param plugin the Plugin
      * @return The instance of the friendlyUrl
      */

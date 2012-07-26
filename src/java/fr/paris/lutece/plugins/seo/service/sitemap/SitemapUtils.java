@@ -43,17 +43,24 @@ import java.text.SimpleDateFormat;
 /**
  * Sitemap Utils
  */
-public class SitemapUtils
+public final class SitemapUtils
 {
     public static final String[] CHANGE_FREQ_VALUES = 
         {
-            "always", "hourly", "daily", "weekly", "monthly", "yearly", "never"
+            "always", "hourly", "daily", "weekly", "monthly", "yearly", "never",
         };
     public static final String[] PRIORITY_VALUES = 
         {
-            "1.0", "0.9", "0.8", "0.7", "0.6", "0.5", "0.4", "0.3", "0.2", "0.1", "0.0"
+            "1.0", "0.9", "0.8", "0.7", "0.6", "0.5", "0.4", "0.3", "0.2", "0.1", "0.0",
         };
     private static SimpleDateFormat _formater = new SimpleDateFormat( "yyyy-MM-dd" );
+
+    /**
+     * Private constructor
+     */
+    private SitemapUtils(  )
+    {
+    }
 
     /**
      * Date formater using Sitemaps standard

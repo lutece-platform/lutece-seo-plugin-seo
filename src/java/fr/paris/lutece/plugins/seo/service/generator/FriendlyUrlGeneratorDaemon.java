@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.seo.service.generator;
 
-import fr.paris.lutece.plugins.seo.service.FriendlyUrlService;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;

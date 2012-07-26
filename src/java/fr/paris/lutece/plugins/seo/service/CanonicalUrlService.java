@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Canonical Url Service
  */
-public class CanonicalUrlService
+public final class CanonicalUrlService
 {
     private static final String HEAD = "<head>";
     private static final String COMMENT = "\n\t\t<!-- Canonical URL added by SEO plugin --> ";
@@ -59,7 +59,7 @@ public class CanonicalUrlService
                                       .equals( DatastoreService.VALUE_TRUE );
     }
 
-    public static CanonicalUrlService instance(  )
+    public static synchronized CanonicalUrlService instance(  )
     {
         return _singleton;
     }

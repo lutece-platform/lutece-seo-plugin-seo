@@ -52,19 +52,35 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 /**
  * Sitemap Service
  */
-public class SitemapService
+public final class SitemapService
 {
     private static final String TEMPLATE_SITEMAP_XML = "/admin/plugins/seo/sitemap.xml";
     private static final String MARK_URLS_LIST = "urls_list";
     private static final String FILE_SITEMAP = "/sitemap.xml";
     private static final String PROPERTY_SITEMAP_LOG = "seo.sitemap.log";
 
+    /**
+     * Private Constructor
+     */
+    private SitemapService(  )
+    {
+    }
+
+    /**
+     * Generate Sitemap
+     * @return The sitemap content
+     */
     public static String generateSitemap(  )
     {
         List<FriendlyUrl> list = getSitemapUrls(  );
@@ -99,6 +115,10 @@ public class SitemapService
         return strLog;
     }
 
+    /**
+     * Get sitemap URLs
+     * @return The list of URL to add to sitemap
+     */
     private static List<FriendlyUrl> getSitemapUrls(  )
     {
         List<FriendlyUrl> list = new ArrayList<FriendlyUrl>(  );

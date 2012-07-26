@@ -45,8 +45,8 @@ public class FriendlyUrl
     private int _nIdUrl;
     private String _strFriendlyUrl;
     private String _strTechnicalUrl;
-    private Timestamp _DateCreation;
-    private Timestamp _DateModification;
+    private Timestamp _dateCreation;
+    private Timestamp _dateModification;
     private boolean _bCanonical;
     private boolean _bSitemap;
     private String _strSitemapLastmod;
@@ -120,17 +120,17 @@ public class FriendlyUrl
      */
     public Timestamp getDateCreation(  )
     {
-        return _DateCreation;
+        return _dateCreation;
     }
 
     /**
      * Sets the DateCreation
      *
-     * @param DateCreation The DateCreation
+     * @param dateCreation The DateCreation
      */
-    public void setDateCreation( Timestamp DateCreation )
+    public void setDateCreation( Timestamp dateCreation )
     {
-        _DateCreation = DateCreation;
+        _dateCreation = dateCreation;
     }
 
     /**
@@ -140,17 +140,17 @@ public class FriendlyUrl
      */
     public Timestamp getDateModification(  )
     {
-        return _DateModification;
+        return _dateModification;
     }
 
     /**
      * Sets the DateModification
      *
-     * @param DateModification The DateModification
+     * @param dateModification The DateModification
      */
-    public void setDateModification( Timestamp DateModification )
+    public void setDateModification( Timestamp dateModification )
     {
-        _DateModification = DateModification;
+        _dateModification = dateModification;
     }
 
     /**

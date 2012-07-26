@@ -45,7 +45,7 @@ import java.util.Map;
 /**
  * Friendly Url Service
  */
-public class FriendlyUrlService extends AbstractCacheableService
+public final class FriendlyUrlService extends AbstractCacheableService
 {
     private static final String CACHE_KEY = "friendly_url_cache_key";
     private static final String CACHE_KEY_CANONICAL = "canonical_url_cache_key";
@@ -53,6 +53,9 @@ public class FriendlyUrlService extends AbstractCacheableService
     private static FriendlyUrlService _singleton = new FriendlyUrlService(  );
     private static boolean _bReplaceUrl;
 
+    /**
+     * Private constructor
+     */
     private FriendlyUrlService(  )
     {
         initCache(  );
@@ -69,7 +72,11 @@ public class FriendlyUrlService extends AbstractCacheableService
         return NAME;
     }
 
-    public static FriendlyUrlService instance(  )
+    /**
+     * Return the unique instance
+     * @return The instance
+     */
+    public static synchronized FriendlyUrlService instance(  )
     {
         return _singleton;
     }
@@ -136,7 +143,7 @@ public class FriendlyUrlService extends AbstractCacheableService
 
     /**
      * Set enabled or disabled the Url Replace Service
-     * @param bEnabled
+     * @param bEnabled The service status
      */
     public void setUrlReplaceEnabled( boolean bEnabled )
     {

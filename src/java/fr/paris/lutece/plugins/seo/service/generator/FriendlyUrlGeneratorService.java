@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * Alias Generator Service
  */
-public class FriendlyUrlGeneratorService
+public final class FriendlyUrlGeneratorService
 {
     private static final String SUFFIX_HTML = ".html";
     private static final int NOT_FOUND = -1;
@@ -121,6 +121,12 @@ public class FriendlyUrlGeneratorService
         return list;
     }
 
+    /**
+     * Process rules list
+     * @param listRules The rule list
+     * @param listExisting The existing rules
+     * @param options Oprions
+     */
     private void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting,
         GeneratorOptions options )
     {
@@ -161,6 +167,12 @@ public class FriendlyUrlGeneratorService
         }
     }
 
+    /**
+     * Get existing rule if
+     * @param listExisting The list of existing rules
+     * @param url The URL
+     * @return The ID
+     */
     private int getExistingRuleId( Collection<FriendlyUrl> listExisting, FriendlyUrl url )
     {
         for ( FriendlyUrl u : listExisting )

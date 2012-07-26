@@ -44,12 +44,19 @@ import java.util.Map;
 /**
  * Friendly URL Utils
  */
-public class FriendlyUrlUtils
+public final class FriendlyUrlUtils
 {
     private static final String ANCHOR = "<a ";
     private static final String HREF = "href=\"";
     private static final String END_URL = "\"";
     private static final String SLASH = "/";
+
+    /**
+     * Private constructor
+     */
+    private FriendlyUrlUtils(  )
+    {
+    }
 
     /**
      * Normalize a string to a friendly URL
@@ -66,6 +73,7 @@ public class FriendlyUrlUtils
      * Replace in the source all URL found in the map
      * @param strSource The source
      * @param map The Map that contains Friendly URL mapping
+     * @param strBaseUrl The base URL
      * @return The source with found URL replaced
      */
     public static String replaceByFriendlyUrl( String strSource, Map<String, String> map, String strBaseUrl )
@@ -105,11 +113,22 @@ public class FriendlyUrlUtils
         return sbOutput.toString(  );
     }
 
+    /**
+     * Clean leading slash character
+     * @param strUrl The source
+     * @return The cleaned URL
+     */
     public static String cleanSlash( String strUrl )
     {
         return ( strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length(  ) ) : strUrl );
     }
 
+    /**
+     * Remove base URL
+     * @param strUrl The absolute URL
+     * @param strBaseUrl The base URL
+     * @return The relative URL
+     */
     private static String removeBaseUrl( String strUrl, String strBaseUrl )
     {
         return ( strUrl.startsWith( strBaseUrl ) ? strUrl.substring( strBaseUrl.length(  ), strUrl.length(  ) ) : strUrl );

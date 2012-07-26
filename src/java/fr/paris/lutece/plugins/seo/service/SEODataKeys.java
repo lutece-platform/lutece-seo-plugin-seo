@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.seo.service;
 
 
 /**
- * SEO Data keys
+ * SEO Data keys used to store datas using DatastoreService
  */
 public final class SEODataKeys
 {
@@ -54,4 +54,11 @@ public final class SEODataKeys
     public static final String SUFFIX_CHANGE_FREQ = ".changeFreq";
     public static final String SUFFIX_LAST_MOD = ".lastMod";
     public static final String SUFFIX_PRIORITY = ".priority";
+
+    /**
+     * Private constructor
+     */
+    private SEODataKeys(  )
+    {
+    }
 }

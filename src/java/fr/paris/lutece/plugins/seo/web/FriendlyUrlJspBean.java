@@ -35,7 +35,10 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
-import fr.paris.lutece.plugins.seo.service.*;
+import fr.paris.lutece.plugins.seo.service.CanonicalUrlService;
+import fr.paris.lutece.plugins.seo.service.FriendlyUrlService;
+import fr.paris.lutece.plugins.seo.service.RuleFileService;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGeneratorService;
 import fr.paris.lutece.plugins.seo.service.generator.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
@@ -441,6 +444,9 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         return getHomeUrl( request );
     }
 
+    /**
+     * Toggle replace URL in content (enabled/disabled)
+     */
     private void toggleReplaceUrl(  )
     {
         String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED,
@@ -460,6 +466,9 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         }
     }
 
+    /**
+     * Toggle add Canonical URL in content (enabled/disabled)
+     */
     private void toggleCanonicalUrls(  )
     {
         String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED,
@@ -479,6 +488,9 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
         }
     }
 
+    /**
+     * Toggle start Friendly URL daemon (enabled/disabled)
+     */
     private void toggleFriendlyUrlDaemon(  )
     {
         String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED,

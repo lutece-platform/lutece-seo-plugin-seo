@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.seo.service.generator;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlUtils;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
-import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGenerator;
 import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
