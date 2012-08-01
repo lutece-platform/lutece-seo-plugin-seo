@@ -33,8 +33,14 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
+import fr.paris.lutece.test.LuteceTestCase;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import org.junit.*;
-import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,9 +50,9 @@ import java.util.Map;
  *
  * @author pierre
  */
-public class FriendlyUrlUtilsTest
+public class FriendlyUrlUtilsTest extends LuteceTestCase
 {
-    private static final String SOURCE = "<html> <body> <a id=\"link\" href=\"toto\" >toto</a> text <a href=\"titi\" >titi</a> <a href=\"http://lutece.paris.fr/mywebapp/tutu\"> tutu </a>  </body></html>";
+    private static final String SOURCE = "page.html";
     private static final String BASE_URL = "http://lutece.paris.fr/mywebapp/";
 
     /**
@@ -67,16 +73,60 @@ public class FriendlyUrlUtilsTest
      * Test of replaceLink method, of class GeneratorUtils.
      */
     @Test
-    public void testReplaceByFriendlyUrl(  )
+    public void testReplaceByFriendlyUrl(  ) throws IOException
     {
         System.out.println( "replaceByFriendlyUrl" );
 
-        String strSource = SOURCE;
+        String strSource = getFileContent( SOURCE );
         Map<String, String> map = new HashMap<String, String>(  );
         map.put( "toto", "replaced" );
         map.put( "tutu", "replaced" );
 
         String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map, BASE_URL );
+        
+        int nReplacementCount = 0;
+        int nPos = result.indexOf( "replaced" );
+        while( nPos != -1 )
+        {
+            nReplacementCount++ ;
+            nPos = result.indexOf( "replaced" , nPos + 1 );
+        }
+            
+        assertEquals( nReplacementCount, 3 );
         System.out.println( result );
     }
+    
+    public String getFileContent( String strResource ) throws IOException
+    {
+        InputStream is = getClass(  ).getResourceAsStream( "/" + strResource );
+        InputStreamReader isr = new InputStreamReader( is );
+        BufferedReader in = new BufferedReader( isr );
+        Writer writer = new StringWriter(  );
+
+        if ( in != null )
+        {
+            char[] buffer = new char[1024];
+
+            try
+            {
+                int n;
+
+                while ( ( n = in.read( buffer ) ) != -1 )
+                {
+                    writer.write( buffer, 0, n );
+                }
+            }
+            finally
+            {
+                isr.close(  );
+            }
+
+            return writer.toString(  );
+        }
+        else
+        {
+            return "";
+        }
+    }
+
 }

@@ -1,9 +1,7 @@
-<div class="highlight-box">
-    <div class="highlight-box-content" >
-        <form action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
-            <input type="hidden" name="plugin_name" value ="seo" />
-            <input type="submit" class="button-right" value="G&eacute;rer les URL explicites" />
-        </form>
+
+<div class="row-fluid">  
+<div class="well span6">
+        <h3>Gestion des URL explicites</h3>
         <p>
             Le r&eacute;f&eacute;rencement est am&eacute;lior&eacute; lorsque les URL des pages du sites sont explicites,
             c'est &agrave; dire qu'elles contiennent que des termes lisibles et non techniques.
@@ -12,51 +10,76 @@
             correspondantes. Les r&egrave;gles de redirection sont d&eacute;crites dans un fichier qu'il convient
             de reg&eacute;n&eacute;rer d&egrave;s que des nouvelles r&egrave;gles ont &eacute;t&eacute; ajout&eacute;es.
         </p>
-    </div>
+        <form action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
+            <input type="hidden" name="plugin_name" value ="seo" />
+            <button type="submit" class="btn btn-primary pull-right" >
+            <i class="icon-edit icon-white"></i> 
+            G&eacute;rer les URL explicites
+            </button>
+        </form>
 </div>
 
-<div class="highlight-box">
-    <div class="highlight-box-content" >
-        <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
-            <input class="button-right" type="submit" value="Mettre &agrave; jour le fichier de configuration" />
-        </form>
+<div class="well span6">
+    <h3>Mise &agrave; jour du fichier du fichier de configuration</h3>
         <p>
             ${rewrite_config_last_update}
         </p>
             <#if config_uptodate >
-            <img class="text-icon" src="images/admin/skin/enable.png" alt="ok" /> Le fichier de configuration est &agrave; jour.
+            <p>
+            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
+            Le fichier de configuration est &agrave; jour.
+            </p>
             <#else>
-            <img class="text-icon" src="images/admin/skin/plugins/seo/warning.png" alt="warning" /> Le fichier de configuration n'est pas &agrave; jour.
+            <p>
+            <span class="badge badge-warning"><i class="icon-warning-sign icon-white"></i></span>
+            Le fichier de configuration n'est pas &agrave; jour.
+            </p>
             </#if>
-    </div>
+        <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
+            <button class="btn btn-primary pull-right" type="submit" >
+                <i class="icon-refresh icon-white"></i>
+                Mettre &agrave; jour
+            </button>
+        </form>
+</div>
 </div>
 
 
-<div class="highlight-box">
-    <div class="highlight-box-content" >
-        
+<div class="row-fluid">  
+
+<div class="well span6">
+    <h3>Automatisation de la g&eacute;n&eacute;ration des URL explicites</h3>
             <#if friendly_url_daemon >
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
-                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
-                <input class="button-right" type="submit" value="D&eacute;sactiver la g&eacute;n&eacute;ration automatique d'URL explicites" />
-            </form>
-            <img class="text-icon" src="images/admin/skin/enable.png" alt="on" /> 
+            <p>
+            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
             La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources est activ&eacute;e.
-            <#else>
+            </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
                 <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
-                <input class="button-right" type="submit" value="Activer la g&eacute;n&eacute;ration automatique d'URL explicites" />
+                <button class="btn btn-primary pull-right" type="submit" >
+                    <i class="icon-remove icon-white"></i>
+                    D&eacute;sactiver la g&eacute;n&eacute;ration automatique
+                </button>
             </form>
-            <img class="text-icon" src="images/admin/skin/disable.png" alt="off" />
+            <#else>
+            <p>
+            <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
             La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources n'est pas activ&eacute;e.
+            </p>
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
+                <button class="btn btn-primary pull-right" type="submit">
+                <i class="icon-ok icon-white"></i>
+                Activer la g&eacute;n&eacute;ration automatique    
+                </button> 
+            </form>
             </#if>
         
-    </div>
 </div>
 
 
-<div class="highlight-box">
-    <div class="highlight-box-content" >
+<div class="well span6">
+    <h3>R&eacute;&eacute;criture des liens dans le contenu des pages</h3>
         <p>
             Lutece peut convertir &agrave; la vol&eacute;e les liens techniques contenus dans les
             pages par des liens utilisant des URL explicites. Cette fonctionnalit&eacute;
@@ -65,28 +88,38 @@
         </p>
         
             <#if url_replace >
+            <p>
+            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>             
+            La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
+            </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
                 <input type="hidden" name="toggle" value="replace_url_in_content" />
-                <input class="button-right" type="submit" value="D&eacute;sactiver la r&eacute;&eacute;criture des liens dans les pages" />
+                <button class="btn btn-primary pull-right" type="submit" >
+                    <i class="icon-remove icon-white"></i>
+                    D&eacute;sactiver la r&eacute;&eacute;criture
+                </button>
             </form>
-            <img class="text-icon" src="images/admin/skin/enable.png" alt="on" /> 
-            La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
             
             <#else>
+            <p>
+            <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
+            La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
+            </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
                 <input type="hidden" name="toggle" value="replace_url_in_content" />
-                <input class="button-right" type="submit" value="Activer la r&eacute;&eacute;criture des liens dans les pages" />
+                <button class="btn btn-primary pull-right" type="submit" >
+                    <i class="icon-ok icon-white"></i>
+                    Activer la r&eacute;&eacute;criture
+                </button>
             </form>
-            <img class="text-icon" src="images/admin/skin/disable.png" alt="off" />
-            La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
             </#if>
         
-    </div>
 </div>
 
+</div>
 
-<div class="highlight-box">
-    <div class="highlight-box-content" >
+<div class="row-fluid">  
+<div class="well span6">
         <h3>URL canoniques bas&eacute;es sur les URL explicites</h3>
         <p>
         Lorsque plusieurs URL renvoient le m&ecirc;me contenu (URL technique et URL explicite par exemple), les 
@@ -94,25 +127,35 @@
         pas de contenu dupliq&eacute;. L'URL canonique permet de d&eacute;finir l'URL &agrave; prendre en compte 
         par les moteurs.
         <a href="http://support.google.com/webmasters/bin/answer.py?hl=fr&answer=139394" title="Lien vers site Google">
-            <img class="text-icon" src="images/admin/skin/documentation.png" /> En savoir plus ... 
+            <span class="badge badge-info"><i class="icon-info-sign icon-white"></i></span>
         </a>
         </p>
         <#if canonical_urls >
-            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
-                <input type="hidden" name="toggle" value="add_canonical_url" />
-                <input class="button-right" type="submit" value="D&eacute;sactiver l'insertion de l'URL canonique dans la page" />
-            </form>
-            <img class="text-icon" src="images/admin/skin/enable.png" alt="on" /> 
+        <p>
+            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span> 
             L'ajout de l'URL canonique dans la page est activ&eacute;e.
-         <#else>
+        </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
                 <input type="hidden" name="toggle" value="add_canonical_url" />
-                <input class="button-right" type="submit" value="Activer l'insertion de l'URL canonique dans la page" />
+                <button class="btn btn-primary pull-right" type="submit">
+                    <i class="icon-remove icon-white"></i>
+                    D&eacute;sactiver l'insertion d'URL canoniques
+                </button>
             </form>
-            <img class="text-icon" src="images/admin/skin/disable.png" alt="off" />
+         <#else>
+         <p>
+            <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
              L'ajout de l'URL canonique dans la page n'est pas activ&eacute;e.
+         </p>
+            <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
+                <input type="hidden" name="toggle" value="add_canonical_url" />
+                <button class="btn btn-primary pull-right" type="submit" >
+                    <i class="icon-ok icon-white"></i>
+                    Activer l'insertion d'URL canoniques
+                </button>
+            </form>
          </#if>
-    </div>
 </div>
 
 
+</div>
