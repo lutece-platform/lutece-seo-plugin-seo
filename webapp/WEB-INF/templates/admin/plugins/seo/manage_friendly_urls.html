@@ -1,18 +1,20 @@
-<div id="content-box-actions">
-    <form method="post"  action="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
-        <input type="submit" value="#i18n{seo.manage_friendly_urls.buttonCreate}" class="button" />
-    </form>
+    <div class="btn-group pull-right">
 
-    <form method="post"  action="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
-        <input type="submit" value="#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}" class="button" />
-    </form>
+        <a class="btn btn-primary" href="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
+            <i class="icon-plus icon-white"></i>
+            #i18n{seo.manage_friendly_urls.buttonCreate}
+        </a>
 
-</div>
+        <a class="btn btn-primary" href="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
+            <i class="icon-cog icon-white"></i>
+            #i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}
+        </a>
 
-  <div class="content-box" >
-    <h2>#i18n{seo.manage_friendly_urls.labelUrlList}</h2>
+    </div>
+
+    <h3>#i18n{seo.manage_friendly_urls.labelUrlList}</h3>
     <@paginationAdmin paginator=paginator combo=1 />
-    <table>
+    <table class="table">
         <tr>
             <th>#i18n{seo.manage_friendly_urls.columnFriendlyUrl}</th>
             <th>#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</th>
@@ -24,39 +26,38 @@
             <th>#i18n{seo.manage_friendly_urls.columnActions}</th>
         </tr>
         <#list friendly_url_list as url >
-         <tr>
-             
- 	     <td>${url.friendlyUrl}</td>
- 	     <td>${url.technicalUrl}</td>
-             <td align="center">
-                 <#if url.canonical >
-                     <img class="text-icon" src="images/admin/skin/enable.png" alt="enabled" />
-                 <#else>
-                     <img class="text-icon" src="images/admin/skin/disable.png" alt="disabled" />
-                 </#if>
-             </td>
-             <td align="center">
-                 <#if url.sitemap >
-                     <img class="text-icon" src="images/admin/skin/enable.png" alt="enabled" />
-                 <#else>
-                     <img class="text-icon" src="images/admin/skin/disable.png" alt="disabled" />
-                 </#if>
-             </td align="center">
- 	     <td align="center">${url.sitemapLastmod!"-"}</td>
- 	     <td align="center">${url.sitemapChangeFreq!"-"}</td>
- 	     <td align="center">${url.sitemapPriority!"-"}</td>
-             <td>
-                <a href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" >
-                    <img class="text-icon" src="images/admin/skin/actions/delete.png" alt="#i18n{portal.util.labelDelete}" title="#i18n{portal.util.labelDelete}" />
+        <tr>
+
+            <td>${url.friendlyUrl}</td>
+            <td>${url.technicalUrl}</td>
+            <td align="center">
+                <#if url.canonical >
+                <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
+                <#else>
+                <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
+                </#if>
+            </td>
+            <td align="center">
+                <#if url.sitemap >
+                <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
+                <#else>
+                <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
+                </#if>
+            </td align="center">
+            <td align="center">${url.sitemapLastmod!"-"}</td>
+            <td align="center">${url.sitemapChangeFreq!"-"}</td>
+            <td align="center">${url.sitemapPriority!"-"}</td>
+            <td>
+                <a class="btn btn-primary" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
+                    <i class="icon-trash icon-white"></i>
                 </a>
-                <a href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" >
-                    <img class="text-icon" src="images/admin/skin/actions/modify.png" alt="#i18n{portal.util.labelModify}" title="#i18n{portal.util.labelModify}" />
+                <a class="btn btn-primary" href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelModify}" >
+                    <i class="icon-edit icon-white"></i>
                 </a>
-             </td>
+            </td>
         </tr>
         </#list>
     </table>
     <@paginationAdmin paginator=paginator />
 
-</div>
 
