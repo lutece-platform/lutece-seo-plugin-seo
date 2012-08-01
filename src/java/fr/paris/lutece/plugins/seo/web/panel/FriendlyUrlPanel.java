@@ -41,6 +41,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -70,7 +71,7 @@ public class FriendlyUrlPanel extends SEOAbstractPanel implements SEOPanel
      * {@inheritDoc }
      */
     @Override
-    public String getContent(  )
+    public String getContent( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_REWRITE_CONFIG_UPDATE,

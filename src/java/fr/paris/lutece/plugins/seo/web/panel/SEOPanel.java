@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.seo.web.panel;
 
 import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -49,9 +50,10 @@ public interface SEOPanel
 
     /**
      * Returns the panel's content
+     * @param request The HTTP request
      * @return The content
      */
-    String getContent(  );
+    String getContent(  HttpServletRequest request );
 
     /**
      * Returns the panel's order

@@ -41,6 +41,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -67,7 +68,7 @@ public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
      * {@inheritDoc }
      */
     @Override
-    public String getContent(  )
+    public String getContent( HttpServletRequest request )
     {
         String strDeamon = DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED,
                 DatastoreService.VALUE_FALSE );
