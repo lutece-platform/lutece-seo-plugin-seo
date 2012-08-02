@@ -5,6 +5,7 @@
 package fr.paris.lutece.plugins.seo.web.panel;
 
 import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -13,6 +14,7 @@ import java.util.Locale;
 public abstract class SEOAbstractPanel implements SEOPanel
 {
     private Locale _locale;
+    private HttpServletRequest _request;
 
     /**
      * {@inheritDoc }
@@ -24,11 +26,30 @@ public abstract class SEOAbstractPanel implements SEOPanel
     }
 
     /**
-     * Gets the locale
-     * @return The locale
+     * {@inheritDoc }
      */
+    @Override
     public Locale getLocale(  )
     {
         return _locale;
     }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setRequest( HttpServletRequest request )
+    {
+        _request = request;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public HttpServletRequest getRequest(  )
+    {
+        return _request;
+    }
+    
 }

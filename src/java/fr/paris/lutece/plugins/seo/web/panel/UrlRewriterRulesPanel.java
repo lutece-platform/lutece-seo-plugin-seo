@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.seo.web.panel;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -61,7 +60,7 @@ public class UrlRewriterRulesPanel extends SEOAbstractPanel implements SEOPanel
      * {@inheritDoc }
      */
     @Override
-    public String getContent( HttpServletRequest request )
+    public String getContent(  )
     {
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) );
 

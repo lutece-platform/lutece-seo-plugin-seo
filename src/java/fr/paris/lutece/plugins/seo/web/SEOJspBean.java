@@ -73,6 +73,7 @@ public class SEOJspBean extends PluginAdminPageJspBean
         for ( SEOPanel panel : listPanels )
         {
             panel.setLocale( getLocale(  ) );
+            panel.setRequest( request );
         }
 
         Map<String, Object> model = new HashMap<String, Object>(  );

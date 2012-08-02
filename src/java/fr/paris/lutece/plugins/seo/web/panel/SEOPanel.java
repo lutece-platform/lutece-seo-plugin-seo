@@ -50,10 +50,9 @@ public interface SEOPanel
 
     /**
      * Returns the panel's content
-     * @param request The HTTP request
      * @return The content
      */
-    String getContent(  HttpServletRequest request );
+    String getContent(  );
 
     /**
      * Returns the panel's order
@@ -66,4 +65,22 @@ public interface SEOPanel
      * @param locale The locale
      */
     void setLocale( Locale locale );
+
+    /**
+     * Gets the locale
+     * @return The locale
+     */
+    public Locale getLocale(  );
+
+    /**
+     * Sets the request 
+     * @param request The request
+     */
+    void setRequest( HttpServletRequest request );
+    
+    /**
+     * Gets the request
+     * @return The request
+     */
+    public HttpServletRequest getRequest(  );
 }
