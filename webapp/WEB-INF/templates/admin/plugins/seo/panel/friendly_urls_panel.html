@@ -26,12 +26,12 @@
         </p>
             <#if config_uptodate >
             <p>
-            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
+            <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
             Le fichier de configuration est &agrave; jour.
             </p>
             <#else>
             <p>
-            <span class="badge badge-warning"><i class="icon-warning-sign icon-white"></i></span>
+            <span class="label label-warning"><i class="icon-warning-sign icon-white"></i> #i18n{portal.util.labelWarning}</span>
             Le fichier de configuration n'est pas &agrave; jour.
             </p>
             </#if>
@@ -51,7 +51,7 @@
     <h3>Automatisation de la g&eacute;n&eacute;ration des URL explicites</h3>
             <#if friendly_url_daemon >
             <p>
-            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
+                <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
             La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources est activ&eacute;e.
             </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
@@ -63,7 +63,7 @@
             </form>
             <#else>
             <p>
-            <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
+            <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>
             La g&eacute;n&eacute;ration automatique d'URL explicites pour les nouvelles ressources n'est pas activ&eacute;e.
             </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
@@ -89,7 +89,7 @@
         
             <#if url_replace >
             <p>
-            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>             
+            <span class="label label-success"><i class="icon-ok icon-white"></i> #i18n{portal.util.labelEnabled}</span>             
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites est activ&eacute;e.
             </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
@@ -102,7 +102,7 @@
             
             <#else>
             <p>
-            <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
+            <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>
             La r&eacute;&eacute;criture des liens pour utiliser des URL explicites n'est pas activ&eacute;e.
             </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
@@ -127,12 +127,12 @@
         pas de contenu dupliq&eacute;. L'URL canonique permet de d&eacute;finir l'URL &agrave; prendre en compte 
         par les moteurs.
         <a href="http://support.google.com/webmasters/bin/answer.py?hl=fr&answer=139394" title="Lien vers site Google">
-            <span class="badge badge-info"><i class="icon-info-sign icon-white"></i></span>
+            <span class="label label-info"><i class="icon-info-sign icon-white"></i></span>
         </a>
         </p>
         <#if canonical_urls >
         <p>
-            <span class="badge badge-success"><i class="icon-ok icon-white"></i></span> 
+            <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span> 
             L'ajout de l'URL canonique dans la page est activ&eacute;e.
         </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
@@ -144,7 +144,7 @@
             </form>
          <#else>
          <p>
-            <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
+            <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>
              L'ajout de l'URL canonique dans la page n'est pas activ&eacute;e.
          </p>
             <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
