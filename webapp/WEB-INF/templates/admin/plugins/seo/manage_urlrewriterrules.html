@@ -1,15 +1,8 @@
 <div class="btn-group pull-right">
     <a class="btn btn-primary" href="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp" >
-	<i class="icon-plus icon-white"></i>
-	#i18n{seo.manage_urlrewriterrules.buttonCreate}
-</a>
-
-
-    <a class="btn btn-primary" href="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp" >
-	<i class="icon-plus icon-white"></i>
-	#i18n{seo.manage_urlrewriterrules.buttonGenerate}
-</a>
-
+        <i class="icon-plus icon-white"></i>
+        #i18n{seo.manage_urlrewriterrules.buttonCreate}
+    </a>
 </div>
 
 <div class="row" >
@@ -17,24 +10,24 @@
     <@paginationAdmin paginator=paginator combo=1 />
     <table class="table table-striped table-condensed">
         <tr>
- 			<th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</th>
- 			<th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</th>
- 			<th>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</th>
- 			<th>#i18n{seo.manage_urlrewriterrules.columnActions}</th>
+            <th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</th>
+            <th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</th>
+            <th>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</th>
+            <th>#i18n{seo.manage_urlrewriterrules.columnActions}</th>
         </tr>
         <#list urlrewriterrule_list as urlrewriterrule >
-         <tr>
-             <td>${urlrewriterrule.idRule}</td>
- 			 <td>${urlrewriterrule.ruleFrom}</td>
- 			 <td>${urlrewriterrule.ruleTo}</td>
-             <td>
-                <a href="jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" >
-                    <i class="icon-trash"></i>
+        <tr>
+            <td>${urlrewriterrule.idRule}</td>
+            <td>${urlrewriterrule.ruleFrom}</td>
+            <td>${urlrewriterrule.ruleTo}</td>
+            <td class="span2">
+                <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" title="#i18n{portal.util.labelModify}" >
+                    <i class="icon-edit icon-white"></i>
                 </a>
-                <a href="jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" >
-                    <img class="text-icon" src="images/admin/skin/actions/modify.png" alt="#i18n{portal.util.labelModify}" title="#i18n{portal.util.labelModify}" />
-                </a>
-             </td>
+                <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" title="#i18n{portal.util.labelDelete}">
+                    <i class="icon-trash icon-white"></i>
+                </a class="btn btn-primary btn-mini">
+            </td>
         </tr>
         </#list>
     </table>
@@ -42,6 +35,6 @@
 
 </div>
 
-  
+
 
 

@@ -1,9 +1,6 @@
-<div class="highlight-box">
-    <div class="highlight-box-content" >
-        <form action="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp" method="GET">
-            <input type="hidden" name="plugin_name" value ="seo" />
-            <input type="submit" class="button-right" value="G&eacute;rer les redirections g&eacute;n&eacute;riques" />
-        </form>
+<div class="row-fluid">  
+    <div class="well span6">
+        <h3>Gestion des r&eacute;&eacute;critures d'URL g&eacute;n&eacute;riques</h3>
         <p>
         La r&eacute;ecriture d'URL peut se faire &eacute;galement &agrave; l'aide de r&egrave;gles g&eacute;n&eacute;riques 
         (ex : une r&egrave;gle pour d&eacute;finir des URL courtes pour les pages '/p/{id}')
@@ -13,5 +10,12 @@
             que les redirections des URL explicites. Elle a plut&ocirc;t vocation &agrave; &ecirc;tre 
             utilis&eacute;e lorsque les URL explicites ne sont pas activ&eacute;es.
         </p>
+        <form action="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp" method="GET">
+            <input type="hidden" name="plugin_name" value ="seo" />
+            <button type="submit" class="btn btn-primary pull-right" >
+                <i class="icon-cog icon-white"></i>
+                G&eacute;rer les redirections g&eacute;n&eacute;riques
+            </button>
+        </form>
     </div>
 </div>

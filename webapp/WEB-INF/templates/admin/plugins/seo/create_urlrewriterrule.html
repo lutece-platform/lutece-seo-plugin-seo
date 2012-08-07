@@ -1,35 +1,31 @@
 <div class="row">
     <legend>#i18n{seo.create_urlrewriterrule.title}</legend>
     <form class="form-horizontal" action="jsp/admin/plugins/seo/DoCreateUrlRewriterRule.jsp" method="POST">
-	<fieldset>
-        
-            <div class="control-group">
-		<label class="control-label" for="rule_from">#i18n{seo.create_urlrewriterrule.labelRuleFrom}* :</label>
-            <div class="controls">
-	<input name="rule_from" id="rule_from" tabindex="1" value=""  size="30" maxlength="100" type="text">
-		</div>
-	</div>
-        
-        
-            <div class="control-group">
-		<label class="control-label" for="rule_to">#i18n{seo.create_urlrewriterrule.labelRuleTo}* :</label>
-            <div class="controls">
-	<input name="rule_to" id="rule_to" tabindex="2" value="" size="30" type="text" maxlength="100" />
-		</div>
-	</div>
+        <fieldset>
 
-        
-        
-            <div class="controls">
-	<input value="#i18n{seo.create_urlrewriterrule.buttonCreate}" class="btn btn-primary type="submit" />
-		</div>
-	</div>
-		    <div class="controls">
-	<input class="btn btn-primary onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelCancel}" type="button">
-		</div>
-	</div>
-        
-    </fieldset></form>
+            <div class="control-group">
+                <label class="control-label" for="rule_from">#i18n{seo.create_urlrewriterrule.labelRuleFrom}* :</label>
+                <div class="controls">
+                    <input name="rule_from" id="rule_from" tabindex="1" value=""  size="30" maxlength="100" type="text">
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="rule_to">#i18n{seo.create_urlrewriterrule.labelRuleTo}* :</label>
+                <div class="controls">
+                    <input name="rule_to" id="rule_to" tabindex="2" value="" size="30" type="text" maxlength="100" />
+                </div>
+            </div>
+
+            <div class="form-actions">
+
+                <button class="btn btn-primary" type="submit" >#i18n{seo.create_urlrewriterrule.buttonCreate}</button>
+                <button class="btn" onclick="javascript:history.go(-1)" type="button" />#i18n{portal.util.labelCancel}
+            </div>
+
+
+        </fieldset></form>
 
 </div>
 
