@@ -2,11 +2,11 @@
 
         <a class="btn btn-primary" href="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
             <i class="icon-plus icon-white"></i>
-            #i18n{seo.manage_friendly_urls.buttonCreate}
+            <span class="hidden-phone">#i18n{seo.manage_friendly_urls.buttonCreate}</span>
         </a>
         <a class="btn btn-primary" href="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
             <i class="icon-cog icon-white"></i>
-            #i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}
+            <span class="hidden-phone">#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}</span>
         </a>
         <a class="btn" href="jsp/admin/plugins/seo/ManageSEO.jsp">
             <i class="icon-chevron-left"></i>
@@ -17,48 +17,52 @@
     <h3>#i18n{seo.manage_friendly_urls.labelUrlList}</h3>
     <@paginationAdmin paginator=paginator combo=1 />
     <table class="table">
+        <thead>
         <tr>
             <th>#i18n{seo.manage_friendly_urls.columnFriendlyUrl}</th>
             <th>#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</th>
-            <th align="center">#i18n{seo.manage_friendly_urls.columnCanonical}</th>
-            <th align="center">#i18n{seo.manage_friendly_urls.columnSitemap}</th>
-            <th align="center">#i18n{seo.manage_friendly_urls.columnLastMod}</th>
-            <th align="center">#i18n{seo.manage_friendly_urls.columnChangeFreq}</th>
-            <th align="center">#i18n{seo.manage_friendly_urls.columnPriority}</th>
+            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnCanonical}</th>
+            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnSitemap}</th>
+            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnLastMod}</th>
+            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnChangeFreq}</th>
+            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnPriority}</th>
             <th>#i18n{seo.manage_friendly_urls.columnActions}</th>
         </tr>
+        </thead>
+        <tbody>
         <#list friendly_url_list as url >
         <tr>
 
             <td>${url.friendlyUrl}</td>
             <td>${url.technicalUrl}</td>
-            <td align="center">
+            <td class="hidden-phone">
                 <#if url.canonical >
                 <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
                 <#else>
                 <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
                 </#if>
             </td>
-            <td align="center">
+            <td class="hidden-phone">
                 <#if url.sitemap >
                 <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
                 <#else>
                 <span class="badge badge-important"><i class="icon-remove icon-white"></i></span>
                 </#if>
-            </td align="center">
-            <td align="center">${url.sitemapLastmod!"-"}</td>
-            <td align="center">${url.sitemapChangeFreq!"-"}</td>
-            <td align="center">${url.sitemapPriority!"-"}</td>
+            </td>
+            <td class="hidden-phone">${url.sitemapLastmod!"-"}</td>
+            <td class="hidden-phone">${url.sitemapChangeFreq!"-"}</td>
+            <td class="hidden-phone">${url.sitemapPriority!"-"}</td>
             <td>
-                <a class="btn btn-primary" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
-                    <i class="icon-trash icon-white"></i>
-                </a>
                 <a class="btn btn-primary" href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelModify}" >
                     <i class="icon-edit icon-white"></i>
+                </a>
+                <a class="btn btn-danger" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
+                    <i class="icon-trash icon-white"></i>
                 </a>
             </td>
         </tr>
         </#list>
+        </tbody>
     </table>
     <@paginationAdmin paginator=paginator />
 

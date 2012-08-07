@@ -1,8 +1,6 @@
-<div class="highlight-box">
-    <div class="highlight-box-content" >
-        <form action="sitemap.xml" method="GET">
-            <input class="button-right" type="submit" value="Afficher le contenu du fichier" />
-        </form>
+<div class="row-fluid">  
+    <div class="well span6">
+        <h3>Gestion du fichier Sitemap</h3>
         <p>
             Le ou les fichiers "sitemap" permettent aux webmasters d'indiquer facilement aux moteurs de recherche 
             les pages de leurs sites &agrave; explorer. Les robots d'exploration peuvent extraire toutes les URL du plan 
@@ -12,33 +10,46 @@
             <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">
                 <img class="text-icon" src="images/admin/skin/documentation.png" /> En savoir plus ...</a>
         </p>
-
-        <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-            <input class="button-right" type="submit" value="Mettre &agrave; jour le fichier" />
+        <form action="sitemap.xml" method="GET">
+            <button class="btn btn-primary pull-right" type="submit">
+                <i class="icon-eye-open icon-white"></i>
+                Afficher le contenu du fichier
+            </button> 
         </form>
+    </div>
+    <div class="well span6">
+        <h3>G&eacute;n&eacute;ration automatique</h3>
         <p>
             ${sitemapLastGeneration}
         </p>
-        
-        <p>
-            La mise &agrave; jour du fichier Sitemap peut &ecirc;tre automatis&eacute;e.
-        </p>
+
         <p>
             <#if daemon_enabled >
-                <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-                    <input class="button-right" type="submit" value="D&eacute;sactiver la mise &agrave; jour automatique" />
-                </form>
-                <img class="text-icon" src="images/admin/skin/enable.png" alt="on" /> 
-                La mise &agrave; jour automatique est activ&eacute;e.
-            <#else>
-                <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-                    <input class="button-right" type="submit" value="Activer la mise &agrave; jour automatique" />
-                </form>
-                <img class="text-icon" src="images/admin/skin/disable.png" alt="off" />
-                La mise &agrave; jour automatique n'est pas activ&eacute;e.
-            </#if>
-           
+        <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
+            <button class="btn btn-primary pull-right" type="submit" >
+                <i class="icon-stop icon-white"></i>
+                D&eacute;sactiver la mise &agrave; jour automatique
+            </button>
+        </form>
+        
+        La mise &agrave; jour automatique est <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>.
+        <#else>
+        <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
+            <button class="btn btn-primary pull-right" type="submit" >
+                <i class="icon-ok icon-white"></i>
+                Activer la mise &agrave; jour automatique
+            </button>
+        </form>
+        La mise &agrave; jour automatique est <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
+        </#if>
+
         </p>
+        <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
+            <button class="btn btn-primary pull-right" type="submit">
+                <i class="icon-play icon-white" ></i>
+                Mettre &agrave; jour le fichier
+            </button>
+        </form>
 
     </div>
 </div>
