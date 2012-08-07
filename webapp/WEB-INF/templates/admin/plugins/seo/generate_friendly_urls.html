@@ -2,82 +2,69 @@
 <div class="row" >
     <legend>#i18n{seo.generate_friendly_urls.labelTitle}</legend>
 
-    <div class="highlight-box">
-        <div class="highlight-box-content">
 
-            <h3>#i18n{seo.generate_friendly_urls.labelGeneratorsList}</h3>
-            
-            <table class="table table-striped table-condensed">
-                <th>G&eacute;n&eacute;rateur</th>
-                <th>Fr&eacute;quence de modification par d&eacute;faut</th>
-                <th>Priorit&eacute; par d&eacute;faut</th>
-                <th>Action</th>
-                <#list generators_list as generator>
-                <form class="form-horizontal" action="jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp" method="POST">
-	<fieldset>
-                    <div class="controls">
-	<input type="hidden" name="generator_key" value="${generator.key}" />
-		</div>
-	</div>
-                    <tr>    
-                        <td>${generator.name}</td>
-                        <td><div class="controls">
-	<@combo name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq />
-		</div>
-	</div></td>
-                        <td><div class="controls">
-	<@combo name="priority"  items=priority_list default_value=generator.defaultPriority />
-		</div>
-	</div></td>
-                        <td><div class="controls">
-	<input type="submit" class="btn btn-primary value="Modifier" />
-		</div>
-	</div></td>
-                    </tr>
-                </fieldset></form>
-                </#list>
-            </table>
-            
-        </div>
-    </div>
+    <h3>#i18n{seo.generate_friendly_urls.labelGeneratorsList}</h3>
 
-    <div class="highlight-box">
-        <div class="highlight-box-content">
-            <form class="form-horizontal" method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
-	<fieldset>
-                <h3>#i18n{seo.generate_friendly_urls.labelOptions}</h3>    
-                <div class="controls">
-	<input class="button-right" type="submit" value="#i18n{seo.generate_friendly_urls.buttonGenerate}" />
-		</div>
-	</div>
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th>G&eacute;n&eacute;rateur</th>
+            <th>Fr&eacute;quence de modification par d&eacute;faut</th>
+            <th>Priorit&eacute; par d&eacute;faut</th>
+            <th>Action</th>
+        </tr>
+        <#list generators_list as generator>
+        <form action="jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp" method="POST">
+            <input type="hidden" name="generator_key" value="${generator.key}" />
+            <tr>    
+                <td>${generator.name}</td>
+                <td>
+                    <@combo name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq />
+                </td>
+                <td>
+                    <@combo name="priority"  items=priority_list default_value=generator.defaultPriority />
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-mini" type="submit" title="#i18n{portal.util.labelModify}">
+                        <i class="icon-refresh icon-white"
+                </button>
+            </td>
+        </tr>
 
-                
-                    <div class="control-group">
-		<label class="control-label" for="option_force_update">#i18n{seo.generate_friendly_urls.optionForceUpdate}</label>
-                    <div class="controls">
-	<input name="option_force_update" id="option_force_update" type="checkbox" class="checkbox" value="on"/>
-		</div>
-	</div> 
-                    #i18n{seo.generate_friendly_urls.helpForceUpdate}
-                
-                
-                    <div class="control-group">
-		<label class="control-label" for="option_add_path">#i18n{seo.generate_friendly_urls.optionAddPath}</label>
-                    <div class="controls">
-	<input name="option_add_path" id="option_add_path" type="checkbox" class="checkbox" value="on"/>
-		</div>
-	</div> 
-                
-                
-                    <div class="control-group">
-		<label class="control-label" for="option_html_suffix">#i18n{seo.generate_friendly_urls.optionHtmlSuffix}</label>
-                    <div class="controls">
-	<input name="option_html_suffix" id="option_html_suffix" type="checkbox" class="checkbox" value="on"/>
-		</div>
-	</div> 
-                
+    </form>
+    </#list>
+</table>
 
-            </fieldset></form>
-        </div>
-    </div>
+</div>
+
+
+<div class="well">
+    <form class="form-horizontal" method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
+        <fieldset>
+            <legend>#i18n{seo.generate_friendly_urls.labelOptions}</legend>   
+
+            <div class="control-group">
+                <input name="option_force_update" id="option_force_update" type="checkbox" class="checkbox" value="on"/>
+                #i18n{seo.generate_friendly_urls.optionForceUpdate}
+                <p class="help-block">#i18n{seo.generate_friendly_urls.helpForceUpdate}</p>
+            </div> 
+
+            <div class="control-group">
+                <input name="option_add_path" id="option_add_path" type="checkbox" class="checkbox" value="on"/>
+                #i18n{seo.generate_friendly_urls.optionAddPath}
+            </div> 
+
+            <div class="control-group">
+                <input name="option_html_suffix" id="option_html_suffix" type="checkbox" class="checkbox" value="on"/>
+                #i18n{seo.generate_friendly_urls.optionHtmlSuffix}
+            </div>
+
+            <button class="btn btn-primary pull-right" type="submit" >
+                <i class="icon-cog icon-white"></i>
+                #i18n{seo.generate_friendly_urls.buttonGenerate}
+            </button>
+
+        </fieldset>
+    </form>
+</div>
+</div>
 </div>
