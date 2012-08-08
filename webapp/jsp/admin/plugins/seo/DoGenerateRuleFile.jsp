@@ -1,10 +1,10 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
-<jsp:useBean id="seoUrlRewriter" scope="session" class="fr.paris.lutece.plugins.seo.web.UrlRewriterAdminJspBean" />
+<jsp:useBean id="seoFriendlyUrl" scope="session" class="fr.paris.lutece.plugins.seo.web.FriendlyUrlJspBean" />
 
 <%
-    seoUrlRewriter.init( request, seoUrlRewriter.RIGHT_MANAGE_URLREWRITERADMIN );
-    response.sendRedirect( seoUrlRewriter.doGenerate( request ) );
+    seoFriendlyUrl.init( request, seoFriendlyUrl.RIGHT_MANAGE_SEO );
+    response.sendRedirect( seoFriendlyUrl.doGenerate( request ) );
 %>
 
 <%@ include file="../../AdminFooter.jsp" %>

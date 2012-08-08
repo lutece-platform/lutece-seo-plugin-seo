@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs" id="seoPanels">
     <#list panels_list as panel>
-    <#if panel.panelIndex = 0>
+    <#if panel.panelIndex = 1>
     <li class="active" >
         <#else>
     <li>
@@ -12,10 +12,10 @@
 
 <div class="tab-content">
     <#list panels_list as panel>
-    <#if panel.panelIndex = 0>
-        <div class="tab-pane active" id="panel${panel.panelOrder}">
+    <#if panel.panelIndex = 1>
+        <div class="tab-pane active" id="panel${panel.panelIndex}">
      <#else>
-        <div class="tab-pane" id="panel${panel.panelOrder}">
+        <div class="tab-pane" id="panel${panel.panelIndex}">
      </#if>
         ${panel.panelContent}
         </div>

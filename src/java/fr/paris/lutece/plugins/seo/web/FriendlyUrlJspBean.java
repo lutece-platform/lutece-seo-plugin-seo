@@ -144,14 +144,12 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_URL = "seo.message.confirmRemoveUrl";
-    private static final String MESSAGE_GENERATION_SUCCESSFUL = "seo.message.generationSuccessful";
     private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationSuccessful";
 
     //Variables
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private int _nItemsPerPage;
-    private HttpServletRequest _request;
 
     /**
      * Returns the list of friendly_url
@@ -352,8 +350,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      */
     public String doGenerate( HttpServletRequest request )
     {
-        String strMessage = MESSAGE_GENERATION_SUCCESSFUL;
-        int nMessageType = AdminMessage.TYPE_CONFIRMATION;
+        String strMessage;
+        int nMessageType;
 
         try
         {
@@ -364,9 +362,10 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
             AppLogService.error( "Error generating url file : " + e.getMessage(  ), e );
             strMessage = MESSAGE_GENERATION_FAILED;
             nMessageType = AdminMessage.TYPE_STOP;
+            return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
         }
+        return getHomeUrl( request );
 
-        return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
     }
 
     /**

@@ -84,7 +84,7 @@ public class PanelService
     
     public int getIndex( String strPanelKey )
     {
-        int nIndex = 0;
+        int nIndex = 1;
         for( SEOPanel panel : _listPanels )
         {
             if( panel.getPanelKey().equals(strPanelKey))
