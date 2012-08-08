@@ -36,12 +36,12 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.plugins.seo.service.RuleFileService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -62,7 +62,7 @@ import javax.servlet.http.HttpServletRequest;
  * This class provides the user interface to manage UrlRewriterRule features (
  * manage, create, modify, remove )
  */
-public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
+public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -80,6 +80,12 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_MANAGE_URLREWRITERRULES = "/admin/plugins/seo/manage_urlrewriterrules.html";
     private static final String TEMPLATE_CREATE_RULE = "/admin/plugins/seo/create_urlrewriterrule.html";
     private static final String TEMPLATE_MODIFY_RULE = "/admin/plugins/seo/modify_urlrewriterrule.html";
+
+    // Panel
+    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/url_rewriter_rules_panel.html";
+    private static final String PROPERTY_TITlE = "seo.panel.url_rewriter_rules.title";
+    private static final int PANEL_ORDER = 3;
+    private static final String PANEL_KEY = "URL_REWRITER";
 
     // properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_URLREWRITERRULES = "seo.manage_urlrewriterrules.pageTitle";
@@ -301,4 +307,43 @@ public class UrlRewriterAdminJspBean extends PluginAdminPageJspBean
 
         return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Panel
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getPanelTitle(  )
+    {
+        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale(  ) );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getPanelContent(  )
+    {
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getPanelLocale(  ) );
+
+        return template.getHtml(  );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int getPanelOrder(  )
+    {
+        return PANEL_ORDER;
+    }
+
+    @Override
+    public String getPanelKey()
+    {
+        return PANEL_KEY;
+    }
+
 }

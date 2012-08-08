@@ -15,8 +15,8 @@
     <bean id="seo.canonicalUrlContentPostProcessor" class="fr.paris.lutece.plugins.seo.service.CanonicalUrlContentPostProcessor" />
 
     <!-- Panels -->
-    <bean id="seo.panelFriendlyUrls" class="fr.paris.lutece.plugins.seo.web.panel.FriendlyUrlPanel" />
-    <bean id="seo.panelSitemap" class="fr.paris.lutece.plugins.seo.web.panel.SitemapPanel" />
-    <bean id="seo.panelUrlRewriterRules" class="fr.paris.lutece.plugins.seo.web.panel.UrlRewriterRulesPanel" />
+    <bean id="seo.panelFriendlyUrls" class="fr.paris.lutece.plugins.seo.web.FriendlyUrlJspBean" />
+    <bean id="seo.panelSitemap" class="fr.paris.lutece.plugins.seo.web.SitemapJspBean" />
+    <bean id="seo.panelUrlRewriterRules" class="fr.paris.lutece.plugins.seo.web.UrlRewriterAdminJspBean" />
     
 </beans>

@@ -33,51 +33,66 @@
  */
 package fr.paris.lutece.plugins.seo.web;
 
-import fr.paris.lutece.plugins.seo.service.PanelService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * SEO JSP Bean
- */
-public class SEOJspBean extends PluginAdminPageJspBean
-{
-    ////////////////////////////////////////////////////////////////////////////
-    // Constants
 
-    // Right
-    public static final String RIGHT_MANAGE_SEO = "SEO_MANAGEMENT";
-    // templates
-    private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
-    private static final String MARK_PANELS_LIST = "panels_list";
+/**
+ * Interface SEO Panel
+ */
+public interface SEOPanel
+{
+    /**
+     * Returns the panel's title
+     * @return  The title
+     */
+    String getPanelKey(  );
 
     /**
-     * Manage SEO Home page
-     *
-     * @param request The HTTP request
-     * @return The page
+     * Returns the panel's title
+     * @return  The title
      */
-    public String getManageSEO(HttpServletRequest request)
-    {
+    String getPanelTitle(  );
 
-        for ( SEOPanel panel : PanelService.instance().getPanels() )
-        {
-            panel.setPanelLocale(getLocale());
-            panel.setRequest(request);
-         }
+    /**
+     * Returns the panel's content
+     * @return The content
+     */
+    String getPanelContent(  );
 
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put( MARK_PANELS_LIST, PanelService.instance().getPanels() );
+    /**
+     * Returns the panel's order
+     * @return The order
+     */
+    int getPanelOrder(  );
 
-        HtmlTemplate template = AppTemplateService.getTemplate(TEMPLATE_MANAGE_SEO, getLocale(), model);
+    /**
+     * Sets the panel's locale
+     * @param locale The locale
+     */
+    void setPanelLocale( Locale locale );
 
-        return getAdminPage(template.getHtml());
-    }
+    /**
+     * Gets the locale
+     * @return The locale
+     */
+    public Locale getPanelLocale(  );
 
+    /**
+     * Sets the request 
+     * @param request The request
+     */
+    void setRequest( HttpServletRequest request );
+    
+    /**
+     * Gets the request
+     * @return The request
+     */
+    public HttpServletRequest getRequest(  );
+
+    /**
+     * Gets the panel index
+     * @return The index
+     */
+    public int getPanelIndex();
 }

@@ -31,48 +31,68 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
+package fr.paris.lutece.plugins.seo.service;
 
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
+import fr.paris.lutece.plugins.seo.web.SEOPanel;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * Url Rewriter Rules Panel
+ *
  */
-public class UrlRewriterRulesPanel extends SEOAbstractPanel implements SEOPanel
+public class PanelService
 {
-    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/url_rewriter_rules_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.url_rewriter_rules.title";
-    private static final int ORDER = 3;
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getTitle(  )
+    private static PanelService _singleton;
+    private static List<SEOPanel> _listPanels;
+    private static Comparator _comparator = new PanelComparator();
+    
+    private PanelService()
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getContent(  )
+    public static synchronized PanelService instance()
     {
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ) );
-
-        return template.getHtml(  );
+        if (_singleton == null)
+        {
+            _singleton = new PanelService();
+            _listPanels = SpringContextService.getBeansOfType(SEOPanel.class);
+            Collections.sort( _listPanels, _comparator );
+        }
+        return _singleton;
+    }
+    
+    public List<SEOPanel> getPanels()
+    {
+        return _listPanels;
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public int getOrder(  )
+    private static class PanelComparator implements Comparator
     {
-        return ORDER;
+
+        @Override
+        public int compare(Object o1, Object o2)
+        {
+            SEOPanel p1 = (SEOPanel) o1;
+            SEOPanel p2 = (SEOPanel) o2;
+
+            return p1.getPanelOrder() - p2.getPanelOrder();
+        }
+    }
+    
+    public int getIndex( String strPanelKey )
+    {
+        int nIndex = 0;
+        for( SEOPanel panel : _listPanels )
+        {
+            if( panel.getPanelKey().equals(strPanelKey))
+            {
+                return nIndex;
+            }
+            nIndex++;
+        }
+        return -1;
     }
 }

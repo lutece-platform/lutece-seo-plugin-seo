@@ -31,56 +31,65 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
+package fr.paris.lutece.plugins.seo.web;
 
+import fr.paris.lutece.plugins.seo.service.PanelService;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * Interface SEO Panel
+ * Abstract SEO Panel
  */
-public interface SEOPanel
+public abstract class AbstractSEOPanel implements SEOPanel
 {
-    /**
-     * Returns the panel's title
-     * @return  The title
-     */
-    String getTitle(  );
+    private int _nIndex;
+    private Locale _locale;
+    private HttpServletRequest _request;
 
     /**
-     * Returns the panel's content
-     * @return The content
+     * {@inheritDoc }
      */
-    String getContent(  );
+    @Override
+    public int getPanelIndex()
+    {
+        return PanelService.instance().getIndex(getPanelKey());
+    }
 
     /**
-     * Returns the panel's order
-     * @return The order
+     * {@inheritDoc }
      */
-    int getOrder(  );
+    @Override
+    public void setPanelLocale( Locale locale )
+    {
+        _locale = locale;
+    }
 
     /**
-     * Sets the panel's locale
-     * @param locale The locale
+     * {@inheritDoc }
      */
-    void setLocale( Locale locale );
+    @Override
+    public Locale getPanelLocale(  )
+    {
+        return _locale;
+    }
 
     /**
-     * Gets the locale
-     * @return The locale
+     * {@inheritDoc }
      */
-    public Locale getLocale(  );
+    @Override
+    public void setRequest( HttpServletRequest request )
+    {
+        _request = request;
+    }
 
     /**
-     * Sets the request 
-     * @param request The request
+     * {@inheritDoc }
      */
-    void setRequest( HttpServletRequest request );
+    @Override
+    public HttpServletRequest getRequest(  )
+    {
+        return _request;
+    }
     
-    /**
-     * Gets the request
-     * @return The request
-     */
-    public HttpServletRequest getRequest(  );
 }

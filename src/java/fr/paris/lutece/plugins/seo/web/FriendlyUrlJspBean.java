@@ -43,12 +43,12 @@ import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGeneratorService
 import fr.paris.lutece.plugins.seo.service.generator.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -69,7 +69,7 @@ import javax.servlet.http.HttpServletRequest;
  * This class provides the user interface to manage FriendlyUrl features (
  * manage, create, modify, remove )
  */
-public class FriendlyUrlJspBean extends PluginAdminPageJspBean
+public class FriendlyUrlJspBean extends SEOPanelJspBean
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -103,6 +103,16 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_CREATE_RULE = "/admin/plugins/seo/create_friendly_url.html";
     private static final String TEMPLATE_MODIFY_RULE = "/admin/plugins/seo/modify_friendly_url.html";
     private static final String TEMPLATE_GENERATE_ALIAS = "/admin/plugins/seo/generate_friendly_urls.html";
+
+    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/friendly_urls_panel.html";
+    private static final String MARK_REWRITE_CONFIG_UPDATE = "rewrite_config_last_update";
+    private static final String MARK_CONFIG_UPTODATE = "config_uptodate";
+    private static final String MARK_URL_REPLACE = "url_replace";
+    private static final String MARK_CANONICAL_URLS = "canonical_urls";
+    private static final String MARK_FRIENDLY_URL_DAEMON = "friendly_url_daemon";
+    private static final String PROPERTY_TITlE = "seo.panel.friendly_urls.title";
+    private static final int PANEL_ORDER = 1;
+    private static final String PANEL_KEY = "FRIENDLY_URL";
 
     // properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_FRIENDLY_URLS = "seo.manage_friendly_urls.pageTitle";
@@ -141,6 +151,7 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private int _nItemsPerPage;
+    private HttpServletRequest _request;
 
     /**
      * Returns the list of friendly_url
@@ -527,4 +538,57 @@ public class FriendlyUrlJspBean extends PluginAdminPageJspBean
 
         return JSP_GENERATE_FRIENDLY_URLS;
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Panel
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getPanelTitle()
+    {
+         return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale(  ) );
+   }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getPanelContent()
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_REWRITE_CONFIG_UPDATE,
+            DatastoreService.getDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, "" ) );
+        model.put( MARK_CONFIG_UPTODATE,
+            DatastoreService.getDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "" ).equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_URL_REPLACE,
+            DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_CANONICAL_URLS,
+            DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" )
+                            .equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_FRIENDLY_URL_DAEMON,
+            DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, "" )
+                            .equals( DatastoreService.VALUE_TRUE ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getPanelLocale(  ), model );
+
+        return template.getHtml(  );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int getPanelOrder()
+    {
+        return PANEL_ORDER;
+    }
+
+    @Override
+    public String getPanelKey()
+    {
+        return PANEL_KEY;
+    }
+
 }

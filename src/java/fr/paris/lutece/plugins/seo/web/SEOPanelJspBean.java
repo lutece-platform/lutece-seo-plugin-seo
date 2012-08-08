@@ -31,62 +31,76 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.web.panel;
+package fr.paris.lutece.plugins.seo.web;
 
-import fr.paris.lutece.plugins.seo.service.SEODataKeys;
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
+import fr.paris.lutece.plugins.seo.service.PanelService;
+import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * Sitemap Panel
+ * Abstract SEO Panel
  */
-public class SitemapPanel extends SEOAbstractPanel implements SEOPanel
+public abstract class SEOPanelJspBean extends PluginAdminPageJspBean implements SEOPanel
 {
-    private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/sitemap_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
-    private static final int ORDER = 1;
-    private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
-    private static final String MARK_DAEMON_ENABLED = "daemon_enabled";
+    private static final String HASH_PANEL = "#panel";
+    private Locale _locale;
+    private HttpServletRequest _request;
+    
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getTitle(  )
+    public int getPanelIndex()
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getLocale(  ) );
+        return PanelService.instance().getIndex(getPanelKey());
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getContent(  )
+    public void setPanelLocale( Locale locale )
     {
-        String strDeamon = DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED,
-                DatastoreService.VALUE_FALSE );
-
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_LAST_GENERATION, DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, "" ) );
-        model.put( MARK_DAEMON_ENABLED, strDeamon.equals( DatastoreService.VALUE_TRUE ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getLocale(  ), model );
-
-        return template.getHtml(  );
+        _locale = locale;
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public int getOrder(  )
+    public Locale getPanelLocale(  )
     {
-        return ORDER;
+        return _locale;
     }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setRequest( HttpServletRequest request )
+    {
+        _request = request;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public HttpServletRequest getRequest(  )
+    {
+        return _request;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getHomeUrl(HttpServletRequest request)
+    {
+        return super.getHomeUrl(request) + HASH_PANEL + getPanelIndex();
+    }
+    
 }

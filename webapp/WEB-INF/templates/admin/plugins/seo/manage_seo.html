@@ -1,9 +1,41 @@
-<#list panels_list as panel>
-<div >
-    <legend name="panel${panel.order}">${panel.title}</legend>    
-     
-        ${panel.content}
-    
-</div>
-</#list>
+<ul class="nav nav-tabs" id="seoPanels">
+    <#list panels_list as panel>
+    <#if panel.panelIndex = 0>
+    <li class="active" >
+        <#else>
+    <li>
+        </#if>
+        <a href="#panel${panel.panelIndex}" data-toggle="tab" >${panel.panelTitle}</a>
+    </li>
+    </#list>
+</ul>
 
+<div class="tab-content">
+    <#list panels_list as panel>
+    <#if panel.panelIndex = 0>
+        <div class="tab-pane active" id="panel${panel.panelOrder}">
+     <#else>
+        <div class="tab-pane" id="panel${panel.panelOrder}">
+     </#if>
+        ${panel.panelContent}
+        </div>
+      </#list>
+    </div>
+    
+    
+    <script>
+$(document).ready(function() {
+    // Function to activate the tab
+    function activateTab() {
+        var activeTab = $('[href=' + window.location.hash.replace('/', '') + ']');
+        activeTab && activeTab.tab('show');
+    }
+
+    // Trigger when the page loads
+    activateTab();
+
+});
+
+    </script>
+    
+ 
