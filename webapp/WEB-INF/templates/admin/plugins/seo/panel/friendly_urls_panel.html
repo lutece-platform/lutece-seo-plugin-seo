@@ -3,7 +3,7 @@
     <div class="well span6">
         <h3>Gestion des URL explicites</h3>
         <p>
-            Le r&eacute;f&eacute;rencement est am&eacute;lior&eacute; lorsque les URL des pages du sites sont explicites,
+            Le r&eacute;f&eacute;rencement est am&eacute;lior&eacute; lorsque les URL des pages du site sont explicites,
             c'est &agrave; dire qu'elles contiennent que des termes lisibles et non techniques.
             En utilisant la technique de r&eacute;&eacute;criture d'URL, il est possible de d&eacute;finir des
             URL explicites et configurer leur redirection vers les URL techniques
@@ -20,27 +20,25 @@
     </div>
 
     <div class="well span6">
-        <h3>Mise &agrave; jour du fichier du fichier de configuration</h3>
-        <p>
-            ${rewrite_config_last_update}
-        </p>
+        <h3>Mise &agrave; jour du fichier de configuration</h3>
         <#if config_uptodate >
-        <p>
-            <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
-            Le fichier de configuration est &agrave; jour.
-        </p>
+        <div class="alert alert-success">
+            <strong>Le fichier de configuration des redirections est &agrave; jour !</strong><br/>
+            ${rewrite_config_last_update}
+        </div>
         <#else>
-        <p>
-            <span class="label label-warning"><i class="icon-warning-sign icon-white"></i> #i18n{portal.util.labelWarning}</span>
-            Le fichier de configuration n'est pas &agrave; jour.
-        </p>
+        <div class="alert alert-error">
+            <strong>Le fichier de configuration des redirections n'est pas &agrave; jour !</strong><br />
+            ${rewrite_config_last_update}
+        </div>
+            
+            <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
+                <button class="btn btn-primary pull-right" type="submit" >
+                    <i class="icon-refresh icon-white"></i>
+                    Mettre &agrave; jour
+                </button>
+            </form>
         </#if>
-        <form method="post"  action="jsp/admin/plugins/seo/DoGenerateRuleFile.jsp">
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-refresh icon-white"></i>
-                Mettre &agrave; jour
-            </button>
-        </form>
     </div>
 </div>
 
@@ -56,8 +54,8 @@
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
             <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-remove icon-white"></i>
+            <button class="btn btn-danger pull-right" type="submit" >
+                <i class="icon-stop icon-white"></i>
                 D&eacute;sactiver la g&eacute;n&eacute;ration automatique
             </button>
         </form>
@@ -68,8 +66,8 @@
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
             <input type="hidden" name="toggle" value="friendly_url_daemon_enabled" />
-            <button class="btn btn-primary pull-right" type="submit">
-                <i class="icon-ok icon-white"></i>
+            <button class="btn btn-success pull-right" type="submit">
+                <i class="icon-play icon-white"></i>
                 Activer la g&eacute;n&eacute;ration automatique    
             </button> 
         </form>
@@ -94,8 +92,8 @@
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
             <input type="hidden" name="toggle" value="replace_url_in_content" />
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-remove icon-white"></i>
+            <button class="btn btn-danger pull-right" type="submit" >
+                <i class="icon-stop icon-white"></i>
                 D&eacute;sactiver la r&eacute;&eacute;criture
             </button>
         </form>
@@ -107,8 +105,8 @@
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
             <input type="hidden" name="toggle" value="replace_url_in_content" />
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-ok icon-white"></i>
+            <button class="btn btn-success pull-right" type="submit" >
+                <i class="icon-play icon-white"></i>
                 Activer la r&eacute;&eacute;criture
             </button>
         </form>
@@ -127,7 +125,7 @@
             pas de contenu dupliq&eacute;. L'URL canonique permet de d&eacute;finir l'URL &agrave; prendre en compte 
             par les moteurs.
             <a href="http://support.google.com/webmasters/bin/answer.py?hl=fr&answer=139394" title="Lien vers site Google">
-                <span class="label label-info"><i class="icon-info-sign icon-white"></i></span>
+                En savoir plus ... &nbsp; <img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " />
             </a>
         </p>
         <#if canonical_urls >
@@ -137,8 +135,8 @@
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
             <input type="hidden" name="toggle" value="add_canonical_url" />
-            <button class="btn btn-primary pull-right" type="submit">
-                <i class="icon-remove icon-white"></i>
+            <button class="btn btn-danger pull-right" type="submit">
+                <i class="icon-stop icon-white"></i>
                 D&eacute;sactiver l'insertion d'URL canoniques
             </button>
         </form>
@@ -149,8 +147,8 @@
         </p>
         <form method="post"  action="jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp">
             <input type="hidden" name="toggle" value="add_canonical_url" />
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-ok icon-white"></i>
+            <button class="btn btn-success pull-right" type="submit" >
+                <i class="icon-play icon-white"></i>
                 Activer l'insertion d'URL canoniques
             </button>
         </form>

@@ -1,55 +1,58 @@
 <div class="row-fluid">  
     <div class="well span6">
-        <h3>Gestion du fichier Sitemap</h3>
-        <p>
-            Le ou les fichiers "sitemap" permettent aux webmasters d'indiquer facilement aux moteurs de recherche 
-            les pages de leurs sites &agrave; explorer. Les robots d'exploration peuvent extraire toutes les URL du plan 
-            Sitemap et de recueillir des informations sur ces URL &agrave; l'aide des m&eacute;tadonn&eacute;es associ&eacute;es. 
-        </p>    
+        <h3>#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
+        <p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>    
         <p>
             <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">
-                <img class="text-icon" src="images/admin/skin/documentation.png" /> En savoir plus ...</a>
+                 #i18n{seo.panel.sitemap.labelMore}<img src="images/admin/skin/external-link.png" alt="External Link" title=" " />
+            </a>
         </p>
         <form action="sitemap.xml" method="GET">
             <button class="btn btn-primary pull-right" type="submit">
                 <i class="icon-eye-open icon-white"></i>
-                Afficher le contenu du fichier
+                #i18n{seo.panel.sitemap.buttonDisplaySitemap}               
             </button> 
         </form>
     </div>
     <div class="well span6">
-        <h3>G&eacute;n&eacute;ration automatique</h3>
-        <p>
+        <h3>#i18n{seo.panel.sitemap.titleGenerate}</h3>
+        <div class="alert alert-info">
             ${sitemapLastGeneration}
-        </p>
-
-        <p>
+        </div>
+        <div>
+        <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
+            <button class="btn btn-primary pull-right" type="submit">
+                <i class="icon-refresh icon-white" ></i>
+                #i18n{seo.panel.sitemap.buttonUpdateFile}
+            </button>
+        </form>
+            <br><br><br>
+        </div>
+        <div>
+            #i18n{seo.panel.sitemap.explainGenerate}
+            <br>
+        </div>
             <#if daemon_enabled >
+            #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
+            <br>
         <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-            <button class="btn btn-primary pull-right" type="submit" >
+            <button class="btn btn-danger pull-right" type="submit" >
                 <i class="icon-stop icon-white"></i>
-                D&eacute;sactiver la mise &agrave; jour automatique
+                #i18n{seo.panel.sitemap.buttonDisableGenerate}
             </button>
         </form>
         
-        La mise &agrave; jour automatique est <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>.
-        <#else>
-        <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-ok icon-white"></i>
-                Activer la mise &agrave; jour automatique
-            </button>
-        </form>
-        La mise &agrave; jour automatique est <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
-        </#if>
 
-        </p>
-        <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-            <button class="btn btn-primary pull-right" type="submit">
-                <i class="icon-play icon-white" ></i>
-                Mettre &agrave; jour le fichier
+        <#else>
+        #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
+        <br>
+        <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
+            <button class="btn btn-success pull-right" type="submit" >
+                <i class="icon-play icon-white"></i>
+                #i18n{seo.panel.sitemap.buttonEnableGenerate}
             </button>
         </form>
+        </#if>
 
     </div>
 </div>
