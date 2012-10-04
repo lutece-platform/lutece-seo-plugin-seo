@@ -25,14 +25,14 @@
                 </td>
                 <td>
                     <button class="btn btn-primary btn-mini" type="submit" title="#i18n{portal.util.labelModify}">
-                        <i class="icon-refresh icon-white"
-                </button>
-            </td>
-        </tr>
+                        <i class="icon-refresh icon-white"></i>
+                    </button>
+                </td>
+            </tr>
 
-    </form>
-    </#list>
-</table>
+        </form>
+        </#list>
+    </table>
 
 </div>
 
@@ -58,10 +58,12 @@
                 #i18n{seo.generate_friendly_urls.optionHtmlSuffix}
             </div>
 
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-cog icon-white"></i>
-                #i18n{seo.generate_friendly_urls.buttonGenerate}
-            </button>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" >
+                    <i class="icon-cog icon-white"></i>
+                    #i18n{seo.generate_friendly_urls.buttonGenerate}
+                </button>
+            </div>
 
         </fieldset>
     </form>

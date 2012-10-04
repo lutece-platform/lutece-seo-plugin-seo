@@ -20,7 +20,7 @@ REPLACE INTO `core_datastore` VALUES
 ('seo.rewrite.config.lastUpdate','Dernière mise à jour du fichier de configuration : 3 oct. 2012 23:31:51 Nombre d\'url : 11 Resultat : OK'),
 ('seo.config.uptodate','false'),
 ('seo.generator.option.addPath','false'),
-('seo.generator.option.addHtmlSuffix','false'),
+('seo.generator.option.addHtmlSuffix','true'),
 ('seo.replaceUrl.enabled','true'),
 ('seo.generator.daemon.enabled','true'),
 ('seo.canonicalUrls.enabled','true'),
