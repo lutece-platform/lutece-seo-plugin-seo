@@ -33,13 +33,18 @@
  */
 package fr.paris.lutece.plugins.seo.service.generator;
 
+import fr.paris.lutece.plugins.seo.service.RuleFileService;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import java.io.IOException;
 
 import java.text.DateFormat;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -64,12 +69,22 @@ public class FriendlyUrlGeneratorDaemon extends Daemon
             options.setForceUpdate( false );
             options.setAddPath( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" )
                                                 .equals( DatastoreService.VALUE_TRUE ) );
-            options.setHtmlSuffix( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" )
+            options.setHtmlSuffix( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, "" )
                                                    .equals( DatastoreService.VALUE_TRUE ) );
 
             FriendlyUrlGeneratorService.instance(  ).generate( options );
             strLog = "Friendly Url Generator Deamon last run : " +
                 DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
+            try
+            {
+                RuleFileService.generateFile();
+                strLog += "\nand URL Rewriting rules file updated" ;
+            }
+            catch (IOException ex)
+            {
+                strLog = "Error writing URL rewriting rules file : " + ex.getMessage();
+                AppLogService.error( strLog , ex);
+            }
         }
 
         setLastRunLogs( strLog );
