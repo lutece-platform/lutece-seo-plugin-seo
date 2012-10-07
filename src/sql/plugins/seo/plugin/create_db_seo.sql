@@ -16,7 +16,7 @@ CREATE TABLE seo_friendly_url (
   friendly_url VARCHAR(255) DEFAULT '' NOT NULL,
   technical_url VARCHAR(255) DEFAULT '' NOT NULL,
   date_creation timestamp default CURRENT_TIMESTAMP NOT NULL,
-  date_modification timestamp default '0000-00-00 00:00:00' NOT NULL,
+  date_modification timestamp default '2012-10-10 00:00:00' NOT NULL,
   is_canonical int default 0 NOT NULL,
   is_sitemap int default 0 NOT NULL,
   sitemap_lastmod VARCHAR(255) DEFAULT '' NULL,
