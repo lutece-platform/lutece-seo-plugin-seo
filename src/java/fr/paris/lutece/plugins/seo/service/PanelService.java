@@ -35,64 +35,93 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.plugins.seo.web.SEOPanel;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- *
- */
-public class PanelService
-{
 
+/**
+ * Panel Service
+ */
+public final class PanelService
+{
     private static PanelService _singleton;
     private static List<SEOPanel> _listPanels;
-    private static Comparator _comparator = new PanelComparator();
-    
-    private PanelService()
+    private static Comparator _comparator = new PanelComparator(  );
+
+    /**
+     * Private constructor
+     */
+    private PanelService(  )
     {
     }
 
-    public static synchronized PanelService instance()
+    /**
+     * Return the unique instance
+     * @return The instance
+     */
+    public static synchronized PanelService instance(  )
     {
-        if (_singleton == null)
+        if ( _singleton == null )
         {
-            _singleton = new PanelService();
-            _listPanels = SpringContextService.getBeansOfType(SEOPanel.class);
+            _singleton = new PanelService(  );
+            _listPanels = SpringContextService.getBeansOfType( SEOPanel.class );
             Collections.sort( _listPanels, _comparator );
         }
+
         return _singleton;
     }
-    
-    public List<SEOPanel> getPanels()
+
+    /**
+     * Returns the list of all panels
+     * @return The list of all panels
+     */
+    public List<SEOPanel> getPanels(  )
     {
         return _listPanels;
     }
 
+    /**
+     * Get the index of a panel
+     * @param strPanelKey The panel's key
+     * @return The index
+     */
+    public int getIndex( String strPanelKey )
+    {
+        int nIndex = 1;
+
+        for ( SEOPanel panel : _listPanels )
+        {
+            if ( panel.getPanelKey(  ).equals( strPanelKey ) )
+            {
+                return nIndex;
+            }
+
+            nIndex++;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Comparator
+     */
     private static class PanelComparator implements Comparator
     {
-
+        /**
+         * Comparator
+         * @param o1 object 1
+         * @param o2 object 2
+         * @return the comparaison
+         */
         @Override
-        public int compare(Object o1, Object o2)
+        public int compare( Object o1, Object o2 )
         {
             SEOPanel p1 = (SEOPanel) o1;
             SEOPanel p2 = (SEOPanel) o2;
 
-            return p1.getPanelOrder() - p2.getPanelOrder();
+            return p1.getPanelOrder(  ) - p2.getPanelOrder(  );
         }
-    }
-    
-    public int getIndex( String strPanelKey )
-    {
-        int nIndex = 1;
-        for( SEOPanel panel : _listPanels )
-        {
-            if( panel.getPanelKey().equals(strPanelKey))
-            {
-                return nIndex;
-            }
-            nIndex++;
-        }
-        return -1;
     }
 }

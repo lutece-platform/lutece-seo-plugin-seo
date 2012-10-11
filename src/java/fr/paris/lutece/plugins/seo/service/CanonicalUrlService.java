@@ -53,12 +53,19 @@ public final class CanonicalUrlService
     private static CanonicalUrlService _singleton = new CanonicalUrlService(  );
     private static boolean _bCanonical;
 
+    /**
+     * Private constructor
+     */
     private CanonicalUrlService(  )
     {
         _bCanonical = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" )
                                       .equals( DatastoreService.VALUE_TRUE );
     }
 
+    /**
+     * Return the unique instance
+     * @return The instance
+     */
     public static synchronized CanonicalUrlService instance(  )
     {
         return _singleton;
@@ -75,7 +82,7 @@ public final class CanonicalUrlService
 
     /**
      * Sets the status of Canonical URLs (Enabled  or Disabled)
-     * @param bEnabled
+     * @param bEnabled The status
      */
     public void setCanonicalUrlsEnabled( boolean bEnabled )
     {

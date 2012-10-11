@@ -35,7 +35,9 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.service.PanelService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+
 import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -47,15 +49,14 @@ public abstract class SEOPanelJspBean extends PluginAdminPageJspBean implements 
     private static final String HASH_PANEL = "#panel";
     private Locale _locale;
     private HttpServletRequest _request;
-    
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public int getPanelIndex()
+    public int getPanelIndex(  )
     {
-        return PanelService.instance().getIndex(getPanelKey());
+        return PanelService.instance(  ).getIndex( getPanelKey(  ) );
     }
 
     /**
@@ -98,9 +99,8 @@ public abstract class SEOPanelJspBean extends PluginAdminPageJspBean implements 
      * {@inheritDoc }
      */
     @Override
-    public String getHomeUrl(HttpServletRequest request)
+    public String getHomeUrl( HttpServletRequest request )
     {
-        return super.getHomeUrl(request) + HASH_PANEL + getPanelIndex();
+        return super.getHomeUrl( request ) + HASH_PANEL + getPanelIndex(  );
     }
-    
 }

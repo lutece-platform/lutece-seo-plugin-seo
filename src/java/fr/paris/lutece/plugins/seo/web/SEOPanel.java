@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.seo.web;
 
 import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -76,23 +77,23 @@ public interface SEOPanel
      * Gets the locale
      * @return The locale
      */
-    public Locale getPanelLocale(  );
+    Locale getPanelLocale(  );
 
     /**
-     * Sets the request 
+     * Sets the request
      * @param request The request
      */
     void setRequest( HttpServletRequest request );
-    
+
     /**
      * Gets the request
      * @return The request
      */
-    public HttpServletRequest getRequest(  );
+    HttpServletRequest getRequest(  );
 
     /**
      * Gets the panel index
      * @return The index
      */
-    public int getPanelIndex();
+    int getPanelIndex(  );
 }

@@ -34,13 +34,15 @@
 package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
+import org.junit.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import org.junit.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,20 +85,22 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
         map.put( "tutu", "replaced" );
 
         String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map, BASE_URL );
-        
+
         int nReplacementCount = 0;
         int nPos = result.indexOf( "replaced" );
-        while( nPos != -1 )
+
+        while ( nPos != -1 )
         {
-            nReplacementCount++ ;
-            nPos = result.indexOf( "replaced" , nPos + 1 );
+            nReplacementCount++;
+            nPos = result.indexOf( "replaced", nPos + 1 );
         }
-            
+
         assertEquals( nReplacementCount, 3 );
         System.out.println( result );
     }
-    
-    public String getFileContent( String strResource ) throws IOException
+
+    public String getFileContent( String strResource )
+        throws IOException
     {
         InputStream is = getClass(  ).getResourceAsStream( "/" + strResource );
         InputStreamReader isr = new InputStreamReader( is );
@@ -128,5 +132,4 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
             return "";
         }
     }
-
 }

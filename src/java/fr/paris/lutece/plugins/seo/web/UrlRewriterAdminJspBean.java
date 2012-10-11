@@ -310,7 +310,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
 
     ////////////////////////////////////////////////////////////////////////////
     // Panel
-    
+
     /**
      * {@inheritDoc }
      */
@@ -340,10 +340,12 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
         return PANEL_ORDER;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public String getPanelKey()
+    public String getPanelKey(  )
     {
         return PANEL_KEY;
     }
-
 }

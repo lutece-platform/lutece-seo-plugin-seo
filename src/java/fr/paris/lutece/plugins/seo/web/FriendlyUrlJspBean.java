@@ -103,7 +103,6 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     private static final String TEMPLATE_CREATE_RULE = "/admin/plugins/seo/create_friendly_url.html";
     private static final String TEMPLATE_MODIFY_RULE = "/admin/plugins/seo/modify_friendly_url.html";
     private static final String TEMPLATE_GENERATE_ALIAS = "/admin/plugins/seo/generate_friendly_urls.html";
-
     private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/friendly_urls_panel.html";
     private static final String MARK_REWRITE_CONFIG_UPDATE = "rewrite_config_last_update";
     private static final String MARK_CONFIG_UPTODATE = "config_uptodate";
@@ -362,10 +361,11 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
             AppLogService.error( "Error generating url file : " + e.getMessage(  ), e );
             strMessage = MESSAGE_GENERATION_FAILED;
             nMessageType = AdminMessage.TYPE_STOP;
+
             return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
         }
-        return getHomeUrl( request );
 
+        return getHomeUrl( request );
     }
 
     /**
@@ -537,7 +537,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         return JSP_GENERATE_FRIENDLY_URLS;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // Panel
 
@@ -545,16 +545,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * {@inheritDoc }
      */
     @Override
-    public String getPanelTitle()
+    public String getPanelTitle(  )
     {
-         return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale(  ) );
-   }
+        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale(  ) );
+    }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getPanelContent()
+    public String getPanelContent(  )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_REWRITE_CONFIG_UPDATE,
@@ -579,15 +579,17 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * {@inheritDoc }
      */
     @Override
-    public int getPanelOrder()
+    public int getPanelOrder(  )
     {
         return PANEL_ORDER;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public String getPanelKey()
+    public String getPanelKey(  )
     {
         return PANEL_KEY;
     }
-
 }

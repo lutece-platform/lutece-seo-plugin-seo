@@ -38,13 +38,12 @@ import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.io.IOException;
 
 import java.text.DateFormat;
 
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -75,15 +74,16 @@ public class FriendlyUrlGeneratorDaemon extends Daemon
             FriendlyUrlGeneratorService.instance(  ).generate( options );
             strLog = "Friendly Url Generator Deamon last run : " +
                 DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
+
             try
             {
-                RuleFileService.generateFile();
-                strLog += "\nand URL Rewriting rules file updated" ;
+                RuleFileService.generateFile(  );
+                strLog += "\nand URL Rewriting rules file updated";
             }
-            catch (IOException ex)
+            catch ( IOException ex )
             {
-                strLog = "Error writing URL rewriting rules file : " + ex.getMessage();
-                AppLogService.error( strLog , ex);
+                strLog = "Error writing URL rewriting rules file : " + ex.getMessage(  );
+                AppLogService.error( strLog, ex );
             }
         }
 
