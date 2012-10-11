@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.plugins.seo.web.SEOPanel;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.io.Serializable;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -107,7 +108,7 @@ public final class PanelService
     /**
      * Comparator
      */
-    private static class PanelComparator implements Comparator
+    private static class PanelComparator implements Comparator, Serializable
     {
         /**
          * Comparator
