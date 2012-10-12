@@ -17,9 +17,6 @@
             <div class="modal-body">
                 <pre id="sitemap" class="pre-scrollable prettyprint linenums" >
                 </pre>
-                <pre  class="pre-scrollable prettyprint linenums" >
-                <url>URL</url>
-                </pre>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Close</a>
@@ -33,6 +30,7 @@
                 #i18n{seo.panel.sitemap.buttonDisplaySitemap}
             </a>
         </p>
+
     </div>
     <div class="well span6">
         <h3>#i18n{seo.panel.sitemap.titleGenerate}</h3>
@@ -79,7 +77,26 @@
 
 
 <script>
+    function format( source , tag )
+    {
+        var s1 = '/&lt;' + tag + '&gt;/g';
+        var d1 = '<b>&lt;' + tag + '&gt;</b>'
+        var s2 = '/&lt;\/' + tag + '&gt;/g';
+        var d2 = '<b>&lt;\/' + tag + '&gt;</b>\n'
+        return source.replace( s1, d1).replace( s2, d2 );
+    }
+    
     $('#sitemap').load('sitemap.xml', function() {
-               
+    var content = $('#sitemap').html();
+    content = content.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    content = content.replace(/&lt;url&gt;/g, "<br><b>&lt;url&gt;</b><br>").replace(/&lt;\/url&gt;/g, "<b>&lt;\/url&gt;</b><br>");
+    content = content.replace(/&lt;loc&gt;/g, "<b>&lt;loc&gt;</b>").replace(/&lt;\/loc&gt;/g, "<b>&lt;\/loc&gt;</b><br>");
+    content = content.replace(/&lt;priority&gt;/g, "<b>&lt;priority&gt;</b>").replace(/&lt;\/priority&gt;/g, "<b>&lt;\/priority&gt;</b><br>");
+    content = content.replace(/&lt;lastmod&gt;/g, "<b>&lt;lastmod&gt;</b>").replace(/&lt;\/lastmod&gt;/g, "<b>&lt;\/lastmod&gt;</b><br>");
+    content = content.replace(/&lt;changefreq&gt;/g, "<b>&lt;changefreq&gt;</b>").replace(/&lt;\/changefreq&gt;/g, "<b>&lt;\/changefreq&gt;</b><br>");
+    content = format( content , 'lastmod' );
+    $('#sitemap').replaceWith( content );
     });
+  
+    
 </script>
