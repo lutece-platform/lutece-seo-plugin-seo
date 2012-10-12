@@ -1,18 +1,38 @@
+
+
 <div class="row-fluid">  
     <div class="well span6">
         <h3>#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
         <p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>    
         <p>
             <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">
-                 #i18n{seo.panel.sitemap.labelMore}<img src="images/admin/skin/external-link.png" alt="External Link" title=" " />
+                #i18n{seo.panel.sitemap.labelMore}<img src="images/admin/skin/external-link.png" alt="External Link" title=" " />
             </a>
         </p>
-        <form action="sitemap.xml" method="GET">
-            <button class="btn btn-primary pull-right" type="submit">
+        <div id="modal" class="modal hide fade in" style="display: none; ">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+                <h3>Sitemap</h3>
+            </div>
+            <div class="modal-body">
+                <pre id="sitemap" class="pre-scrollable prettyprint linenums" >
+                </pre>
+                <pre  class="pre-scrollable prettyprint linenums" >
+                <url>URL</url>
+                </pre>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+
+
+        <p>
+            <a data-toggle="modal" href="#modal" class="btn btn-primary pull-right">
                 <i class="icon-eye-open icon-white"></i>
-                #i18n{seo.panel.sitemap.buttonDisplaySitemap}               
-            </button> 
-        </form>
+                #i18n{seo.panel.sitemap.buttonDisplaySitemap}
+            </a>
+        </p>
     </div>
     <div class="well span6">
         <h3>#i18n{seo.panel.sitemap.titleGenerate}</h3>
@@ -20,28 +40,28 @@
             ${sitemapLastGeneration}
         </div>
         <div>
-        <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-            <button class="btn btn-primary pull-right" type="submit">
-                <i class="icon-refresh icon-white" ></i>
-                #i18n{seo.panel.sitemap.buttonUpdateFile}
-            </button>
-        </form>
+            <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
+                <button class="btn btn-primary pull-right" type="submit">
+                    <i class="icon-refresh icon-white" ></i>
+                    #i18n{seo.panel.sitemap.buttonUpdateFile}
+                </button>
+            </form>
             <br><br><br>
         </div>
         <div>
             #i18n{seo.panel.sitemap.explainGenerate}
             <br>
         </div>
-            <#if daemon_enabled >
-            #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
-            <br>
+        <#if daemon_enabled >
+        #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
+        <br>
         <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
             <button class="btn btn-danger pull-right" type="submit" >
                 <i class="icon-stop icon-white"></i>
                 #i18n{seo.panel.sitemap.buttonDisableGenerate}
             </button>
         </form>
-        
+
 
         <#else>
         #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
@@ -56,3 +76,10 @@
 
     </div>
 </div>
+
+
+<script>
+    $('#sitemap').load('sitemap.xml', function() {
+               
+    });
+</script>
