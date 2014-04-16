@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>seo</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>3.1.0</version>
+    <version>3.1.1-SNAPSHOT</version>
     <documentation/>
     <installation/>
     <changes/>
