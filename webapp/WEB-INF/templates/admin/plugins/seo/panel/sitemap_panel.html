@@ -1,102 +1,109 @@
-
-
-<div class="row-fluid">  
-    <div class="well span6">
-        <h3>#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
-        <p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>    
-        <p>
-            <a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel">
-                #i18n{seo.panel.sitemap.labelMore}<img src="images/admin/skin/external-link.png" alt="External Link" title=" " />
-            </a>
-        </p>
-        <div id="modal" class="modal hide fade in" style="display: none; ">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">×</a>
-                <h3>Sitemap</h3>
-            </div>
-            <div class="modal-body">
-                <pre id="sitemap" class="pre-scrollable prettyprint linenums" >
-                </pre>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Close</a>
-            </div>
-        </div>
-
-
-        <p>
-            <a data-toggle="modal" href="#modal" class="btn btn-primary pull-right">
-                <i class="icon-eye-open icon-white"></i>
-                #i18n{seo.panel.sitemap.buttonDisplaySitemap}
-            </a>
-        </p>
-
-    </div>
-    <div class="well span6">
-        <h3>#i18n{seo.panel.sitemap.titleGenerate}</h3>
-        <div class="alert alert-info">
-            ${sitemapLastGeneration}
-        </div>
-        <div>
-            <form action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-                <button class="btn btn-primary pull-right" type="submit">
-                    <i class="icon-refresh icon-white" ></i>
-                    #i18n{seo.panel.sitemap.buttonUpdateFile}
-                </button>
-            </form>
-            <br><br><br>
-        </div>
-        <div>
-            #i18n{seo.panel.sitemap.explainGenerate}
-            <br>
-        </div>
-        <#if daemon_enabled >
-        #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
-        <br>
-        <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-            <button class="btn btn-danger pull-right" type="submit" >
-                <i class="icon-stop icon-white"></i>
-                #i18n{seo.panel.sitemap.buttonDisableGenerate}
-            </button>
-        </form>
-
-
-        <#else>
-        #i18n{seo.panel.sitemap.labelStatus} : <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
-        <br>
-        <form method="post"  action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-            <button class="btn btn-success btn-small pull-right" type="submit" >
-                <i class="icon-play icon-white"></i>
-                #i18n{seo.panel.sitemap.buttonEnableGenerate}
-            </button>
-        </form>
-        </#if>
-
-    </div>
+<div class="row">  
+	<div class="col-xs-12 col-sm-6 col-md-6">  
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
+			</div>
+			<div class="box-body clearfix">	
+				<p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>    
+				<p>
+					<a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel" class="btn btn-default pull-left spaced">
+						#i18n{seo.panel.sitemap.labelMore} <span class="fa fa-external-link"></span>
+					</a>
+					<button type="button" class="btn btn-info btn-flat pull-left" data-toggle="modal" data-target="#sitemapModal">
+						<i class="fa fa-file-o"></i>
+						#i18n{seo.panel.sitemap.buttonDisplaySitemap}
+					</button>
+				</p>
+			</div>
+		</div>
+	</div>
+    <div class="col-xs-12 col-sm-6 col-md-6">  
+        <div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{seo.panel.sitemap.titleGenerate}</h3>
+				<div class="box-tools pull-right">
+				<form class="form-inline pull-right spaced" action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
+					<button class="btn btn-primary btn-xs btn-flat" type="submit">
+						<span class="fa fa-refresh" ></span>
+						#i18n{seo.panel.sitemap.buttonUpdateFile}
+					</button>
+				</form>
+				
+			</div>	
+			</div>
+			<div class="box-body">	
+				<br>
+				<div class="alert alert-info">
+					<span class="fa fa-info"></span>
+					${sitemapLastGeneration}
+				</div>
+				<p class="text-info">
+				<#if daemon_enabled >
+						#i18n{seo.panel.sitemap.explainGenerate} - #i18n{seo.panel.sitemap.labelStatus} <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
+				<#else>
+					#i18n{seo.panel.sitemap.explainGenerate} - #i18n{seo.panel.sitemap.labelStatus} <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
+				</#if>
+				</p>
+			</div>
+			<div class="box-footer clearfix">
+				<form method="post" class="form-inline" action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
+				<#if daemon_enabled >
+					<button class="btn btn-danger btn-block btn-flat" type="submit" >
+						<span class="fa fa-stop"></span>
+						#i18n{seo.panel.sitemap.buttonDisableGenerate}
+					</button>
+				<#else>
+					<button class="btn btn-success btn-block btn-flat" type="submit" >
+						<i class="fa fa-play"></i>
+						#i18n{seo.panel.sitemap.buttonEnableGenerate}
+					</button>
+				</#if>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
-
-
+<!-- Modal -->
+<div class="modal fade" id="sitemapModal" tabindex="-1" role="dialog" aria-labelledby="sitemapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="sitemapModalLabel">Sitemap</h4>
+      </div>
+      <div class="modal-body">
+        <pre>
+			<code id="sitemap" class="language-html" data-lang="html"></code>
+		</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <script>
-    function format( source , tag )
-    {
-        var s1 = '/&lt;' + tag + '&gt;/g';
-        var d1 = '<b>&lt;' + tag + '&gt;</b>'
-        var s2 = '/&lt;\/' + tag + '&gt;/g';
-        var d2 = '<b>&lt;\/' + tag + '&gt;</b>\n'
-        return source.replace( s1, d1).replace( s2, d2 );
-    }
-    
+function format( source , tag ) {
+	var s1 = '/&lt;' + tag + '&gt;/g';
+    var d1 = '<b>&lt;' + tag + '&gt;</b>'
+    var s2 = '/&lt;\/' + tag + '&gt;/g';
+    var d2 = '<b>&lt;\/' + tag + '&gt;</b>\n'
+    return source.replace( s1, d1).replace( s2, d2 );
+}
+
+$(document).ready( function(){
     $('#sitemap').load('sitemap.xml', function() {
-    var content = $('#sitemap').html();
-    content = content.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-    content = content.replace(/&lt;url&gt;/g, "<br><b>&lt;url&gt;</b><br>").replace(/&lt;\/url&gt;/g, "<b>&lt;\/url&gt;</b><br>");
-    content = content.replace(/&lt;loc&gt;/g, "<b>&lt;loc&gt;</b>").replace(/&lt;\/loc&gt;/g, "<b>&lt;\/loc&gt;</b><br>");
-    content = content.replace(/&lt;priority&gt;/g, "<b>&lt;priority&gt;</b>").replace(/&lt;\/priority&gt;/g, "<b>&lt;\/priority&gt;</b><br>");
-    content = content.replace(/&lt;lastmod&gt;/g, "<b>&lt;lastmod&gt;</b>").replace(/&lt;\/lastmod&gt;/g, "<b>&lt;\/lastmod&gt;</b><br>");
-    content = content.replace(/&lt;changefreq&gt;/g, "<b>&lt;changefreq&gt;</b>").replace(/&lt;\/changefreq&gt;/g, "<b>&lt;\/changefreq&gt;</b><br>");
-    content = format( content , 'lastmod' );
-    $('#sitemap').replaceWith( content );
+		var content = $('#sitemap').html();
+		content = content.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+		content = content.replace(/&lt;url&gt;/g, "<br><b>&lt;url&gt;</b><br>").replace(/&lt;\/url&gt;/g, "<b>&lt;\/url&gt;</b><br>");
+		content = content.replace(/&lt;loc&gt;/g, "<b>&lt;loc&gt;</b>").replace(/&lt;\/loc&gt;/g, "<b>&lt;\/loc&gt;</b><br>");
+		content = content.replace(/&lt;priority&gt;/g, "<b>&lt;priority&gt;</b>").replace(/&lt;\/priority&gt;/g, "<b>&lt;\/priority&gt;</b><br>");
+		content = content.replace(/&lt;lastmod&gt;/g, "<b>&lt;lastmod&gt;</b>").replace(/&lt;\/lastmod&gt;/g, "<b>&lt;\/lastmod&gt;</b><br>");
+		content = content.replace(/&lt;changefreq&gt;/g, "<b>&lt;changefreq&gt;</b>").replace(/&lt;\/changefreq&gt;/g, "<b>&lt;\/changefreq&gt;</b><br>");
+		content = format( content , 'lastmod' );
+		$('#sitemap').html( content );
     });
-  
-    
+});
 </script>

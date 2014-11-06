@@ -1,69 +1,69 @@
-    <div class="btn-group pull-right">
+<div class="row">  
+	<div class="col-xs-12 col-sm-12 col-md-12">  
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{seo.manage_friendly_urls.labelUrlList}</h3>
+				<div class="box-tools pull-right">
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
+						<i class="fa fa-plus"></i>
+						<span class="hidden-xs">#i18n{seo.manage_friendly_urls.buttonCreate}</span>
+					</a>
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
+						<i class="fa fa-cog"></i>
+						<span class="hidden-xs">#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}</span>
+					</a>
+				</div>
+			</div>
+			<div class="box-body table-responsive">
+			<@paginationAdmin paginator=paginator combo=1 />
+			<table class="table table-hover table-condensed">
+				<thead>
+				<tr>
+					<th>#i18n{seo.manage_friendly_urls.columnFriendlyUrl} <span class="fa fa-arrow-circle-o-right"></span> #i18n{seo.manage_friendly_urls.columnTechnicalUrl}</th>
+					<th class="hidden-xs">#i18n{seo.manage_friendly_urls.columnCanonical}</th>
+					<th class="hidden-xs">#i18n{seo.manage_friendly_urls.columnSitemap}</th>
+					<th class="hidden-xs">#i18n{seo.manage_friendly_urls.columnLastMod}</th>
+					<th class="hidden-xs">#i18n{seo.manage_friendly_urls.columnChangeFreq}</th>
+					<th class="hidden-xs">#i18n{seo.manage_friendly_urls.columnPriority}</th>
+					<th>#i18n{seo.manage_friendly_urls.columnActions}</th>
+				</tr>
+				</thead>
+				<tbody>
+				<#list friendly_url_list as url >
+				<tr>
 
-        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
-            <i class="icon-plus icon-white"></i>
-            <span class="hidden-phone">#i18n{seo.manage_friendly_urls.buttonCreate}</span>
-        </a>
-        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
-            <i class="icon-cog icon-white"></i>
-            <span class="hidden-phone">#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}</span>
-        </a>
-        <a class="btn btn-small" href="jsp/admin/plugins/seo/ManageSEO.jsp">
-            <i class="icon-chevron-left"></i>
-            #i18n{portal.util.labelBack}
-        </a>
-    </div>
-
-    <h3>#i18n{seo.manage_friendly_urls.labelUrlList}</h3>
-    <@paginationAdmin paginator=paginator combo=1 />
-    <table class="table table-striped table-condensed">
-        <thead>
-        <tr>
-            <th>#i18n{seo.manage_friendly_urls.columnFriendlyUrl}</th>
-            <th>#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</th>
-            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnCanonical}</th>
-            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnSitemap}</th>
-            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnLastMod}</th>
-            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnChangeFreq}</th>
-            <th class="hidden-phone">#i18n{seo.manage_friendly_urls.columnPriority}</th>
-            <th>#i18n{seo.manage_friendly_urls.columnActions}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list friendly_url_list as url >
-        <tr>
-
-            <td>${url.friendlyUrl}</td>
-            <td>${url.technicalUrl}</td>
-            <td class="hidden-phone">
-                <#if url.canonical >
-                <span class="label label-success"><i class="icon-ok icon-white"></i>#i18n{portal.util.labelEnabled}</span>
-                <#else>
-                <span class="label label-important"><i class="icon-remove icon-white"></i>#i18n{portal.util.labelDisabled}</span>
-                </#if>
-            </td>
-            <td class="hidden-phone">
-                <#if url.sitemap >
-                <span class="label label-success"><i class="icon-ok icon-white"></i>#i18n{portal.util.labelEnabled}</span>
-                <#else>
-                <span class="label label-important"><i class="icon-remove icon-white"></i>#i18n{portal.util.labelDisabled}</span>
-                </#if>
-            </td>
-            <td class="hidden-phone">${url.sitemapLastmod!"-"}</td>
-            <td class="hidden-phone">${url.sitemapChangeFreq!"-"}</td>
-            <td class="hidden-phone">${url.sitemapPriority!"-"}</td>
-            <td class="span2" >
-                <a class="btn btn-primary btn-small" href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelModify}" >
-                    <i class="icon-edit icon-white"></i>
-                </a>
-                <a class="btn btn-danger btn-small" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
-                    <i class="icon-trash icon-white"></i>
-                </a>
-            </td>
-        </tr>
-        </#list>
-        </tbody>
-    </table>
-    <@paginationAdmin paginator=paginator />
-
-
+					<td>${url.friendlyUrl} <span class="fa fa-arrow-circle-o-right"></span> ${url.technicalUrl}</td>
+					<td class="hidden-phone">
+						<#if url.canonical >
+						<span class="label label-success"><i class="icon-ok icon-white"></i>#i18n{portal.util.labelEnabled}</span>
+						<#else>
+						<span class="label label-important"><i class="icon-remove icon-white"></i>#i18n{portal.util.labelDisabled}</span>
+						</#if>
+					</td>
+					<td class="hidden-xs">
+						<#if url.sitemap >
+						<span class="label label-success"><i class="icon-ok icon-white"></i>#i18n{portal.util.labelEnabled}</span>
+						<#else>
+						<span class="label label-important"><i class="icon-remove icon-white"></i>#i18n{portal.util.labelDisabled}</span>
+						</#if>
+					</td>
+					<td class="hidden-xs">${url.sitemapLastmod!"-"}</td>
+					<td class="hidden-xs">${url.sitemapChangeFreq!"-"}</td>
+					<td class="hidden-xs">${url.sitemapPriority!"-"}</td>
+					<td class="span2" >
+						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelModify}" >
+							<i class="fa fa-pencil"></i>
+						</a>
+						<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
+							<i class="fa fa-trash"></i>
+						</a>
+					</td>
+				</tr>
+				</#list>
+				</tbody>
+			</table>
+			<@paginationAdmin paginator=paginator />
+			</div>
+		</div>
+	</div>
+</div>

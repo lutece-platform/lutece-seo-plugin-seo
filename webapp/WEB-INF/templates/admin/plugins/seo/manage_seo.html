@@ -1,41 +1,50 @@
-<ul class="nav nav-tabs" id="seoPanels">
-    <#list panels_list as panel>
-    <#if panel.panelIndex = 1>
-    <li class="active" >
-        <#else>
-    <li>
-        </#if>
-        <a href="#panel${panel.panelIndex}" data-toggle="tab" >${panel.panelTitle}</a>
-    </li>
-    </#list>
-</ul>
-
-<div class="tab-content">
-    <#list panels_list as panel>
-    <#if panel.panelIndex = 1>
-        <div class="tab-pane active" id="panel${panel.panelIndex}">
-     <#else>
-        <div class="tab-pane" id="panel${panel.panelIndex}">
-     </#if>
-        ${panel.panelContent}
-        </div>
-      </#list>
-    </div>
-    
-    
-    <script>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{searchstats.manage_seo.pageTitle}</h3>
+			</div>	
+			<div class="box-body">	
+				<ul class="nav nav-tabs" id="seoPanels">
+					<#list panels_list as panel>
+						<#if panel.panelIndex = 1>
+							<li class="active" >
+						<#else>
+							<li>
+						</#if>
+						<a href="#panel${panel.panelIndex}" data-toggle="tab" >${panel.panelTitle}</a>
+						</li>
+					</#list>
+				</ul>
+				<div class="tab-content">
+					<#list panels_list as panel>
+					<#if panel.panelIndex = 1>
+						<div class="tab-pane active" id="panel${panel.panelIndex}">
+					 <#else>
+						<div class="tab-pane" id="panel${panel.panelIndex}">
+					 </#if>
+						${panel.panelContent}
+						</div>
+					  </#list>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
 $(document).ready(function() {
     // Function to activate the tab
-    function activateTab() {
-        var activeTab = $('[href=' + window.location.hash.replace('/', '') + ']');
-        activeTab && activeTab.tab('show');
-    }
-
-    // Trigger when the page loads
-    activateTab();
-
+    function activateTab( ){
+		var activeTab = $('[href=' + window.location.hash.replace('/', '') + ']');
+		activeTab && activeTab.tab('show');
+	}
+    
+	// Trigger when the page loads
+	if ( window.location.hash.replace('/', '') !="" ){
+		activateTab();
+	}	
 });
-
-    </script>
+</script>
     
  

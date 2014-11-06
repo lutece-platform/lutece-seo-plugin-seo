@@ -1,35 +1,38 @@
-<div class="row-fluid">
-    <form class="form-horizontal" action="jsp/admin/plugins/seo/DoModifyUrlRewriterRule.jsp" method="POST">
-    <fieldset>
-    <legend>#i18n{seo.modify_urlrewriterrule.title}</legend>
-           <input type="hidden" name="id_rule" value="${rule.idRule}" />
-        
-    <div class="control-group">
-        <label class="control-label" for="rule_from">#i18n{seo.modify_urlrewriterrule.labelRuleFrom}* :</label>
-        <div class="controls">
-           <input name="rule_from" id="rule_from" tabindex="1" value="${rule.ruleFrom}"  size="30" maxlength="100" type="text">
-        </div>
-    </div>
-        
-        
-            <div class="control-group">
-        <label class="control-label" for="rule_to">#i18n{seo.modify_urlrewriterrule.labelRuleTo}* :</label>
-            <div class="controls">
-    <input name="rule_to" id="rule_to" tabindex="2" value="${rule.ruleTo}" size="30" type="text" maxlength="100" />
-        </div>
-    </div>
-    
-    <div class="form-actions">
-            <button class="btn btn-primary" onclick="javascript:history.go(-1)" type="button">
-            <i class="icon-white icon-arrow-left"></i>&nbsp;#i18n{portal.util.labelCancel}
-            </button>
-            <button class="btn btn-primary" type="submit">
-            <i class="icon-white icon-edit"></i>&nbsp;#i18n{seo.modify_urlrewriterrule.buttonModify}
-            </button>
-        </div>
-    </fieldset>
-    </form>
-
+<div class="row">  
+	<div class="col-xs-12 col-sm-12 col-md-12">  
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{seo.modify_urlrewriterrule.title}</h3>
+			</div>
+			<div class="box-body">
+				<form class="form-horizontal" role="form" action="jsp/admin/plugins/seo/DoModifyUrlRewriterRule.jsp" method="POST">
+					 <input type="hidden" name="id_rule" value="${rule.idRule}">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="rule_from">#i18n{seo.modify_urlrewriterrule.labelRuleFrom} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+						   <input name="rule_from" id="rule_from" tabindex="1" value="${rule.ruleFrom}" class="form-control" maxlength="100" type="text">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="rule_to">#i18n{seo.modify_urlrewriterrule.labelRuleTo} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input name="rule_to" id="rule_to" tabindex="2" value="${rule.ruleTo}" class="form-control" type="text" maxlength="100">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
+							<button class="btn btn-primary btn-flat" type="submit" >
+								<i class="fa fa-check"></i>&nbsp;#i18n{seo.modify_urlrewriterrule.buttonModify}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp?plugin_name=seo">
+								<span class="fa fa-close"></span>#i18n{portal.util.labelCancel}
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 
