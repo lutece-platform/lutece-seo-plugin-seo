@@ -43,9 +43,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/seo/plugin-seo</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/seo/plugin-seo</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/seo/plugin-seo</url>
+        <connection>scm:git:https://github.com/lutece-platform/lutece-seo-plugin-seo.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-platform/lutece-seo-plugin-seo.git</developerConnection>
+        <url>https://github.com/lutece-platform/lutece-seo-plugin-seo.git</url>
     </scm>
 
 </project>
