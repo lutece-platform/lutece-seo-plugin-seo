@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
-	<properties>
-		<title>Plugin</title>
-	</properties>
-	<body>
-		<section name="Plugin">
-			<subsection name="Introduction">
-			</subsection>
-		</section>
-	</body>
+    <properties>
+        <title>Plugin SEO</title>
+    </properties>
+    <body>
+        <section name="Plugin SEO">
+            <subsection name="Introduction">
+                <p>
+                    This plugin enables centralized management of all modules to do SEO 
+                    (Search Engine Optimizations) sitemap, friendly URLs, canonical URLs, robots.txt, ...
+                </p>
+            </subsection>
+        </section>
+    </body>
 </document>

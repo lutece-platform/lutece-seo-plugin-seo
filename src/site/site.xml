@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<body>
-		<links>
-			<item name="FR" href="/fr/index.html" />
-		</links>
-		<menu name="Overview">
-			<item name="Introduction" href="index.html" />
-		</menu>
-		<menu ref="reports" />
-	</body>
+    
+    <custom>
+        <fluidoSkin>
+            <gitHub>
+                <projectId>${github.project}</projectId>
+            </gitHub>
+        </fluidoSkin>
+    </custom>
+    
+    <body>
+        <links>
+            <item name="FR" href="/fr/index.html" />
+        </links>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html" />
+        </menu>
+        <menu ref="reports" />
+    </body>
 </project>
