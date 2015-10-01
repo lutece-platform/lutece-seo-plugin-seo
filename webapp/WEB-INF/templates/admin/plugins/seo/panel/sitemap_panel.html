@@ -1,11 +1,11 @@
-<div class="row">  
-	<div class="col-xs-12 col-sm-6 col-md-6">  
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6">
 		<div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
 			</div>
-			<div class="box-body clearfix">	
-				<p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>    
+			<div class="box-body clearfix">
+				<p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>
 				<p>
 					<a href="http://www.sitemaps.org/fr/" title="lien vers le site officiel" class="btn btn-default pull-left spaced">
 						#i18n{seo.panel.sitemap.labelMore} <span class="fa fa-external-link"></span>
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-    <div class="col-xs-12 col-sm-6 col-md-6">  
+    <div class="col-xs-12 col-sm-6 col-md-6">
         <div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.sitemap.titleGenerate}</h3>
@@ -29,20 +29,20 @@
 						#i18n{seo.panel.sitemap.buttonUpdateFile}
 					</button>
 				</form>
-				
-			</div>	
+
 			</div>
-			<div class="box-body">	
-				<br>
-				<div class="alert alert-info">
-					<span class="fa fa-info"></span>
-					${sitemapLastGeneration}
+			</div>
+			<div class="box-body">
+			<#if sitemapLastGeneration?has_content>
+				<div class="callout callout-info">
+					<span class="fa fa-info"></span> ${sitemapLastGeneration}
 				</div>
+				</#if>
 				<p class="text-info">
 				<#if daemon_enabled >
-						#i18n{seo.panel.sitemap.explainGenerate} - #i18n{seo.panel.sitemap.labelStatus} <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
+						#i18n{seo.panel.sitemap.explainGenerate} <span class="label label-success"><i class="fa fa-check-circle"></i> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelEnabled}</span>
 				<#else>
-					#i18n{seo.panel.sitemap.explainGenerate} - #i18n{seo.panel.sitemap.labelStatus} <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>.
+					#i18n{seo.panel.sitemap.explainGenerate} <span class="label label-important"><i class="fa fa-remove-circle"></i> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelDisabled}</span>.
 				</#if>
 				</p>
 			</div>

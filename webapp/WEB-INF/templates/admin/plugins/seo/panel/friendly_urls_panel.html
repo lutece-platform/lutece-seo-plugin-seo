@@ -1,17 +1,17 @@
-<div class="row">  
-	<div class="col-xs-12 col-sm-6 col-md-6">  
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6">
 		<div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.friendly_urls.titleManageFriendlyUrls}</h3>
 				<div class="box-tools pull-right">
 					<form class="form-inline" action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method="GET">
 						<input type="hidden" name="plugin_name" value ="seo">
-						<button type="submit" class="btn btn-primary btn-xs">
-							<i class="fa fa-pencil"></i> 
+						<button type="submit" class="btn btn-primary btn-xs btn-flat">
+							<i class="fa fa-pencil"></i>
 							#i18n{seo.panel.friendly_urls.buttonManageFriendlyUrls}
 						</button>
 					</form>
-				</div>	
+				</div>
 			</div>
 			<div class="box-body">
 				<p>#i18n{seo.panel.friendly_urls.explainFriendlyUrls1}</p>
@@ -20,7 +20,7 @@
         	</div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-6 col-md-6">  
+	<div class="col-xs-12 col-sm-6 col-md-6">
 		<div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.friendly_urls.titleUpdateConfigFile}</h3>
@@ -33,16 +33,16 @@
 							</button>
 						</form>
 					</#if>
-				</div>	
+				</div>
 			</div>
-			<div class="box-body">	
+			<div class="box-body">
 			<#if config_uptodate >
-				<div class="alert alert-success">
+				<div class="callout callout-success">
 					<strong>#i18n{seo.panel.friendly_urls.labelFileIsUptodate}</strong><br/>
 					${rewrite_config_last_update}
 				</div>
 			<#else>
-				<div class="alert alert-error">
+				<div class="callout callout-error">
 					<strong>#i18n{seo.panel.friendly_urls.labelFileIsNotUptodate}</strong><br />
 					${rewrite_config_last_update}
 				</div>
@@ -51,13 +51,13 @@
 		</div>
 	</div>
 </div>
-<div class="row">  
-	<div class="col-xs-12 col-sm-6 col-md-6">  
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6">
 		<div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.friendly_urls.titleAutoGenerate}</h3>
 			</div>
-			<div class="box-body">	
+			<div class="box-body">
 				<#if friendly_url_daemon >
 					<p>
 						<span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
@@ -81,28 +81,28 @@
 					<#else>
 						<button class="btn btn-success btn-block btn-flat" type="submit">
 							<i class="fa fa-play"></i>
-							#i18n{seo.panel.friendly_urls.buttonAutoGenerateEnable}   
-						</button> 
+							#i18n{seo.panel.friendly_urls.buttonAutoGenerateEnable}
+						</button>
 					</#if>
 				</form>
 			</div>
 		</div>
     </div>
-	<div class="col-xs-12 col-sm-6 col-md-6">  
+	<div class="col-xs-12 col-sm-6 col-md-6">
 		<div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.friendly_urls.titleRewriteLinks}</h3>
 			</div>
-			<div class="box-body">	
+			<div class="box-body">
 				<p>#i18n{seo.panel.friendly_urls.explainRewriteLinks}</p>
 				<#if url_replace >
 					<p>
-						<span class="label label-success"><i class="icon-ok icon-white"></i> #i18n{portal.util.labelEnabled}</span>             
+						<span class="label label-success"><i class="fa fa-check"></i> #i18n{portal.util.labelEnabled}</span>
 						#i18n{seo.panel.friendly_urls.labelRewriteLinksEnabled}
 					</p>
 				<#else>
 					<p>
-						<span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>
+						<span class="label label-important"><i class="fa fa-remove-circle"></i> #i18n{portal.util.labelDisabled}</span>
 						#i18n{seo.panel.friendly_urls.labelRewriteLinksDisabled}
 					</p>
 				</#if>
@@ -126,13 +126,13 @@
 		</div>
 	</div>
 </div>
-<div class="row">  
-	<div class="col-xs-12 col-sm-6 col-md-6">  
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6">
 		<div class="box box-danger">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.panel.friendly_urls.titleCanonicalUrls}</h3>
 			</div>
-			<div class="box-body">	
+			<div class="box-body">
 				<p>#i18n{seo.panel.friendly_urls.explainCanonicalUrls} #i18n{seo.panel.friendly_urls.linkCanonicalUrls}</p>
 				<#if canonical_urls >
 					<p><span class="label label-success"><span class="fa fa-check-sign"></span> #i18n{portal.util.labelEnabled}</span> #i18n{seo.panel.friendly_urls.canonicalUrlsEnabled}</p>
