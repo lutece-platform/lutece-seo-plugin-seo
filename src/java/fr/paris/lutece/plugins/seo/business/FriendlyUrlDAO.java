@@ -48,12 +48,14 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_url ) FROM seo_friendly_url";
     private static final String SQL_QUERY_SELECT = "SELECT id_url, friendly_url, technical_url, date_creation, date_modification, is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority FROM seo_friendly_url WHERE id_url = ?";
-    private static final String SQL_QUERY_INSERT_PREFIX = "INSERT INTO seo_friendly_url ( id_url, friendly_url, technical_url, date_creation, date_modification, is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority ) VALUES ( ?, ?, ?, ";
-    private static final String SQL_QUERY_INSERT_SUFFIX = " ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT_COLUMNS_PREFIX = "INSERT INTO seo_friendly_url ( id_url, friendly_url, technical_url, ";
+    private static final String SQL_QUERY_INSERT_COLUMNS_SUFFIX = "is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority )";
+    private static final String SQL_QUERY_INSERT_VALUES_PREFIX = " VALUES ( ?, ?, ?, ";
+    private static final String SQL_QUERY_INSERT_VALUES_SUFFIX = "?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM seo_friendly_url WHERE id_url = ? ";
     private static final String SQL_QUERY_UPDATE_PREFIX = "UPDATE seo_friendly_url SET id_url = ?, friendly_url = ?, technical_url = ?,";
-    private static final String SQL_QUERY_UPDATE_DATE_CREATION_FRAGMENT = " date_creation = ";
-    private static final String SQL_QUERY_UPDATE_DATE_MODIFICATION_FRAGMENT = " date_modification = ";
+    private static final String SQL_QUERY_UPDATE_DATE_CREATION_FRAGMENT = " date_creation = ?, ";
+    private static final String SQL_QUERY_UPDATE_DATE_MODIFICATION_FRAGMENT = " date_modification = ?, ";
     private static final String SQL_QUERY_UPDATE_SUFFIX = "is_canonical = ?, is_sitemap = ?, sitemap_lastmod = ? , sitemap_changefreq = ? , sitemap_priority = ? WHERE id_url = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_url, friendly_url, technical_url, date_creation, date_modification, is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority  FROM seo_friendly_url";
 
@@ -90,24 +92,24 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
      */
     public void insert( FriendlyUrl friendlyUrl, Plugin plugin )
     {
-        StringBuilder query = new StringBuilder( SQL_QUERY_INSERT_PREFIX );
+        StringBuilder query_columns = new StringBuilder( SQL_QUERY_INSERT_COLUMNS_PREFIX );
+        StringBuilder query_values = new StringBuilder( SQL_QUERY_INSERT_VALUES_PREFIX );
+
         if ( friendlyUrl.getDateCreation(  ) != null )
         {
-            query.append( "?, " );
-        } else
-        {
-            query.append( "DEFAULT, " );
+            query_columns.append( "date_creation, " );
+            query_values.append( "?, " );
         }
         if ( friendlyUrl.getDateModification(  ) != null )
         {
-            query.append( "?, " );
-        } else
-        {
-            query.append( "DEFAULT, " );
+            query_values.append( "date_modification, " );
+            query_columns.append( "?, " );
         }
-        query.append( SQL_QUERY_INSERT_SUFFIX );
+        query_columns.append( SQL_QUERY_INSERT_COLUMNS_SUFFIX );
+        query_values.append( SQL_QUERY_INSERT_VALUES_SUFFIX );
+        String query = query_columns.toString() + query_values.toString();
 
-        DAOUtil daoUtil = new DAOUtil( query.toString(), plugin );
+        DAOUtil daoUtil = new DAOUtil( query, plugin );
 
         friendlyUrl.setId( newPrimaryKey( plugin ) );
 
@@ -193,21 +195,13 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     public void store( FriendlyUrl friendlyUrl, Plugin plugin )
     {
         StringBuilder query = new StringBuilder( SQL_QUERY_UPDATE_PREFIX );
-        query.append( SQL_QUERY_UPDATE_DATE_CREATION_FRAGMENT );
         if ( friendlyUrl.getDateCreation(  ) != null )
         {
-            query.append( "?, " );
-        } else
-        {
-            query.append( "DEFAULT, " );
+            query.append( SQL_QUERY_UPDATE_DATE_CREATION_FRAGMENT );
         }
-        query.append( SQL_QUERY_UPDATE_DATE_MODIFICATION_FRAGMENT );
         if ( friendlyUrl.getDateModification(  ) != null )
         {
-            query.append( "?, " );
-        } else
-        {
-            query.append( "DEFAULT, " );
+            query.append( SQL_QUERY_UPDATE_DATE_MODIFICATION_FRAGMENT );
         }
         query.append( SQL_QUERY_UPDATE_SUFFIX );
 
