@@ -21,14 +21,14 @@
 
     <#list rules_list as rule>
         <rule>
-            <from>${rule.ruleFrom}</from>
+            <from>^${rule.ruleFrom}</from>
             <to>${rule.ruleTo}</to>
         </rule>
     </#list>
     
     <#list url_list as url>
         <rule>
-            <from>${url.friendlyUrl}</from>
+            <from>^${url.friendlyUrl}</from>
             <to>${url.technicalUrl}</to>
         </rule>
     </#list>
