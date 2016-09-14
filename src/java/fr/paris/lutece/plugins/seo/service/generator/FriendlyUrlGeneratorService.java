@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * Alias Generator Service
  */
@@ -52,25 +51,26 @@ public final class FriendlyUrlGeneratorService
 {
     private static final String SUFFIX_HTML = ".html";
     private static final int NOT_FOUND = -1;
-    private static List<FriendlyUrlGenerator> _listGenerators = new ArrayList<FriendlyUrlGenerator>(  );
+    private static List<FriendlyUrlGenerator> _listGenerators = new ArrayList<FriendlyUrlGenerator>( );
     private static FriendlyUrlGeneratorService _singleton;
 
     /**
      * private constructore
      */
-    private FriendlyUrlGeneratorService(  )
+    private FriendlyUrlGeneratorService( )
     {
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static synchronized FriendlyUrlGeneratorService instance(  )
+    public static synchronized FriendlyUrlGeneratorService instance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new FriendlyUrlGeneratorService(  );
+            _singleton = new FriendlyUrlGeneratorService( );
 
             _listGenerators = SpringContextService.getBeansOfType( FriendlyUrlGenerator.class );
         }
@@ -80,13 +80,15 @@ public final class FriendlyUrlGeneratorService
 
     /**
      * Generate Alias rules
-     * @param options Options
+     * 
+     * @param options
+     *            Options
      */
     public void generate( GeneratorOptions options )
     {
-        Collection<FriendlyUrl> listExisting = FriendlyUrlHome.findAll(  );
+        Collection<FriendlyUrl> listExisting = FriendlyUrlHome.findAll( );
 
-        List<FriendlyUrl> listRules = new ArrayList<FriendlyUrl>(  );
+        List<FriendlyUrl> listRules = new ArrayList<FriendlyUrl>( );
 
         for ( FriendlyUrlGenerator generator : _listGenerators )
         {
@@ -99,18 +101,19 @@ public final class FriendlyUrlGeneratorService
 
     /**
      * Gets the generators list
+     * 
      * @return The generators list
      */
-    public List<GeneratorSettings> getGenerators(  )
+    public List<GeneratorSettings> getGenerators( )
     {
-        List<GeneratorSettings> list = new ArrayList<GeneratorSettings>(  );
+        List<GeneratorSettings> list = new ArrayList<GeneratorSettings>( );
 
         for ( FriendlyUrlGenerator generator : _listGenerators )
         {
-            GeneratorSettings gs = new GeneratorSettings(  );
-            String strKey = generator.getClass(  ).getName(  );
+            GeneratorSettings gs = new GeneratorSettings( );
+            String strKey = generator.getClass( ).getName( );
             gs.setKey( strKey );
-            gs.setName( generator.getName(  ) );
+            gs.setName( generator.getName( ) );
 
             String strPrefix = SEODataKeys.PREFIX_GENERATOR + strKey;
             gs.setDefaultChangeFreq( DatastoreService.getDataValue( strPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, "" ) );
@@ -123,63 +126,69 @@ public final class FriendlyUrlGeneratorService
 
     /**
      * Process rules list
-     * @param listRules The rule list
-     * @param listExisting The existing rules
-     * @param options Oprions
+     * 
+     * @param listRules
+     *            The rule list
+     * @param listExisting
+     *            The existing rules
+     * @param options
+     *            Oprions
      */
-    private void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting,
-        GeneratorOptions options )
+    private void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting, GeneratorOptions options )
     {
         AppLogService.info( "Processing Url rewriting Alias rules" );
-        AppLogService.info( "* Option Force update existing rules : " + ( options.isForceUpdate(  ) ? "on" : "off" ) );
-        AppLogService.info( "* Option Add path : " + ( options.isAddPath(  ) ? "on" : "off" ) );
-        AppLogService.info( "* Option Html suffix : " + ( options.isHtmlSuffix(  ) ? "on" : "off" ) );
+        AppLogService.info( "* Option Force update existing rules : " + ( options.isForceUpdate( ) ? "on" : "off" ) );
+        AppLogService.info( "* Option Add path : " + ( options.isAddPath( ) ? "on" : "off" ) );
+        AppLogService.info( "* Option Html suffix : " + ( options.isHtmlSuffix( ) ? "on" : "off" ) );
 
         for ( FriendlyUrl url : listRules )
         {
-            if ( options.isHtmlSuffix(  ) )
+            if ( options.isHtmlSuffix( ) )
             {
-                url.setFriendlyUrl( url.getFriendlyUrl(  ) + SUFFIX_HTML );
+                url.setFriendlyUrl( url.getFriendlyUrl( ) + SUFFIX_HTML );
             }
 
             int nExistingRuleId = getExistingRuleId( listExisting, url );
 
             if ( nExistingRuleId != NOT_FOUND )
             {
-                if ( options.isForceUpdate(  ) )
+                if ( options.isForceUpdate( ) )
                 {
                     // update the existing alias
                     url.setId( nExistingRuleId );
                     FriendlyUrlHome.update( url );
-                    AppLogService.info( "Updated : " + url.getFriendlyUrl(  ) + " -> " + url.getTechnicalUrl(  ) );
+                    AppLogService.info( "Updated : " + url.getFriendlyUrl( ) + " -> " + url.getTechnicalUrl( ) );
                 }
                 else
                 {
-                    AppLogService.info( "Ignored : " + url.getFriendlyUrl(  ) + " -> " + url.getTechnicalUrl(  ) );
+                    AppLogService.info( "Ignored : " + url.getFriendlyUrl( ) + " -> " + url.getTechnicalUrl( ) );
                 }
             }
             else
             {
                 // create a new alias
                 FriendlyUrlHome.create( url );
-                AppLogService.info( "Created : " + url.getFriendlyUrl(  ) + " -> " + url.getTechnicalUrl(  ) );
+                AppLogService.info( "Created : " + url.getFriendlyUrl( ) + " -> " + url.getTechnicalUrl( ) );
             }
         }
     }
 
     /**
      * Get existing rule if
-     * @param listExisting The list of existing rules
-     * @param url The URL
+     * 
+     * @param listExisting
+     *            The list of existing rules
+     * @param url
+     *            The URL
      * @return The ID
      */
     private int getExistingRuleId( Collection<FriendlyUrl> listExisting, FriendlyUrl url )
     {
         for ( FriendlyUrl u : listExisting )
         {
-            if ( u.getTechnicalUrl(  ).equals( url.getTechnicalUrl(  ) ) )
+            if ( u.getTechnicalUrl( ).equals( url.getTechnicalUrl( ) ) )
             {
-                return u.getId(  );
+                return u.getId( );
             }
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * @author pierre
@@ -52,7 +51,7 @@ public class FriendlyUrlContentPostProcessor extends AbstractCacheableService im
      * {@inheritDoc }
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return NAME;
     }
@@ -63,12 +62,11 @@ public class FriendlyUrlContentPostProcessor extends AbstractCacheableService im
     @Override
     public String process( HttpServletRequest request, String strContent )
     {
-        if ( FriendlyUrlService.instance(  ).isUrlReplaceEnabled(  ) )
+        if ( FriendlyUrlService.instance( ).isUrlReplaceEnabled( ) )
         {
             String strBaseUrl = AppPathService.getBaseUrl( request );
 
-            return FriendlyUrlUtils.replaceByFriendlyUrl( strContent,
-                FriendlyUrlService.instance(  ).getFriendlyUrlMap(  ), strBaseUrl );
+            return FriendlyUrlUtils.replaceByFriendlyUrl( strContent, FriendlyUrlService.instance( ).getFriendlyUrlMap( ), strBaseUrl );
         }
 
         return strContent;

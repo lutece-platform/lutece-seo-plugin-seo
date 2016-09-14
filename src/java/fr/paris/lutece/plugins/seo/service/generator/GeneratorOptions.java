@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.seo.service.generator;
 
-
 /**
  *
  * @author pierre
@@ -47,13 +46,14 @@ public class GeneratorOptions
     /**
      * @return the _bHtmlSuffix
      */
-    public boolean isHtmlSuffix(  )
+    public boolean isHtmlSuffix( )
     {
         return _bHtmlSuffix;
     }
 
     /**
-     * @param bHtmlSuffix the _bHtmlSuffix to set
+     * @param bHtmlSuffix
+     *            the _bHtmlSuffix to set
      */
     public void setHtmlSuffix( boolean bHtmlSuffix )
     {
@@ -63,13 +63,14 @@ public class GeneratorOptions
     /**
      * @return the _bForceUpdate
      */
-    public boolean isForceUpdate(  )
+    public boolean isForceUpdate( )
     {
         return _bForceUpdate;
     }
 
     /**
-     * @param bForceUpdate the _bForceUpdate to set
+     * @param bForceUpdate
+     *            the _bForceUpdate to set
      */
     public void setForceUpdate( boolean bForceUpdate )
     {
@@ -79,13 +80,14 @@ public class GeneratorOptions
     /**
      * @return the _bAddPath
      */
-    public boolean isAddPath(  )
+    public boolean isAddPath( )
     {
         return _bAddPath;
     }
 
     /**
-     * @param bAddPath the _bAddPath to set
+     * @param bAddPath
+     *            the _bAddPath to set
      */
     public void setAddPath( boolean bAddPath )
     {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * RuleFileService
  */
@@ -73,44 +72,49 @@ public final class RuleFileService
     /**
      * Private constructor
      */
-    private RuleFileService(  )
+    private RuleFileService( )
     {
     }
 
     /**
      * Generate the rule file
-     * @throws java.io.IOException If an error occurs
+     * 
+     * @throws java.io.IOException
+     *             If an error occurs
      */
-    public static void generateFile(  ) throws IOException
+    public static void generateFile( ) throws IOException
     {
-        String strFilePath = AppPathService.getWebAppPath(  ) + AppPropertiesService.getProperty( PROPERTY_FILE );
+        String strFilePath = AppPathService.getWebAppPath( ) + AppPropertiesService.getProperty( PROPERTY_FILE );
         File file = new File( strFilePath );
-        FileUtils.writeStringToFile( file, generateFileContent(  ) );
+        FileUtils.writeStringToFile( file, generateFileContent( ) );
     }
 
     /**
      * Generate the rule file content
+     * 
      * @return The file content
      */
-    private static String generateFileContent(  )
+    private static String generateFileContent( )
     {
-        HashMap model = new HashMap(  );
-        Collection<UrlRewriterRule> listRules = UrlRewriterRuleHome.findAll(  );
-        List<FriendlyUrl> listUrl = FriendlyUrlHome.findAll(  );
+        HashMap model = new HashMap( );
+        Collection<UrlRewriterRule> listRules = UrlRewriterRuleHome.findAll( );
+        List<FriendlyUrl> listUrl = FriendlyUrlHome.findAll( );
 
         model.put( MARK_RULES_LIST, listRules );
         model.put( MARK_URL_LIST, listUrl );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_FILE, Locale.getDefault(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_FILE, Locale.getDefault( ), model );
 
         String strResult = "OK";
-        String strDate = DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
-        Object[] args = { strDate, listRules.size(  ) + listUrl.size(  ), strResult };
-        String strLogFormat = I18nService.getLocalizedString( PROPERTY_REWRITE_CONFIG_LOG, Locale.getDefault(  ) );
+        String strDate = DateFormat.getDateTimeInstance( ).format( new Date( ) );
+        Object [ ] args = {
+                strDate, listRules.size( ) + listUrl.size( ), strResult
+        };
+        String strLogFormat = I18nService.getLocalizedString( PROPERTY_REWRITE_CONFIG_LOG, Locale.getDefault( ) );
         String strLog = MessageFormat.format( strLogFormat, args );
         DatastoreService.setDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, strLog );
         DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, DatastoreService.VALUE_TRUE );
 
-        return t.getHtml(  );
+        return t.getHtml( );
     }
 }

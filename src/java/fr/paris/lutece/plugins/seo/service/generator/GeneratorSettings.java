@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.seo.service.generator;
 
-
 /**
  * Generator Settings
  */
@@ -46,16 +45,19 @@ public class GeneratorSettings
 
     /**
      * Returns the Key
+     * 
      * @return The Key
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
 
     /**
      * Sets the Key
-     * @param strKey The Key
+     * 
+     * @param strKey
+     *            The Key
      */
     public void setKey( String strKey )
     {
@@ -64,16 +66,19 @@ public class GeneratorSettings
 
     /**
      * Returns the Name
+     * 
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
 
     /**
      * Sets the Name
-     * @param strName The Name
+     * 
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -82,16 +87,19 @@ public class GeneratorSettings
 
     /**
      * Returns the DefaultChangeFreq
+     * 
      * @return The DefaultChangeFreq
      */
-    public String getDefaultChangeFreq(  )
+    public String getDefaultChangeFreq( )
     {
         return _strDefaultChangeFreq;
     }
 
     /**
      * Sets the DefaultChangeFreq
-     * @param strDefaultChangeFreq The DefaultChangeFreq
+     * 
+     * @param strDefaultChangeFreq
+     *            The DefaultChangeFreq
      */
     public void setDefaultChangeFreq( String strDefaultChangeFreq )
     {
@@ -100,16 +108,19 @@ public class GeneratorSettings
 
     /**
      * Returns the DefaultPriority
+     * 
      * @return The DefaultPriority
      */
-    public String getDefaultPriority(  )
+    public String getDefaultPriority( )
     {
         return _strDefaultPriority;
     }
 
     /**
      * Sets the DefaultPriority
-     * @param strDefaultPriority The DefaultPriority
+     * 
+     * @param strDefaultPriority
+     *            The DefaultPriority
      */
     public void setDefaultPriority( String strDefaultPriority )
     {

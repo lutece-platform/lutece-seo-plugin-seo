@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.text.DateFormat;
 
 import java.util.Date;
 
-
 /**
  * Sitemap Deamon
  */
@@ -55,34 +54,30 @@ public class FriendlyUrlGeneratorDaemon extends Daemon
      * {@inheritDoc }
      */
     @Override
-    public void run(  )
+    public void run( )
     {
-        String strDeamon = DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED,
-                DatastoreService.VALUE_FALSE );
+        String strDeamon = DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE );
         String strLog = "Friendly Url Generator Deamon isn't enabled";
 
         if ( strDeamon.equals( DatastoreService.VALUE_TRUE ) )
         {
-            GeneratorOptions options = new GeneratorOptions(  );
+            GeneratorOptions options = new GeneratorOptions( );
 
             options.setForceUpdate( false );
-            options.setAddPath( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" )
-                                                .equals( DatastoreService.VALUE_TRUE ) );
-            options.setHtmlSuffix( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, "" )
-                                                   .equals( DatastoreService.VALUE_TRUE ) );
+            options.setAddPath( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ).equals( DatastoreService.VALUE_TRUE ) );
+            options.setHtmlSuffix( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, "" ).equals( DatastoreService.VALUE_TRUE ) );
 
-            FriendlyUrlGeneratorService.instance(  ).generate( options );
-            strLog = "Friendly Url Generator Deamon last run : " +
-                DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
+            FriendlyUrlGeneratorService.instance( ).generate( options );
+            strLog = "Friendly Url Generator Deamon last run : " + DateFormat.getDateTimeInstance( ).format( new Date( ) );
 
             try
             {
-                RuleFileService.generateFile(  );
+                RuleFileService.generateFile( );
                 strLog += "\nand URL Rewriting rules file updated";
             }
-            catch ( IOException ex )
+            catch( IOException ex )
             {
-                strLog = "Error writing URL rewriting rules file : " + ex.getMessage(  );
+                strLog = "Error writing URL rewriting rules file : " + ex.getMessage( );
                 AppLogService.error( strLog, ex );
             }
         }

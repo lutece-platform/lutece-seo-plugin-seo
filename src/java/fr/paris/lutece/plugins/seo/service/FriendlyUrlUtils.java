@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.text.Normalizer.Form;
 
 import java.util.Map;
 
-
 /**
  * Friendly URL Utils
  */
@@ -54,31 +53,37 @@ public final class FriendlyUrlUtils
     /**
      * Private constructor
      */
-    private FriendlyUrlUtils(  )
+    private FriendlyUrlUtils( )
     {
     }
 
     /**
      * Normalize a string to a friendly URL
-     * @param strSource The source
+     * 
+     * @param strSource
+     *            The source
      * @return The converted string
      */
     public static String convertToFriendlyUrl( String strSource )
     {
-        return Normalizer.normalize( strSource.toLowerCase(  ), Form.NFD )
-                         .replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" ).replaceAll( "[^\\p{Alnum}]+", "-" );
+        return Normalizer.normalize( strSource.toLowerCase( ), Form.NFD ).replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" )
+                .replaceAll( "[^\\p{Alnum}]+", "-" );
     }
 
     /**
      * Replace in the source all URL found in the map
-     * @param strSource The source
-     * @param map The Map that contains Friendly URL mapping
-     * @param strBaseUrl The base URL
+     * 
+     * @param strSource
+     *            The source
+     * @param map
+     *            The Map that contains Friendly URL mapping
+     * @param strBaseUrl
+     *            The base URL
      * @return The source with found URL replaced
      */
     public static String replaceByFriendlyUrl( String strSource, Map<String, String> map, String strBaseUrl )
     {
-        StringBuilder sbOutput = new StringBuilder(  );
+        StringBuilder sbOutput = new StringBuilder( );
         String strCurrent = strSource;
         String strUrl;
         String strFriendlyUrl;
@@ -90,7 +95,7 @@ public final class FriendlyUrlUtils
         while ( nPos >= 0 )
         {
             String strEnd = strCurrent.substring( nPos );
-            nPosBeginUrl = strEnd.indexOf( HREF ) + HREF.length(  );
+            nPosBeginUrl = strEnd.indexOf( HREF ) + HREF.length( );
             sbOutput.append( strCurrent.substring( 0, nPos + nPosBeginUrl ) );
             strCurrent = strEnd.substring( nPosBeginUrl );
             nPosEndUrl = strCurrent.indexOf( END_URL );
@@ -110,27 +115,32 @@ public final class FriendlyUrlUtils
 
         sbOutput.append( strCurrent );
 
-        return sbOutput.toString(  );
+        return sbOutput.toString( );
     }
 
     /**
      * Clean leading slash character
-     * @param strUrl The source
+     * 
+     * @param strUrl
+     *            The source
      * @return The cleaned URL
      */
     public static String cleanSlash( String strUrl )
     {
-        return ( strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length(  ) ) : strUrl );
+        return ( strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length( ) ) : strUrl );
     }
 
     /**
      * Remove base URL
-     * @param strUrl The absolute URL
-     * @param strBaseUrl The base URL
+     * 
+     * @param strUrl
+     *            The absolute URL
+     * @param strBaseUrl
+     *            The base URL
      * @return The relative URL
      */
     private static String removeBaseUrl( String strUrl, String strBaseUrl )
     {
-        return ( strUrl.startsWith( strBaseUrl ) ? strUrl.substring( strBaseUrl.length(  ), strUrl.length(  ) ) : strUrl );
+        return ( strUrl.startsWith( strBaseUrl ) ? strUrl.substring( strBaseUrl.length( ), strUrl.length( ) ) : strUrl );
     }
 }

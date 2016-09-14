@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,12 @@ package fr.paris.lutece.plugins.seo.business;
 
 import java.sql.Timestamp;
 
-
 /**
  * This is the business class for the object FriendlyUrl
  */
 public class FriendlyUrl
 {
-    // Variables declarations 
+    // Variables declarations
     private int _nIdUrl;
     private String _strFriendlyUrl;
     private String _strTechnicalUrl;
@@ -58,7 +57,7 @@ public class FriendlyUrl
      *
      * @return The IdUrl
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nIdUrl;
     }
@@ -66,7 +65,8 @@ public class FriendlyUrl
     /**
      * Sets the IdUrl
      *
-     * @param nIdUrl The IdUrl
+     * @param nIdUrl
+     *            The IdUrl
      */
     public void setId( int nIdUrl )
     {
@@ -78,7 +78,7 @@ public class FriendlyUrl
      *
      * @return The FriendlyUrl
      */
-    public String getFriendlyUrl(  )
+    public String getFriendlyUrl( )
     {
         return _strFriendlyUrl;
     }
@@ -86,7 +86,8 @@ public class FriendlyUrl
     /**
      * Sets the FriendlyUrl
      *
-     * @param strFriendlyUrl The FriendlyUrl
+     * @param strFriendlyUrl
+     *            The FriendlyUrl
      */
     public void setFriendlyUrl( String strFriendlyUrl )
     {
@@ -98,7 +99,7 @@ public class FriendlyUrl
      *
      * @return The TechnicalUrl
      */
-    public String getTechnicalUrl(  )
+    public String getTechnicalUrl( )
     {
         return _strTechnicalUrl;
     }
@@ -106,7 +107,8 @@ public class FriendlyUrl
     /**
      * Sets the TechnicalUrl
      *
-     * @param strTechnicalUrl The TechnicalUrl
+     * @param strTechnicalUrl
+     *            The TechnicalUrl
      */
     public void setTechnicalUrl( String strTechnicalUrl )
     {
@@ -118,7 +120,7 @@ public class FriendlyUrl
      *
      * @return The DateCreation
      */
-    public Timestamp getDateCreation(  )
+    public Timestamp getDateCreation( )
     {
         return _dateCreation;
     }
@@ -126,7 +128,8 @@ public class FriendlyUrl
     /**
      * Sets the DateCreation
      *
-     * @param dateCreation The DateCreation
+     * @param dateCreation
+     *            The DateCreation
      */
     public void setDateCreation( Timestamp dateCreation )
     {
@@ -138,7 +141,7 @@ public class FriendlyUrl
      *
      * @return The DateModification
      */
-    public Timestamp getDateModification(  )
+    public Timestamp getDateModification( )
     {
         return _dateModification;
     }
@@ -146,7 +149,8 @@ public class FriendlyUrl
     /**
      * Sets the DateModification
      *
-     * @param dateModification The DateModification
+     * @param dateModification
+     *            The DateModification
      */
     public void setDateModification( Timestamp dateModification )
     {
@@ -158,7 +162,7 @@ public class FriendlyUrl
      *
      * @return The IsCanonical
      */
-    public boolean isCanonical(  )
+    public boolean isCanonical( )
     {
         return _bCanonical;
     }
@@ -166,7 +170,8 @@ public class FriendlyUrl
     /**
      * Sets the IsCanonical
      *
-     * @param bCanonical The IsCanonical
+     * @param bCanonical
+     *            The IsCanonical
      */
     public void setCanonical( boolean bCanonical )
     {
@@ -178,7 +183,7 @@ public class FriendlyUrl
      *
      * @return The IsSitemap
      */
-    public boolean isSitemap(  )
+    public boolean isSitemap( )
     {
         return _bSitemap;
     }
@@ -186,7 +191,8 @@ public class FriendlyUrl
     /**
      * Sets the IsSitemap
      *
-     * @param bSitemap The IsSitemap
+     * @param bSitemap
+     *            The IsSitemap
      */
     public void setSitemap( boolean bSitemap )
     {
@@ -198,7 +204,7 @@ public class FriendlyUrl
      *
      * @return The SitemapLastmod
      */
-    public String getSitemapLastmod(  )
+    public String getSitemapLastmod( )
     {
         return _strSitemapLastmod;
     }
@@ -206,7 +212,8 @@ public class FriendlyUrl
     /**
      * Sets the SitemapLastmod
      *
-     * @param strSitemapLastmod The SitemapLastmod
+     * @param strSitemapLastmod
+     *            The SitemapLastmod
      */
     public void setSitemapLastmod( String strSitemapLastmod )
     {
@@ -218,7 +225,7 @@ public class FriendlyUrl
      *
      * @return The SitemapChangeFreq
      */
-    public String getSitemapChangeFreq(  )
+    public String getSitemapChangeFreq( )
     {
         return _strSitemapChangeFreq;
     }
@@ -226,7 +233,8 @@ public class FriendlyUrl
     /**
      * Sets the SitemapChangeFreq
      *
-     * @param strSitemapChangeFreq The SitemapChangeFreq
+     * @param strSitemapChangeFreq
+     *            The SitemapChangeFreq
      */
     public void setSitemapChangeFreq( String strSitemapChangeFreq )
     {
@@ -238,7 +246,7 @@ public class FriendlyUrl
      *
      * @return The SitemapPriority
      */
-    public String getSitemapPriority(  )
+    public String getSitemapPriority( )
     {
         return _strSitemapPriority;
     }
@@ -246,7 +254,8 @@ public class FriendlyUrl
     /**
      * Sets the SitemapPriority
      *
-     * @param strSitemapPriority The SitemapPriority
+     * @param strSitemapPriority
+     *            The SitemapPriority
      */
     public void setSitemapPriority( String strSitemapPriority )
     {

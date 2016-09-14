@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,29 +33,31 @@
  */
 package fr.paris.lutece.plugins.seo.business;
 
-
 /**
  * This is the business class for the object UrlRewriterRule
  */
 public class UrlRewriterRule
 {
-    // Variables declarations 
+    // Variables declarations
     private int _nIdRule;
     private String _strRuleFrom;
     private String _strRuleTo;
 
     /**
      * Returns the IdRule
+     * 
      * @return The IdRule
      */
-    public int getIdRule(  )
+    public int getIdRule( )
     {
         return _nIdRule;
     }
 
     /**
      * Sets the IdRule
-     * @param nIdRule The IdRule
+     * 
+     * @param nIdRule
+     *            The IdRule
      */
     public void setIdRule( int nIdRule )
     {
@@ -64,16 +66,19 @@ public class UrlRewriterRule
 
     /**
      * Returns the RuleFrom
+     * 
      * @return The RuleFrom
      */
-    public String getRuleFrom(  )
+    public String getRuleFrom( )
     {
         return _strRuleFrom;
     }
 
     /**
      * Sets the RuleFrom
-     * @param strRuleFrom The RuleFrom
+     * 
+     * @param strRuleFrom
+     *            The RuleFrom
      */
     public void setRuleFrom( String strRuleFrom )
     {
@@ -82,16 +87,19 @@ public class UrlRewriterRule
 
     /**
      * Returns the RuleTo
+     * 
      * @return The RuleTo
      */
-    public String getRuleTo(  )
+    public String getRuleTo( )
     {
         return _strRuleTo;
     }
 
     /**
      * Sets the RuleTo
-     * @param strRuleTo The RuleTo
+     * 
+     * @param strRuleTo
+     *            The RuleTo
      */
     public void setRuleTo( String strRuleTo )
     {

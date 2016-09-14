@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 
 import java.util.List;
 
-
 /**
  * Page Alias Generator
  */
@@ -54,8 +53,8 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
     private static final String TECHNICAL_URL = "/jsp/site/Portal.jsp?page_id=";
     private static final String SLASH = "/";
     private static final String EMPTY = "";
-    private static final String DEFAULT_CHANGE_FREQ = SitemapUtils.CHANGE_FREQ_VALUES[3];
-    private static final String DEFAULT_PRIORITY = SitemapUtils.PRIORITY_VALUES[3];
+    private static final String DEFAULT_CHANGE_FREQ = SitemapUtils.CHANGE_FREQ_VALUES [3];
+    private static final String DEFAULT_PRIORITY = SitemapUtils.PRIORITY_VALUES [3];
     private boolean _bCanonical;
     private boolean _bSitemap;
     private String _strChangeFreq;
@@ -65,7 +64,7 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
      * {@inheritDoc }
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return GENERATOR_NAME;
     }
@@ -76,52 +75,56 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
     @Override
     public String generate( List<FriendlyUrl> list, GeneratorOptions options )
     {
-        StringBuilder sbLog = new StringBuilder(  );
+        StringBuilder sbLog = new StringBuilder( );
 
-        String strKeyPrefix = SEODataKeys.PREFIX_GENERATOR + getClass(  ).getName(  );
-        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL,
-                DatastoreService.VALUE_TRUE ).equals( DatastoreService.VALUE_TRUE );
-        _bSitemap = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_SITEMAP,
-                DatastoreService.VALUE_TRUE ).equals( DatastoreService.VALUE_TRUE );
-        _strChangeFreq = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ,
-                DEFAULT_CHANGE_FREQ );
+        String strKeyPrefix = SEODataKeys.PREFIX_GENERATOR + getClass( ).getName( );
+        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL, DatastoreService.VALUE_TRUE ).equals(
+                DatastoreService.VALUE_TRUE );
+        _bSitemap = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_SITEMAP, DatastoreService.VALUE_TRUE )
+                .equals( DatastoreService.VALUE_TRUE );
+        _strChangeFreq = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, DEFAULT_CHANGE_FREQ );
         _strPriority = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_PRIORITY, DEFAULT_PRIORITY );
 
         String strPath = EMPTY;
-        findPage( list, PortalService.getRootPageId(  ), strPath, sbLog, options );
+        findPage( list, PortalService.getRootPageId( ), strPath, sbLog, options );
 
-        return sbLog.toString(  );
+        return sbLog.toString( );
     }
 
     /**
      * Fill recursively the rule list
-     * @param list The rules list
-     * @param nPage The current page id
-     * @param strPath The page's path
-     * @param sbLog Logs
-     * @param options  Options
+     * 
+     * @param list
+     *            The rules list
+     * @param nPage
+     *            The current page id
+     * @param strPath
+     *            The page's path
+     * @param sbLog
+     *            Logs
+     * @param options
+     *            Options
      */
-    private void findPage( List<FriendlyUrl> list, int nPage, String strPath, StringBuilder sbLog,
-        GeneratorOptions options )
+    private void findPage( List<FriendlyUrl> list, int nPage, String strPath, StringBuilder sbLog, GeneratorOptions options )
     {
         Page page = PageHome.findByPrimaryKey( nPage );
-        FriendlyUrl url = new FriendlyUrl(  );
-        String strAlias = FriendlyUrlUtils.convertToFriendlyUrl( page.getName(  ) );
+        FriendlyUrl url = new FriendlyUrl( );
+        String strAlias = FriendlyUrlUtils.convertToFriendlyUrl( page.getName( ) );
         String strChildPath = ( strPath.equals( EMPTY ) ) ? SLASH : ( strPath + strAlias + SLASH );
-        String strFriendlyUrl = ( options.isAddPath(  ) ) ? ( strPath + strAlias ) : ( SLASH + strAlias );
+        String strFriendlyUrl = ( options.isAddPath( ) ) ? ( strPath + strAlias ) : ( SLASH + strAlias );
         strFriendlyUrl = ( strPath.equals( EMPTY ) ) ? ( SLASH + strAlias ) : strFriendlyUrl;
         url.setFriendlyUrl( strFriendlyUrl );
-        url.setTechnicalUrl( TECHNICAL_URL + page.getId(  ) );
+        url.setTechnicalUrl( TECHNICAL_URL + page.getId( ) );
         url.setCanonical( _bCanonical );
         url.setSitemap( _bSitemap );
         url.setSitemapChangeFreq( _strChangeFreq );
-        url.setSitemapLastmod( SitemapUtils.formatDate( page.getDateUpdate(  ) ) );
+        url.setSitemapLastmod( SitemapUtils.formatDate( page.getDateUpdate( ) ) );
         url.setSitemapPriority( _strPriority );
         list.add( url );
 
         for ( Page childPage : PageHome.getChildPages( nPage ) )
         {
-            findPage( list, childPage.getId(  ), strChildPath, sbLog, options );
+            findPage( list, childPage.getId( ), strChildPath, sbLog, options );
         }
     }
 }

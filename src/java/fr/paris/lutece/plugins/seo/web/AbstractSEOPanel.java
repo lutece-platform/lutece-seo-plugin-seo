@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Abstract SEO Panel
  */
@@ -52,9 +51,9 @@ public abstract class AbstractSEOPanel implements SEOPanel
      * {@inheritDoc }
      */
     @Override
-    public int getPanelIndex(  )
+    public int getPanelIndex( )
     {
-        return PanelService.instance(  ).getIndex( getPanelKey(  ) );
+        return PanelService.instance( ).getIndex( getPanelKey( ) );
     }
 
     /**
@@ -70,7 +69,7 @@ public abstract class AbstractSEOPanel implements SEOPanel
      * {@inheritDoc }
      */
     @Override
-    public Locale getPanelLocale(  )
+    public Locale getPanelLocale( )
     {
         return _locale;
     }
@@ -88,7 +87,7 @@ public abstract class AbstractSEOPanel implements SEOPanel
      * {@inheritDoc }
      */
     @Override
-    public HttpServletRequest getRequest(  )
+    public HttpServletRequest getRequest( )
     {
         return _request;
     }

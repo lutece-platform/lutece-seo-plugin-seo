@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class UrlRewriterRuleBusinessTest extends LuteceTestCase
 {
     private final static int IDRULE1 = 1;
@@ -49,12 +48,12 @@ public class UrlRewriterRuleBusinessTest extends LuteceTestCase
     private final static String RULETO1 = "RuleTo1";
     private final static String RULETO2 = "RuleTo2";
 
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         Plugin plugin = PluginService.getPlugin( "seo" );
 
         // Initialize an object
-        UrlRewriterRule urlRewriterRule = new UrlRewriterRule(  );
+        UrlRewriterRule urlRewriterRule = new UrlRewriterRule( );
         urlRewriterRule.setIdRule( IDRULE1 );
         urlRewriterRule.setRuleFrom( RULEFROM1 );
         urlRewriterRule.setRuleTo( RULETO1 );
@@ -62,27 +61,27 @@ public class UrlRewriterRuleBusinessTest extends LuteceTestCase
         // Create test
         UrlRewriterRuleHome.create( urlRewriterRule );
 
-        UrlRewriterRule urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule(  ) );
-        assertEquals( urlRewriterRuleStored.getIdRule(  ), urlRewriterRule.getIdRule(  ) );
-        assertEquals( urlRewriterRuleStored.getRuleFrom(  ), urlRewriterRule.getRuleFrom(  ) );
-        assertEquals( urlRewriterRuleStored.getRuleTo(  ), urlRewriterRule.getRuleTo(  ) );
+        UrlRewriterRule urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule( ) );
+        assertEquals( urlRewriterRuleStored.getIdRule( ), urlRewriterRule.getIdRule( ) );
+        assertEquals( urlRewriterRuleStored.getRuleFrom( ), urlRewriterRule.getRuleFrom( ) );
+        assertEquals( urlRewriterRuleStored.getRuleTo( ), urlRewriterRule.getRuleTo( ) );
 
         // Update test
         urlRewriterRule.setIdRule( IDRULE2 );
         urlRewriterRule.setRuleFrom( RULEFROM2 );
         urlRewriterRule.setRuleTo( RULETO2 );
         UrlRewriterRuleHome.update( urlRewriterRule );
-        urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule(  ) );
-        assertEquals( urlRewriterRuleStored.getIdRule(  ), urlRewriterRule.getIdRule(  ) );
-        assertEquals( urlRewriterRuleStored.getRuleFrom(  ), urlRewriterRule.getRuleFrom(  ) );
-        assertEquals( urlRewriterRuleStored.getRuleTo(  ), urlRewriterRule.getRuleTo(  ) );
+        urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule( ) );
+        assertEquals( urlRewriterRuleStored.getIdRule( ), urlRewriterRule.getIdRule( ) );
+        assertEquals( urlRewriterRuleStored.getRuleFrom( ), urlRewriterRule.getRuleFrom( ) );
+        assertEquals( urlRewriterRuleStored.getRuleTo( ), urlRewriterRule.getRuleTo( ) );
 
         // List test
-        UrlRewriterRuleHome.findAll(  );
+        UrlRewriterRuleHome.findAll( );
 
         // Delete test
-        UrlRewriterRuleHome.remove( urlRewriterRule.getIdRule(  ) );
-        urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule(  ) );
+        UrlRewriterRuleHome.remove( urlRewriterRule.getIdRule( ) );
+        urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule( ) );
         assertNull( urlRewriterRuleStored );
     }
 }

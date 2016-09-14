@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,13 +43,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * SEO JSP Bean
  */
 public class SEOJspBean extends PluginAdminPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // Right
@@ -62,22 +61,23 @@ public class SEOJspBean extends PluginAdminPageJspBean
     /**
      * Manage SEO Home page
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String getManageSEO( HttpServletRequest request )
     {
-        for ( SEOPanel panel : PanelService.instance(  ).getPanels(  ) )
+        for ( SEOPanel panel : PanelService.instance( ).getPanels( ) )
         {
-            panel.setPanelLocale( getLocale(  ) );
+            panel.setPanelLocale( getLocale( ) );
             panel.setRequest( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_PANELS_LIST, PanelService.instance(  ).getPanels(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_PANELS_LIST, PanelService.instance( ).getPanels( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 }

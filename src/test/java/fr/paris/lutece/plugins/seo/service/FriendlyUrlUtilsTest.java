@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,6 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  *
  * @author pierre
@@ -61,7 +60,7 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
      * Test of convertToAlias method, of class GeneratorUtils.
      */
     @Test
-    public void testConvertToFriendlyUrl(  )
+    public void testConvertToFriendlyUrl( )
     {
         System.out.println( "convertToFriendlyUrl" );
 
@@ -75,12 +74,12 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
      * Test of replaceLink method, of class GeneratorUtils.
      */
     @Test
-    public void testReplaceByFriendlyUrl(  ) throws IOException
+    public void testReplaceByFriendlyUrl( ) throws IOException
     {
         System.out.println( "replaceByFriendlyUrl" );
 
         String strSource = getFileContent( SOURCE );
-        Map<String, String> map = new HashMap<String, String>(  );
+        Map<String, String> map = new HashMap<String, String>( );
         map.put( "toto", "replaced" );
         map.put( "tutu", "replaced" );
 
@@ -99,17 +98,16 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
         System.out.println( result );
     }
 
-    public String getFileContent( String strResource )
-        throws IOException
+    public String getFileContent( String strResource ) throws IOException
     {
-        InputStream is = getClass(  ).getResourceAsStream( "/" + strResource );
+        InputStream is = getClass( ).getResourceAsStream( "/" + strResource );
         InputStreamReader isr = new InputStreamReader( is );
         BufferedReader in = new BufferedReader( isr );
-        Writer writer = new StringWriter(  );
+        Writer writer = new StringWriter( );
 
         if ( in != null )
         {
-            char[] buffer = new char[1024];
+            char [ ] buffer = new char [ 1024];
 
             try
             {
@@ -122,10 +120,10 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
             }
             finally
             {
-                isr.close(  );
+                isr.close( );
             }
 
-            return writer.toString(  );
+            return writer.toString( );
         }
         else
         {

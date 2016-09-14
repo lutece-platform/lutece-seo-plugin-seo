@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
  * Sitemap Service
  */
@@ -73,25 +72,26 @@ public final class SitemapService
     /**
      * Private Constructor
      */
-    private SitemapService(  )
+    private SitemapService( )
     {
     }
 
     /**
      * Generate Sitemap
+     * 
      * @return The sitemap content
      */
-    public static String generateSitemap(  )
+    public static String generateSitemap( )
     {
-        List<FriendlyUrl> list = getSitemapUrls(  );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        List<FriendlyUrl> list = getSitemapUrls( );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_URLS_LIST, list );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
-        String strXmlSitemap = templateList.getHtml(  );
-        String strSiteMapFilePath = AppPathService.getWebAppPath(  ) + FILE_SITEMAP;
+        String strXmlSitemap = templateList.getHtml( );
+        String strSiteMapFilePath = AppPathService.getWebAppPath( ) + FILE_SITEMAP;
         File fileSiteMap = new File( strSiteMapFilePath );
 
         String strResult = "OK";
@@ -100,15 +100,17 @@ public final class SitemapService
         {
             FileUtils.writeStringToFile( fileSiteMap, strXmlSitemap );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( "Error writing Sitemap file : " + e.getMessage(  ), e.getCause(  ) );
-            strResult = "Error : " + e.getMessage(  );
+            AppLogService.error( "Error writing Sitemap file : " + e.getMessage( ), e.getCause( ) );
+            strResult = "Error : " + e.getMessage( );
         }
 
-        String strDate = DateFormat.getDateTimeInstance(  ).format( new Date(  ) );
-        Object[] args = { strDate, list.size(  ), strResult };
-        String strLogFormat = I18nService.getLocalizedString( PROPERTY_SITEMAP_LOG, Locale.getDefault(  ) );
+        String strDate = DateFormat.getDateTimeInstance( ).format( new Date( ) );
+        Object [ ] args = {
+                strDate, list.size( ), strResult
+        };
+        String strLogFormat = I18nService.getLocalizedString( PROPERTY_SITEMAP_LOG, Locale.getDefault( ) );
         String strLog = MessageFormat.format( strLogFormat, args );
         DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, strLog );
 
@@ -117,17 +119,18 @@ public final class SitemapService
 
     /**
      * Get sitemap URLs
+     * 
      * @return The list of URL to add to sitemap
      */
-    private static List<FriendlyUrl> getSitemapUrls(  )
+    private static List<FriendlyUrl> getSitemapUrls( )
     {
-        List<FriendlyUrl> list = new ArrayList<FriendlyUrl>(  );
+        List<FriendlyUrl> list = new ArrayList<FriendlyUrl>( );
 
-        for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
+        for ( FriendlyUrl url : FriendlyUrlHome.findAll( ) )
         {
-            if ( url.isSitemap(  ) )
+            if ( url.isSitemap( ) )
             {
-                url.setFriendlyUrl( FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+                url.setFriendlyUrl( FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl( ) ) );
                 list.add( url );
             }
         }

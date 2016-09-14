@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.sql.Timestamp;
 
-
 public class FriendlyUrlBusinessTest extends LuteceTestCase
 {
     private final static int IDURL1 = 1;
@@ -57,10 +56,10 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
     private final static String SITEMAPLASTMOD1 = "SitemapLastmod1";
     private final static String SITEMAPLASTMOD2 = "SitemapLastmod2";
 
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         // Initialize an object
-        FriendlyUrl friendlyUrl = new FriendlyUrl(  );
+        FriendlyUrl friendlyUrl = new FriendlyUrl( );
         friendlyUrl.setId( IDURL1 );
         friendlyUrl.setFriendlyUrl( FRIENDLYURL1 );
         friendlyUrl.setTechnicalUrl( TECHNICALURL1 );
@@ -73,15 +72,15 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
         // Create test
         FriendlyUrlHome.create( friendlyUrl );
 
-        FriendlyUrl friendlyUrlStored = FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId(  ) );
-        assertEquals( friendlyUrlStored.getId(  ), friendlyUrl.getId(  ) );
-        assertEquals( friendlyUrlStored.getFriendlyUrl(  ), friendlyUrl.getFriendlyUrl(  ) );
-        assertEquals( friendlyUrlStored.getTechnicalUrl(  ), friendlyUrl.getTechnicalUrl(  ) );
-        assertEquals( friendlyUrlStored.getDateCreation(  ), friendlyUrl.getDateCreation(  ) );
-        assertEquals( friendlyUrlStored.getDateModification(  ), friendlyUrl.getDateModification(  ) );
-        assertEquals( friendlyUrlStored.isCanonical(  ), friendlyUrl.isCanonical(  ) );
-        assertEquals( friendlyUrlStored.isSitemap(  ), friendlyUrl.isSitemap(  ) );
-        assertEquals( friendlyUrlStored.getSitemapLastmod(  ), friendlyUrl.getSitemapLastmod(  ) );
+        FriendlyUrl friendlyUrlStored = FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId( ) );
+        assertEquals( friendlyUrlStored.getId( ), friendlyUrl.getId( ) );
+        assertEquals( friendlyUrlStored.getFriendlyUrl( ), friendlyUrl.getFriendlyUrl( ) );
+        assertEquals( friendlyUrlStored.getTechnicalUrl( ), friendlyUrl.getTechnicalUrl( ) );
+        assertEquals( friendlyUrlStored.getDateCreation( ), friendlyUrl.getDateCreation( ) );
+        assertEquals( friendlyUrlStored.getDateModification( ), friendlyUrl.getDateModification( ) );
+        assertEquals( friendlyUrlStored.isCanonical( ), friendlyUrl.isCanonical( ) );
+        assertEquals( friendlyUrlStored.isSitemap( ), friendlyUrl.isSitemap( ) );
+        assertEquals( friendlyUrlStored.getSitemapLastmod( ), friendlyUrl.getSitemapLastmod( ) );
 
         // Update test
         friendlyUrl.setId( IDURL2 );
@@ -93,22 +92,22 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
         friendlyUrl.setSitemap( ISSITEMAP2 );
         friendlyUrl.setSitemapLastmod( SITEMAPLASTMOD2 );
         FriendlyUrlHome.update( friendlyUrl );
-        friendlyUrlStored = FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId(  ) );
-        assertEquals( friendlyUrlStored.getId(  ), friendlyUrl.getId(  ) );
-        assertEquals( friendlyUrlStored.getFriendlyUrl(  ), friendlyUrl.getFriendlyUrl(  ) );
-        assertEquals( friendlyUrlStored.getTechnicalUrl(  ), friendlyUrl.getTechnicalUrl(  ) );
-        assertEquals( friendlyUrlStored.getDateCreation(  ), friendlyUrl.getDateCreation(  ) );
-        assertEquals( friendlyUrlStored.getDateModification(  ), friendlyUrl.getDateModification(  ) );
-        assertEquals( friendlyUrlStored.isCanonical(  ), friendlyUrl.isCanonical(  ) );
-        assertEquals( friendlyUrlStored.isSitemap(  ), friendlyUrl.isSitemap(  ) );
-        assertEquals( friendlyUrlStored.getSitemapLastmod(  ), friendlyUrl.getSitemapLastmod(  ) );
+        friendlyUrlStored = FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId( ) );
+        assertEquals( friendlyUrlStored.getId( ), friendlyUrl.getId( ) );
+        assertEquals( friendlyUrlStored.getFriendlyUrl( ), friendlyUrl.getFriendlyUrl( ) );
+        assertEquals( friendlyUrlStored.getTechnicalUrl( ), friendlyUrl.getTechnicalUrl( ) );
+        assertEquals( friendlyUrlStored.getDateCreation( ), friendlyUrl.getDateCreation( ) );
+        assertEquals( friendlyUrlStored.getDateModification( ), friendlyUrl.getDateModification( ) );
+        assertEquals( friendlyUrlStored.isCanonical( ), friendlyUrl.isCanonical( ) );
+        assertEquals( friendlyUrlStored.isSitemap( ), friendlyUrl.isSitemap( ) );
+        assertEquals( friendlyUrlStored.getSitemapLastmod( ), friendlyUrl.getSitemapLastmod( ) );
 
         // List test
-        FriendlyUrlHome.findAll(  );
+        FriendlyUrlHome.findAll( );
 
         // Delete test
-        FriendlyUrlHome.remove( friendlyUrl.getId(  ) );
-        friendlyUrlStored = FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId(  ) );
+        FriendlyUrlHome.remove( friendlyUrl.getId( ) );
+        friendlyUrlStored = FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId( ) );
         assertNull( friendlyUrlStored );
     }
 }

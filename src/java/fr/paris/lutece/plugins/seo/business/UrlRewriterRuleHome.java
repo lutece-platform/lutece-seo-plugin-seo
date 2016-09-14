@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for UrlRewriterRule objects
  */
@@ -53,14 +52,16 @@ public final class UrlRewriterRuleHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private UrlRewriterRuleHome(  )
+    private UrlRewriterRuleHome( )
     {
     }
 
     /**
      * Create an instance of the urlRewriterRule class
-     * @param urlRewriterRule The instance of the UrlRewriterRule which contains the informations to store
-     * @return The  instance of urlRewriterRule which has been created with its primary key.
+     * 
+     * @param urlRewriterRule
+     *            The instance of the UrlRewriterRule which contains the informations to store
+     * @return The instance of urlRewriterRule which has been created with its primary key.
      */
     public static UrlRewriterRule create( UrlRewriterRule urlRewriterRule )
     {
@@ -71,8 +72,10 @@ public final class UrlRewriterRuleHome
 
     /**
      * Update of the urlRewriterRule which is specified in parameter
-     * @param urlRewriterRule The instance of the UrlRewriterRule which contains the data to store
-     * @return The instance of the  urlRewriterRule which has been updated
+     * 
+     * @param urlRewriterRule
+     *            The instance of the UrlRewriterRule which contains the data to store
+     * @return The instance of the urlRewriterRule which has been updated
      */
     public static UrlRewriterRule update( UrlRewriterRule urlRewriterRule )
     {
@@ -83,19 +86,23 @@ public final class UrlRewriterRuleHome
 
     /**
      * Remove the urlRewriterRule whose identifier is specified in parameter
-     * @param nUrlRewriterRuleId The urlRewriterRule Id
+     * 
+     * @param nUrlRewriterRuleId
+     *            The urlRewriterRule Id
      */
     public static void remove( int nUrlRewriterRuleId )
     {
         _dao.delete( nUrlRewriterRuleId, _plugin );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a urlRewriterRule whose identifier is specified in parameter
-     * @param nKey The urlRewriterRule primary key
+     * 
+     * @param nKey
+     *            The urlRewriterRule primary key
      * @return an instance of UrlRewriterRule
      */
     public static UrlRewriterRule findByPrimaryKey( int nKey )
@@ -105,9 +112,10 @@ public final class UrlRewriterRuleHome
 
     /**
      * Load the data of all the urlRewriterRule objects and returns them in form of a collection
+     * 
      * @return the collection which contains the data of all the urlRewriterRule objects
      */
-    public static Collection<UrlRewriterRule> findAll(  )
+    public static Collection<UrlRewriterRule> findAll( )
     {
         return _dao.selectUrlRewriterRulesList( _plugin );
     }

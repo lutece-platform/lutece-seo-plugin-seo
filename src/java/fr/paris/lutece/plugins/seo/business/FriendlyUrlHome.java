@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for FriendlyUrl objects
  */
@@ -55,52 +54,60 @@ public final class FriendlyUrlHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private FriendlyUrlHome(  )
+    private FriendlyUrlHome( )
     {
     }
 
     /**
      * Create an instance of the friendlyUrl class
-     * @param friendlyUrl The instance of the FriendlyUrl which contains the informations to store
-     * @return The  instance of friendlyUrl which has been created with its primary key.
+     * 
+     * @param friendlyUrl
+     *            The instance of the FriendlyUrl which contains the informations to store
+     * @return The instance of friendlyUrl which has been created with its primary key.
      */
     public static FriendlyUrl create( FriendlyUrl friendlyUrl )
     {
         _dao.insert( friendlyUrl, _plugin );
-        notifyUpdate(  );
+        notifyUpdate( );
 
         return friendlyUrl;
     }
 
     /**
      * Update of the friendlyUrl data specified in parameter
-     * @param friendlyUrl The instance of the FriendlyUrl which contains the data to store
-     * @return The instance of the  friendlyUrl which has been updated
+     * 
+     * @param friendlyUrl
+     *            The instance of the FriendlyUrl which contains the data to store
+     * @return The instance of the friendlyUrl which has been updated
      */
     public static FriendlyUrl update( FriendlyUrl friendlyUrl )
     {
         _dao.store( friendlyUrl, _plugin );
-        notifyUpdate(  );
+        notifyUpdate( );
 
         return friendlyUrl;
     }
 
     /**
      * Remove the friendlyUrl whose identifier is specified in parameter
-     * @param nFriendlyUrlId The friendlyUrl Id
+     * 
+     * @param nFriendlyUrlId
+     *            The friendlyUrl Id
      */
     public static void remove( int nFriendlyUrlId )
     {
         _dao.delete( nFriendlyUrlId, _plugin );
-        notifyUpdate(  );
+        notifyUpdate( );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a friendlyUrl whose identifier is specified in parameter
-     * @param nKey The friendlyUrl primary key
+     * 
+     * @param nKey
+     *            The friendlyUrl primary key
      * @return an instance of FriendlyUrl
      */
     public static FriendlyUrl findByPrimaryKey( int nKey )
@@ -110,9 +117,10 @@ public final class FriendlyUrlHome
 
     /**
      * Load the data of all the friendlyUrl objects and returns them in form of a collection
+     * 
      * @return the list which contains the data of all the friendlyUrl objects
      */
-    public static List<FriendlyUrl> findAll(  )
+    public static List<FriendlyUrl> findAll( )
     {
         return _dao.selectFriendlyUrlsList( _plugin );
     }
@@ -120,8 +128,8 @@ public final class FriendlyUrlHome
     /**
      * On change
      */
-    private static void notifyUpdate(  )
+    private static void notifyUpdate( )
     {
-        FriendlyUrlService.instance(  ).resetCache(  );
+        FriendlyUrlService.instance( ).resetCache( );
     }
 }

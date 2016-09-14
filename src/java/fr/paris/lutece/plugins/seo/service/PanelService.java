@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
 /**
  * Panel Service
  */
@@ -49,24 +48,25 @@ public final class PanelService
 {
     private static PanelService _singleton;
     private static List<SEOPanel> _listPanels;
-    private static Comparator _comparator = new PanelComparator(  );
+    private static Comparator _comparator = new PanelComparator( );
 
     /**
      * Private constructor
      */
-    private PanelService(  )
+    private PanelService( )
     {
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static synchronized PanelService instance(  )
+    public static synchronized PanelService instance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new PanelService(  );
+            _singleton = new PanelService( );
             _listPanels = SpringContextService.getBeansOfType( SEOPanel.class );
             Collections.sort( _listPanels, _comparator );
         }
@@ -76,16 +76,19 @@ public final class PanelService
 
     /**
      * Returns the list of all panels
+     * 
      * @return The list of all panels
      */
-    public List<SEOPanel> getPanels(  )
+    public List<SEOPanel> getPanels( )
     {
         return _listPanels;
     }
 
     /**
      * Get the index of a panel
-     * @param strPanelKey The panel's key
+     * 
+     * @param strPanelKey
+     *            The panel's key
      * @return The index
      */
     public int getIndex( String strPanelKey )
@@ -94,7 +97,7 @@ public final class PanelService
 
         for ( SEOPanel panel : _listPanels )
         {
-            if ( panel.getPanelKey(  ).equals( strPanelKey ) )
+            if ( panel.getPanelKey( ).equals( strPanelKey ) )
             {
                 return nIndex;
             }
@@ -112,8 +115,11 @@ public final class PanelService
     {
         /**
          * Comparator
-         * @param o1 object 1
-         * @param o2 object 2
+         * 
+         * @param o1
+         *            object 1
+         * @param o2
+         *            object 2
          * @return the comparaison
          */
         @Override
@@ -122,7 +128,7 @@ public final class PanelService
             SEOPanel p1 = (SEOPanel) o1;
             SEOPanel p2 = (SEOPanel) o2;
 
-            return p1.getPanelOrder(  ) - p2.getPanelOrder(  );
+            return p1.getPanelOrder( ) - p2.getPanelOrder( );
         }
     }
 }

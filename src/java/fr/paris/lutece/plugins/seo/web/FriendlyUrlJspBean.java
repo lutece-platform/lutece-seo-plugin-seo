@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,14 +64,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides the user interface to manage FriendlyUrl features (
- * manage, create, modify, remove )
+ * This class provides the user interface to manage FriendlyUrl features ( manage, create, modify, remove )
  */
 public class FriendlyUrlJspBean extends SEOPanelJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // Right
@@ -145,7 +143,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     private static final String MESSAGE_CONFIRM_REMOVE_URL = "seo.message.confirmRemoveUrl";
     private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationSuccessful";
 
-    //Variables
+    // Variables
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private int _nItemsPerPage;
@@ -153,7 +151,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Returns the list of friendly_url
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the friendly_urls list
      */
     public String getManageFriendlyUrls( HttpServletRequest request )
@@ -162,55 +161,56 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
-                _nDefaultItemsPerPage );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         UrlItem url = new UrlItem( JSP_URL_MANAGE_FRIENDLY_URLS );
-        String strUrl = url.getUrl(  );
-        Collection<FriendlyUrl> listFrinedlyUrls = FriendlyUrlHome.findAll(  );
-        LocalizedPaginator paginator = new LocalizedPaginator( (List<FriendlyUrl>) listFrinedlyUrls, _nItemsPerPage,
-                strUrl, PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        String strUrl = url.getUrl( );
+        Collection<FriendlyUrl> listFrinedlyUrls = FriendlyUrlHome.findAll( );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<FriendlyUrl>) listFrinedlyUrls, _nItemsPerPage, strUrl,
+                PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_FRIENDLY_URLS_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_FRIENDLY_URLS_LIST, paginator.getPageItems( ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FRIENDLY_URL, getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FRIENDLY_URL, getLocale( ), model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
      * Provides the create url page
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String getCreateUrl( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
 
-        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues(  ) );
-        model.put( MARK_SELECTED_CHANGE_FREQ, SitemapUtils.CHANGE_FREQ_VALUES[3] );
-        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues(  ) );
-        model.put( MARK_SELECTED_PRIORITY, SitemapUtils.PRIORITY_VALUES[0] );
+        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
+        model.put( MARK_SELECTED_CHANGE_FREQ, SitemapUtils.CHANGE_FREQ_VALUES [3] );
+        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
+        model.put( MARK_SELECTED_PRIORITY, SitemapUtils.PRIORITY_VALUES [0] );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RULE, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RULE, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Create a new url
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return the forward url
      */
     public String doCreateUrl( HttpServletRequest request )
     {
-        FriendlyUrl url = new FriendlyUrl(  );
+        FriendlyUrl url = new FriendlyUrl( );
         String strErrorUrl = getData( request, url );
 
         if ( strErrorUrl != null )
@@ -226,7 +226,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Provides the modify url page
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String getModifyUrl( HttpServletRequest request )
@@ -236,27 +237,28 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
 
-        HashMap model = new HashMap(  );
-        model.put( MARK_ID_URL, url.getId(  ) );
-        model.put( MARK_FRIENDLY_URL, url.getFriendlyUrl(  ) );
-        model.put( MARK_TECHNICAL_URL, url.getTechnicalUrl(  ) );
-        model.put( MARK_CHECKED_CANONICAL, ( url.isCanonical(  ) ) ? CHECKED : UNCHECKED );
-        model.put( MARK_CHECKED_SITEMAP, ( url.isSitemap(  ) ) ? CHECKED : UNCHECKED );
-        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues(  ) );
-        model.put( MARK_SELECTED_CHANGE_FREQ, url.getSitemapChangeFreq(  ) );
-        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues(  ) );
-        model.put( MARK_SELECTED_PRIORITY, url.getSitemapPriority(  ) );
+        HashMap model = new HashMap( );
+        model.put( MARK_ID_URL, url.getId( ) );
+        model.put( MARK_FRIENDLY_URL, url.getFriendlyUrl( ) );
+        model.put( MARK_TECHNICAL_URL, url.getTechnicalUrl( ) );
+        model.put( MARK_CHECKED_CANONICAL, ( url.isCanonical( ) ) ? CHECKED : UNCHECKED );
+        model.put( MARK_CHECKED_SITEMAP, ( url.isSitemap( ) ) ? CHECKED : UNCHECKED );
+        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
+        model.put( MARK_SELECTED_CHANGE_FREQ, url.getSitemapChangeFreq( ) );
+        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
+        model.put( MARK_SELECTED_PRIORITY, url.getSitemapPriority( ) );
         model.put( MARK_RULE, url );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Modify url's attributes
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The forward url
      */
     public String doModifyUrl( HttpServletRequest request )
@@ -280,8 +282,10 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Fills url infos from the request
      *
-     * @param request The HTTP request
-     * @param url The url object to fill
+     * @param request
+     *            The HTTP request
+     * @param url
+     *            The url object to fill
      * @return An ErrorUrl or null if no error
      */
     private String getData( HttpServletRequest request, FriendlyUrl url )
@@ -311,7 +315,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Confirm the url deletion
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The forward url
      */
     public String deleteUrl( HttpServletRequest request )
@@ -321,14 +326,14 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         url.addParameter( PARAMETER_URL_ID, strUrlId );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_URL, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_URL, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Delete the url
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The forward url
      */
     public String doDeleteUrl( HttpServletRequest request )
@@ -344,7 +349,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Generate the url file
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The forward url
      */
     public String doGenerate( HttpServletRequest request )
@@ -354,11 +360,11 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         try
         {
-            RuleFileService.generateFile(  );
+            RuleFileService.generateFile( );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( "Error generating url file : " + e.getMessage(  ), e );
+            AppLogService.error( "Error generating url file : " + e.getMessage( ), e );
             strMessage = MESSAGE_GENERATION_FAILED;
             nMessageType = AdminMessage.TYPE_STOP;
 
@@ -371,49 +377,53 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Returns the Generate Alias Rules page
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String getGenerateAliasRules( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
-        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues(  ) );
-        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues(  ) );
-        model.put( MARK_GENERATORS_LIST, FriendlyUrlGeneratorService.instance(  ).getGenerators(  ) );
+        HashMap model = new HashMap( );
+        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
+        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
+        model.put( MARK_GENERATORS_LIST, FriendlyUrlGeneratorService.instance( ).getGenerators( ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_GENERATE_ALIAS, getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_GENERATE_ALIAS, getLocale( ), model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
      * Returns the Generate Alias Rules page
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String doGenerateAliasRules( HttpServletRequest request )
     {
-        GeneratorOptions options = new GeneratorOptions(  );
+        GeneratorOptions options = new GeneratorOptions( );
 
         options.setForceUpdate( getOption( request, PARAMETER_OPTION_FORCE_UPDATE ) );
         options.setAddPath( getOption( request, PARAMETER_OPTION_ADD_PATH ) );
         options.setHtmlSuffix( getOption( request, PARAMETER_OPTION_HTML_SUFFIX ) );
 
-        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH,
-            options.isAddPath(  ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
-        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX,
-            options.isHtmlSuffix(  ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
+        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, options.isAddPath( ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
+        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, options.isHtmlSuffix( ) ? DatastoreService.VALUE_TRUE
+                : DatastoreService.VALUE_FALSE );
 
-        FriendlyUrlGeneratorService.instance(  ).generate( options );
+        FriendlyUrlGeneratorService.instance( ).generate( options );
 
         return JSP_MANAGE_FRIENDLY_URLS;
     }
 
     /**
      * Retrieve an option value from the request
-     * @param request The HTTP request
-     * @param strParameter The parameter
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strParameter
+     *            The parameter
      * @return The value
      */
     private boolean getOption( HttpServletRequest request, String strParameter )
@@ -431,7 +441,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Enable or disable the replace post processor service
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String doToggle( HttpServletRequest request )
@@ -440,16 +451,18 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         if ( strToggle.equals( TOGGLE_REPLACE_URL ) )
         {
-            toggleReplaceUrl(  );
+            toggleReplaceUrl( );
         }
-        else if ( strToggle.equals( TOGGLE_CANONICAL_URLS ) )
-        {
-            toggleCanonicalUrls(  );
-        }
-        else if ( strToggle.equals( TOGGLE_FRIENDLY_URL_DAEMON ) )
-        {
-            toggleFriendlyUrlDaemon(  );
-        }
+        else
+            if ( strToggle.equals( TOGGLE_CANONICAL_URLS ) )
+            {
+                toggleCanonicalUrls( );
+            }
+            else
+                if ( strToggle.equals( TOGGLE_FRIENDLY_URL_DAEMON ) )
+                {
+                    toggleFriendlyUrlDaemon( );
+                }
 
         return getHomeUrl( request );
     }
@@ -457,21 +470,20 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Toggle replace URL in content (enabled/disabled)
      */
-    private void toggleReplaceUrl(  )
+    private void toggleReplaceUrl( )
     {
-        String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED,
-                DatastoreService.VALUE_FALSE );
+        String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE );
 
         if ( strStatus.equals( DatastoreService.VALUE_TRUE ) )
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE );
-            FriendlyUrlService.instance(  ).setUrlReplaceEnabled( false );
+            FriendlyUrlService.instance( ).setUrlReplaceEnabled( false );
             AppLogService.info( "SEO : URL replace service disabled" );
         }
         else
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_TRUE );
-            FriendlyUrlService.instance(  ).setUrlReplaceEnabled( true );
+            FriendlyUrlService.instance( ).setUrlReplaceEnabled( true );
             AppLogService.info( "SEO : URL replace service enabled" );
         }
     }
@@ -479,21 +491,20 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Toggle add Canonical URL in content (enabled/disabled)
      */
-    private void toggleCanonicalUrls(  )
+    private void toggleCanonicalUrls( )
     {
-        String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED,
-                DatastoreService.VALUE_FALSE );
+        String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_FALSE );
 
         if ( strStatus.equals( DatastoreService.VALUE_TRUE ) )
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_FALSE );
-            CanonicalUrlService.instance(  ).setCanonicalUrlsEnabled( false );
+            CanonicalUrlService.instance( ).setCanonicalUrlsEnabled( false );
             AppLogService.info( "SEO : Canonical URLs disabled" );
         }
         else
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_TRUE );
-            CanonicalUrlService.instance(  ).setCanonicalUrlsEnabled( true );
+            CanonicalUrlService.instance( ).setCanonicalUrlsEnabled( true );
             AppLogService.info( "SEO : Canonical URLs enabled" );
         }
     }
@@ -501,28 +512,27 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     /**
      * Toggle start Friendly URL daemon (enabled/disabled)
      */
-    private void toggleFriendlyUrlDaemon(  )
+    private void toggleFriendlyUrlDaemon( )
     {
-        String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED,
-                DatastoreService.VALUE_FALSE );
+        String strStatus = DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE );
 
         if ( strStatus.equals( DatastoreService.VALUE_TRUE ) )
         {
-            DatastoreService.setDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED,
-                DatastoreService.VALUE_FALSE );
+            DatastoreService.setDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_FALSE );
             AppLogService.info( "SEO : Friendly URL Daemon disabled" );
         }
         else
         {
-            DatastoreService.setDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED,
-                DatastoreService.VALUE_TRUE );
+            DatastoreService.setDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, DatastoreService.VALUE_TRUE );
             AppLogService.info( "SEO : Friendly URL Daemon enabled" );
         }
     }
 
     /**
      * Save update to generator settings
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The forward URL
      */
     public String doUpdateGeneratorSettings( HttpServletRequest request )
@@ -538,48 +548,42 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         return JSP_GENERATE_FRIENDLY_URLS;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Panel
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getPanelTitle(  )
+    public String getPanelTitle( )
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale(  ) );
+        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale( ) );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getPanelContent(  )
+    public String getPanelContent( )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_REWRITE_CONFIG_UPDATE,
-            DatastoreService.getDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, "" ) );
-        model.put( MARK_CONFIG_UPTODATE,
-            DatastoreService.getDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "" ).equals( DatastoreService.VALUE_TRUE ) );
-        model.put( MARK_URL_REPLACE,
-            DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
-        model.put( MARK_CANONICAL_URLS,
-            DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" )
-                            .equals( DatastoreService.VALUE_TRUE ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, "" ) );
+        model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "" ).equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_URL_REPLACE, DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_CANONICAL_URLS, DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
         model.put( MARK_FRIENDLY_URL_DAEMON,
-            DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, "" )
-                            .equals( DatastoreService.VALUE_TRUE ) );
+                DatastoreService.getDataValue( SEODataKeys.KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getPanelLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getPanelLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public int getPanelOrder(  )
+    public int getPanelOrder( )
     {
         return PANEL_ORDER;
     }
@@ -588,7 +592,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * {@inheritDoc }
      */
     @Override
-    public String getPanelKey(  )
+    public String getPanelKey( )
     {
         return PANEL_KEY;
     }

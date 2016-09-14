@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Canonical Url Service
  */
@@ -50,39 +49,42 @@ public final class CanonicalUrlService
     private static final String COMMENT = "\n\t\t<!-- Canonical URL added by SEO plugin --> ";
     private static final String CANONICAL_TAG_BEGIN = "\n\t\t<link rel=\"canonical\" href=\"";
     private static final String CANONICAL_TAG_END = "\" />\n";
-    private static CanonicalUrlService _singleton = new CanonicalUrlService(  );
+    private static CanonicalUrlService _singleton = new CanonicalUrlService( );
     private static boolean _bCanonical;
 
     /**
      * Private constructor
      */
-    private CanonicalUrlService(  )
+    private CanonicalUrlService( )
     {
-        _bCanonical = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" )
-                                      .equals( DatastoreService.VALUE_TRUE );
+        _bCanonical = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static synchronized CanonicalUrlService instance(  )
+    public static synchronized CanonicalUrlService instance( )
     {
         return _singleton;
     }
 
     /**
      * Tells if canonical urls are enabled
-     * @return  True if canonical urls are enabled, otherwise false
+     * 
+     * @return True if canonical urls are enabled, otherwise false
      */
-    public boolean isCanonicalUrlsEnabled(  )
+    public boolean isCanonicalUrlsEnabled( )
     {
         return _bCanonical;
     }
 
     /**
-     * Sets the status of Canonical URLs (Enabled  or Disabled)
-     * @param bEnabled The status
+     * Sets the status of Canonical URLs (Enabled or Disabled)
+     * 
+     * @param bEnabled
+     *            The status
      */
     public void setCanonicalUrlsEnabled( boolean bEnabled )
     {
@@ -91,20 +93,24 @@ public final class CanonicalUrlService
 
     /**
      * Add canonical URL into an HTML page's content
-     * @param strContent The HTML page's content
-     * @param request The HTTP request
-     * @param mapFriendlyUrls The map of friendly URLS
-     * @param strBaseUrl The Base URL
+     * 
+     * @param strContent
+     *            The HTML page's content
+     * @param request
+     *            The HTTP request
+     * @param mapFriendlyUrls
+     *            The map of friendly URLS
+     * @param strBaseUrl
+     *            The Base URL
      * @return The HTML page content with the canonical URL inserted
      */
-    public String addCanonicalUrl( String strContent, HttpServletRequest request, Map<String, String> mapFriendlyUrls,
-        String strBaseUrl )
+    public String addCanonicalUrl( String strContent, HttpServletRequest request, Map<String, String> mapFriendlyUrls, String strBaseUrl )
     {
-        StringBuilder sbUrl = new StringBuilder(  );
-        sbUrl.append( request.getRequestURI(  ).substring( request.getContextPath(  ).length(  ) + 1 ) );
-        sbUrl.append( "?" ).append( request.getQueryString(  ) );
+        StringBuilder sbUrl = new StringBuilder( );
+        sbUrl.append( request.getRequestURI( ).substring( request.getContextPath( ).length( ) + 1 ) );
+        sbUrl.append( "?" ).append( request.getQueryString( ) );
 
-        String strFriendlyUrl = mapFriendlyUrls.get( sbUrl.toString(  ) );
+        String strFriendlyUrl = mapFriendlyUrls.get( sbUrl.toString( ) );
 
         if ( strFriendlyUrl != null )
         {
@@ -116,13 +122,16 @@ public final class CanonicalUrlService
 
     /**
      * Add canonical URL into an HTML page's content
-     * @param strContent The HTML page's content
-     * @param strUrl The canonical URL to insert
+     * 
+     * @param strContent
+     *            The HTML page's content
+     * @param strUrl
+     *            The canonical URL to insert
      * @return The HTML page content with the canonical URL inserted
      */
     private String insertCanonicalUrl( String strContent, String strUrl )
     {
-        StringBuilder sb = new StringBuilder(  );
+        StringBuilder sb = new StringBuilder( );
         int nPos = strContent.indexOf( HEAD );
 
         if ( nPos < 0 )
@@ -132,13 +141,13 @@ public final class CanonicalUrlService
             return strContent;
         }
 
-        sb.append( strContent.substring( 0, nPos + HEAD.length(  ) ) );
+        sb.append( strContent.substring( 0, nPos + HEAD.length( ) ) );
         sb.append( COMMENT );
         sb.append( CANONICAL_TAG_BEGIN );
         sb.append( strUrl );
         sb.append( CANONICAL_TAG_END );
-        sb.append( strContent.substring( nPos + HEAD.length(  ) ) );
+        sb.append( strContent.substring( nPos + HEAD.length( ) ) );
 
-        return sb.toString(  );
+        return sb.toString( );
     }
 }

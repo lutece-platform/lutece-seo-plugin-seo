@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,32 +39,31 @@ import java.sql.Timestamp;
 
 import java.text.SimpleDateFormat;
 
-
 /**
  * Sitemap Utils
  */
 public final class SitemapUtils
 {
-    public static final String[] CHANGE_FREQ_VALUES = 
-        {
+    public static final String [ ] CHANGE_FREQ_VALUES = {
             "always", "hourly", "daily", "weekly", "monthly", "yearly", "never",
-        };
-    public static final String[] PRIORITY_VALUES = 
-        {
+    };
+    public static final String [ ] PRIORITY_VALUES = {
             "1.0", "0.9", "0.8", "0.7", "0.6", "0.5", "0.4", "0.3", "0.2", "0.1", "0.0",
-        };
+    };
     private static SimpleDateFormat _formater = new SimpleDateFormat( "yyyy-MM-dd" );
 
     /**
      * Private constructor
      */
-    private SitemapUtils(  )
+    private SitemapUtils( )
     {
     }
 
     /**
      * Date formater using Sitemaps standard
-     * @param date The Date
+     * 
+     * @param date
+     *            The Date
      * @return The formated date
      */
     public static String formatDate( Timestamp date )
@@ -74,15 +73,16 @@ public final class SitemapUtils
 
     /**
      * Get Change Frequency values
+     * 
      * @return The list of values
      */
-    public static ReferenceList getChangeFrequencyValues(  )
+    public static ReferenceList getChangeFrequencyValues( )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
         for ( int i = 0; i < CHANGE_FREQ_VALUES.length; i++ )
         {
-            list.addItem( CHANGE_FREQ_VALUES[i], CHANGE_FREQ_VALUES[i] );
+            list.addItem( CHANGE_FREQ_VALUES [i], CHANGE_FREQ_VALUES [i] );
         }
 
         return list;
@@ -90,15 +90,16 @@ public final class SitemapUtils
 
     /**
      * Get priority values
+     * 
      * @return The list of values
      */
-    public static ReferenceList getPriorityValues(  )
+    public static ReferenceList getPriorityValues( )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
         for ( int i = 0; i < PRIORITY_VALUES.length; i++ )
         {
-            list.addItem( PRIORITY_VALUES[i], PRIORITY_VALUES[i] );
+            list.addItem( PRIORITY_VALUES [i], PRIORITY_VALUES [i] );
         }
 
         return list;

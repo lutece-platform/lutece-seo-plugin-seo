@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,48 +37,61 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.Collection;
 
-
 /**
-* IUrlRewriterRuleDAO Interface
-*/
+ * IUrlRewriterRuleDAO Interface
+ */
 public interface IUrlRewriterRuleDAO
 {
     /**
      * Insert a new record in the table.
-     * @param urlRewriterRule instance of the UrlRewriterRule object to inssert
-     * @param plugin the Plugin
+     * 
+     * @param urlRewriterRule
+     *            instance of the UrlRewriterRule object to inssert
+     * @param plugin
+     *            the Plugin
      */
     void insert( UrlRewriterRule urlRewriterRule, Plugin plugin );
 
     /**
-    * Update the record in the table
-    * @param urlRewriterRule the reference of the UrlRewriterRule
-    * @param plugin the Plugin
-    */
+     * Update the record in the table
+     * 
+     * @param urlRewriterRule
+     *            the reference of the UrlRewriterRule
+     * @param plugin
+     *            the Plugin
+     */
     void store( UrlRewriterRule urlRewriterRule, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nIdUrlRewriterRule int identifier of the UrlRewriterRule to delete
-     * @param plugin the Plugin
+     * 
+     * @param nIdUrlRewriterRule
+     *            int identifier of the UrlRewriterRule to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nIdUrlRewriterRule, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the urlRewriterRule
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the urlRewriterRule
+     * @param plugin
+     *            the Plugin
      * @return The instance of the urlRewriterRule
      */
     UrlRewriterRule load( int nKey, Plugin plugin );
 
     /**
-    * Load the data of all the urlRewriterRule objects and returns them as a collection
-    * @param plugin the Plugin
-    * @return The collection which contains the data of all the urlRewriterRule objects
-    */
+     * Load the data of all the urlRewriterRule objects and returns them as a collection
+     * 
+     * @param plugin
+     *            the Plugin
+     * @return The collection which contains the data of all the urlRewriterRule objects
+     */
     Collection<UrlRewriterRule> selectUrlRewriterRulesList( Plugin plugin );
 }

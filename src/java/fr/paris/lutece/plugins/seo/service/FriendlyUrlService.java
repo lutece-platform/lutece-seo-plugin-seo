@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Friendly Url Service
  */
@@ -50,53 +49,53 @@ public final class FriendlyUrlService extends AbstractCacheableService
     private static final String CACHE_KEY = "friendly_url_cache_key";
     private static final String CACHE_KEY_CANONICAL = "canonical_url_cache_key";
     private static final String NAME = "SEO Friendly Url Cache Service";
-    private static FriendlyUrlService _singleton = new FriendlyUrlService(  );
+    private static FriendlyUrlService _singleton = new FriendlyUrlService( );
     private static boolean _bReplaceUrl;
 
     /**
      * Private constructor
      */
-    private FriendlyUrlService(  )
+    private FriendlyUrlService( )
     {
-        initCache(  );
-        _bReplaceUrl = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" )
-                                       .equals( DatastoreService.VALUE_TRUE );
+        initCache( );
+        _bReplaceUrl = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return NAME;
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static synchronized FriendlyUrlService instance(  )
+    public static synchronized FriendlyUrlService instance( )
     {
         return _singleton;
     }
 
     /**
      * Returns the map of Friendly URL
+     * 
      * @return The map
      */
-    public Map<String, String> getFriendlyUrlMap(  )
+    public Map<String, String> getFriendlyUrlMap( )
     {
         Map<String, String> map = (Map<String, String>) getFromCache( CACHE_KEY );
 
         if ( map == null )
         {
-            map = new HashMap<String, String>(  );
+            map = new HashMap<String, String>( );
 
-            for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
+            for ( FriendlyUrl url : FriendlyUrlHome.findAll( ) )
             {
-                map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
-                    FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+                map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl( ) ) );
             }
 
             putInCache( CACHE_KEY, map );
@@ -107,22 +106,22 @@ public final class FriendlyUrlService extends AbstractCacheableService
 
     /**
      * Returns the map of Canonical URL
+     * 
      * @return The map
      */
-    Map<String, String> getCanonicalUrlMap(  )
+    Map<String, String> getCanonicalUrlMap( )
     {
         Map<String, String> map = (Map<String, String>) getFromCache( CACHE_KEY_CANONICAL );
 
         if ( map == null )
         {
-            map = new HashMap<String, String>(  );
+            map = new HashMap<String, String>( );
 
-            for ( FriendlyUrl url : FriendlyUrlHome.findAll(  ) )
+            for ( FriendlyUrl url : FriendlyUrlHome.findAll( ) )
             {
-                if ( url.isCanonical(  ) )
+                if ( url.isCanonical( ) )
                 {
-                    map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl(  ) ),
-                        FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl(  ) ) );
+                    map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl( ) ) );
                 }
             }
 
@@ -134,16 +133,19 @@ public final class FriendlyUrlService extends AbstractCacheableService
 
     /**
      * Is the URL replace service enabled
+     * 
      * @return True if enabled, otherwise false
      */
-    public boolean isUrlReplaceEnabled(  )
+    public boolean isUrlReplaceEnabled( )
     {
         return _bReplaceUrl;
     }
 
     /**
      * Set enabled or disabled the Url Replace Service
-     * @param bEnabled The service status
+     * 
+     * @param bEnabled
+     *            The service status
      */
     public void setUrlReplaceEnabled( boolean bEnabled )
     {

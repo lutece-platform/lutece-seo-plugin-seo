@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 
 import java.util.List;
 
-
 /**
  * Alias Generator Interface
  */
@@ -45,15 +44,19 @@ public interface FriendlyUrlGenerator
 {
     /**
      * Generate alias rules
-     * @param list The rule list to fill
-     * @param options Options
+     * 
+     * @param list
+     *            The rule list to fill
+     * @param options
+     *            Options
      * @return The log
      */
     String generate( List<FriendlyUrl> list, GeneratorOptions options );
 
     /**
      * Get Generator name
+     * 
      * @return The name
      */
-    String getName(  );
+    String getName( );
 }
