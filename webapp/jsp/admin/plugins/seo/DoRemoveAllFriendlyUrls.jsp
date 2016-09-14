@@ -4,7 +4,7 @@
 
 <%
     seoFriendlyUrl.init( request, seoFriendlyUrl.RIGHT_MANAGE_SEO );
-    response.sendRedirect( seoFriendlyUrl.doDeleteUrl( request ) );
+    response.sendRedirect( seoFriendlyUrl.doDeleteAllUrls( request ) );
 %>
 
 

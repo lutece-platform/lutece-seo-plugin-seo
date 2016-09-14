@@ -345,6 +345,18 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         return JSP_MANAGE_FRIENDLY_URLS;
     }
+    
+    /**
+     * Remove all URL
+     * @param request The HTTP request
+     * @return The forward url
+     */
+    public String doDeleteAllUrls( HttpServletRequest request )
+    {
+        FriendlyUrlHome.removeAll(  );
+
+        return JSP_MANAGE_FRIENDLY_URLS;
+    }
 
     /**
      * Generate the url file

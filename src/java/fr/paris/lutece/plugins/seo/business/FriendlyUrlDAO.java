@@ -52,6 +52,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     private static final String SQL_QUERY_INSERT_VALUES_PREFIX = " VALUES ( ?, ?, ?, ";
     private static final String SQL_QUERY_INSERT_VALUES_SUFFIX = "?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM seo_friendly_url WHERE id_url = ? ";
+    private static final String SQL_QUERY_DELETE_ALL = "DELETE FROM seo_friendly_url";
     private static final String SQL_QUERY_UPDATE_PREFIX = "UPDATE seo_friendly_url SET id_url = ?, friendly_url = ?, technical_url = ?,";
     private static final String SQL_QUERY_UPDATE_DATE_CREATION_FRAGMENT = " date_creation = ?, ";
     private static final String SQL_QUERY_UPDATE_DATE_MODIFICATION_FRAGMENT = " date_modification = ?, ";
@@ -59,12 +60,8 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     private static final String SQL_QUERY_SELECTALL = "SELECT id_url, friendly_url, technical_url, date_creation, date_modification, is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority  FROM seo_friendly_url";
 
     /**
-     * Generates a new primary key
-     *
-     * @param plugin
-     *            The Plugin
-     * @return The new primary key
-     */
+     * {@inheritDoc }
+     */ 
     public int newPrimaryKey( Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
@@ -72,12 +69,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
         int nKey;
 
-        if ( !daoUtil.next( ) )
-        {
-            // if the table is empty
-            nKey = 1;
-        }
-
+        daoUtil.next( );
         nKey = daoUtil.getInt( 1 ) + 1;
         daoUtil.free( );
 
@@ -85,13 +77,9 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     }
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param friendlyUrl
-     *            instance of the FriendlyUrl object to insert
-     * @param plugin
-     *            The plugin
-     */
+     * {@inheritDoc }
+     */ 
+    @Override
     public void insert( FriendlyUrl friendlyUrl, Plugin plugin )
     {
         StringBuilder query_columns = new StringBuilder( SQL_QUERY_INSERT_COLUMNS_PREFIX );
@@ -139,14 +127,9 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     }
 
     /**
-     * Load the data of the friendlyUrl from the table
-     *
-     * @param nId
-     *            The identifier of the friendlyUrl
-     * @param plugin
-     *            The plugin
-     * @return the instance of the FriendlyUrl
-     */
+     * {@inheritDoc }
+     */ 
+    @Override
     public FriendlyUrl load( int nId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
@@ -177,13 +160,9 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     }
 
     /**
-     * Delete a record from the table
-     *
-     * @param nFriendlyUrlId
-     *            The identifier of the friendlyUrl
-     * @param plugin
-     *            The plugin
-     */
+     * {@inheritDoc }
+     */ 
+    @Override
     public void delete( int nFriendlyUrlId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
@@ -193,13 +172,9 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     }
 
     /**
-     * Update the record in the table
-     *
-     * @param friendlyUrl
-     *            The reference of the friendlyUrl
-     * @param plugin
-     *            The plugin
-     */
+     * {@inheritDoc }
+     */ 
+    @Override
     public void store( FriendlyUrl friendlyUrl, Plugin plugin )
     {
         StringBuilder query = new StringBuilder( SQL_QUERY_UPDATE_PREFIX );
@@ -240,12 +215,9 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
     }
 
     /**
-     * Load the data of all the friendlyUrls and returns them as a List
-     *
-     * @param plugin
-     *            The plugin
-     * @return The List which contains the data of all the friendlyUrls
-     */
+     * {@inheritDoc }
+     */ 
+    @Override
     public List<FriendlyUrl> selectFriendlyUrlsList( Plugin plugin )
     {
         List<FriendlyUrl> friendlyUrlList = new ArrayList<FriendlyUrl>( );
@@ -273,5 +245,16 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
         daoUtil.free( );
 
         return friendlyUrlList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */ 
+    @Override
+    public void deleteAll( Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL, plugin );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

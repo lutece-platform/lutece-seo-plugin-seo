@@ -94,4 +94,12 @@ public interface IFriendlyUrlDAO
      * @return The List which contains the data of all the friendlyUrl objects
      */
     List<FriendlyUrl> selectFriendlyUrlsList( Plugin plugin );
+
+    /**
+     * Delete all record from the table
+     * 
+     * @param plugin
+     *            the Plugin
+     */
+    public void deleteAll( Plugin plugin );
 }

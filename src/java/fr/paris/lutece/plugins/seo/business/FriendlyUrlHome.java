@@ -51,6 +51,7 @@ public final class FriendlyUrlHome
     // Static variable pointed at the DAO instance
     private static IFriendlyUrlDAO _dao = (IFriendlyUrlDAO) SpringContextService.getBean( "seo.friendlyUrlDAO" );
 
+
     /**
      * Private constructor - this class need not be instantiated
      */
@@ -99,6 +100,16 @@ public final class FriendlyUrlHome
         _dao.delete( nFriendlyUrlId, _plugin );
         notifyUpdate( );
     }
+
+    /**
+     * Remove all URL 
+     */
+    public static void removeAll()
+    {
+        _dao.deleteAll( _plugin );
+        notifyUpdate( );
+    }
+    
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders
