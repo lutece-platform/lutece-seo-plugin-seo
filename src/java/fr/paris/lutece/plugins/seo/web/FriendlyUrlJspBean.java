@@ -84,7 +84,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     private static final String PARAMETER_CHANGE_FREQ = "change_freq";
     private static final String PARAMETER_PRIORITY = "priority";
     private static final String PARAMETER_GENERATOR_KEY = "generator_key";
-    private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "friendly_url_page_index";
+    private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "page_index";
     private static final String PARAMETER_OPTION_FORCE_UPDATE = "option_force_update";
     private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
     private static final String PARAMETER_OPTION_HTML_SUFFIX = "option_html_suffix";
