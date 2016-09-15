@@ -186,7 +186,7 @@ public final class FriendlyUrlGeneratorService
     {
         for ( FriendlyUrl u : listExisting )
         {
-            if ( u.getTechnicalUrl( ).equals( url.getTechnicalUrl( ) ) )
+            if ( u.getTechnicalUrl( ).equals( url.getTechnicalUrl( )) || u.getFriendlyUrl().equals( url.getFriendlyUrl() ) )
             {
                 return u.getId( );
             }
