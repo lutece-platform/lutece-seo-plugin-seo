@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.seo.service.FriendlyUrlService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.util.Collections;
 
 import java.util.List;
 
@@ -133,7 +134,10 @@ public final class FriendlyUrlHome
      */
     public static List<FriendlyUrl> findAll( )
     {
-        return _dao.selectFriendlyUrlsList( _plugin );
+        List<FriendlyUrl> listFriendlyUrls = _dao.selectFriendlyUrlsList( _plugin );
+        Collections.sort( listFriendlyUrls );
+
+        return listFriendlyUrls;
     }
 
     /**

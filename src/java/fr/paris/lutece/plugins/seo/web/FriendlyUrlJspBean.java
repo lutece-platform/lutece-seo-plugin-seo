@@ -57,7 +57,6 @@ import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +106,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     private static final String MARK_URL_REPLACE = "url_replace";
     private static final String MARK_CANONICAL_URLS = "canonical_urls";
     private static final String MARK_FRIENDLY_URL_DAEMON = "friendly_url_daemon";
-    private static final String PROPERTY_TITlE = "seo.panel.friendly_urls.title";
+    private static final String PROPERTY_TITLE = "seo.panel.friendly_urls.title";
     private static final int PANEL_ORDER = 1;
     private static final String PANEL_KEY = "FRIENDLY_URL";
 
@@ -165,8 +164,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         UrlItem url = new UrlItem( JSP_URL_MANAGE_FRIENDLY_URLS );
         String strUrl = url.getUrl( );
-        Collection<FriendlyUrl> listFrinedlyUrls = FriendlyUrlHome.findAll( );
-        LocalizedPaginator paginator = new LocalizedPaginator( (List<FriendlyUrl>) listFrinedlyUrls, _nItemsPerPage, strUrl,
+        List<FriendlyUrl> listFriendlyUrls = FriendlyUrlHome.findAll( );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<FriendlyUrl>) listFriendlyUrls, _nItemsPerPage, strUrl,
                 PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<String, Object>( );
@@ -442,12 +441,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     {
         String strValue = request.getParameter( strParameter );
 
-        if ( ( strValue != null ) && ( strValue.equals( VALUE_ON ) ) )
-        {
-            return true;
-        }
-
-        return false;
+        return ( strValue != null ) && ( strValue.equals( VALUE_ON ) );
     }
 
     /**
@@ -569,7 +563,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     @Override
     public String getPanelTitle( )
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale( ) );
+        return I18nService.getLocalizedString( PROPERTY_TITLE, getPanelLocale( ) );
     }
 
     /**

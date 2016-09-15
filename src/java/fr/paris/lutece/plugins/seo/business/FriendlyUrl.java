@@ -38,7 +38,7 @@ import java.sql.Timestamp;
 /**
  * This is the business class for the object FriendlyUrl
  */
-public class FriendlyUrl
+public class FriendlyUrl implements Comparable
 {
     // Variables declarations
     private int _nIdUrl;
@@ -260,5 +260,14 @@ public class FriendlyUrl
     public void setSitemapPriority( String strSitemapPriority )
     {
         _strSitemapPriority = strSitemapPriority;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int compareTo( Object o )
+    {
+        return _strFriendlyUrl.compareTo( (( FriendlyUrl ) o).getFriendlyUrl() );
     }
 }
