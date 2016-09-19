@@ -1,54 +1,31 @@
-<div class="row-fluid">
-	<div class="span12">
-    <legend>#i18n{seo.modify_friendly_url.title}</legend>
-    <form class="form-horizontal" action="jsp/admin/plugins/seo/DoModifyFriendlyUrl.jsp" method="POST">
-	<fieldset>
-		<input type="hidden" name="id_url" value="${id_url}" >
-		<div class="control-group">
-			<label class="control-label" for="rule_from">#i18n{seo.modify_friendly_url.labelFriendlyUrl}*</label>
-			<div class="controls">
-				<input name="rule_from" id="rule_from" tabindex="1" value="${friendly_url}"  size="30" maxlength="100" type="text">
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="rule_to">#i18n{seo.modify_friendly_url.labelRuleTechnicalUrl}* :</label>
-			<div class="controls">
-				<input name="rule_to" id="rule_to" tabindex="2" value="${technical_url}" size="30" type="text" maxlength="100" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="canonical">#i18n{seo.modify_friendly_url.labelCanonical}:</label>
-			   <div class="controls">
-				<input name="canonical" id="canonical" type="checkbox" class="checkbox" ${checked_canonical} />
-			</div>
-		</div>
-		 <div class="control-group">
-			<label class="control-label" for="sitemap">#i18n{seo.modify_friendly_url.labelSitemap}:</label>
-				<div class="controls">
-					<input name="sitemap" id="sitemap" type="checkbox" class="checkbox" ${checked_sitemap} />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="change_freq">#i18n{seo.modify_friendly_url.labelChangeFreq}:</label>
-				<div class="controls">
-				<@combo name="change_freq"  items=change_freq_list default_value=selected_change_freq />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="priority">#i18n{seo.modify_friendly_url.labelPriority}:</label>
-				<div class="controls">
-				<@combo name="priority"  items=priority_list default_value=selected_priority />
-			</div>
-		</div>
-		 <div class="form-actions">
-			<button class="btn btn-primary" type="submit">
-				<i class="icon-ok icon-white"></i>&nbsp;#i18n{seo.modify_friendly_url.buttonModify}
-			</button>
-			<button class="btn" onclick="javascript:history.go(-1)" type="button">
-				<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}
-			</button>
-		</div>
-	</form>
-	</fieldset>
-	</div>
-</div>
+<div class="row">	<div class="col-xs-12">		<div class="box box-danger">			<div class="box-header">				<h3 class="box-title">#i18n{seo.modify_friendly_url.title}</legend>			</div>			<div class="box-body">				<form class="form-horizontal" action="jsp/admin/plugins/seo/DoModifyFriendlyUrl.jsp" method="POST">
+				<fieldset>					<input type="hidden" name="id_url" value="${id_url}" >
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="rule_from">#i18n{seo.modify_friendly_url.labelFriendlyUrl}*</label>						<div class="col-xs-12 col-sm-6">
+							<input name="rule_from" id="rule_from" tabindex="1" value="${friendly_url}" size="30" maxlength="100" type="text" class="form-control input-sm">
+						</div>
+					</div>					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="rule_to">#i18n{seo.modify_friendly_url.labelRuleTechnicalUrl}* :</label>						<div class="col-xs-12 col-sm-6">
+							<input name="rule_to" id="rule_to" tabindex="2" value="${technical_url}" size="30" type="text" maxlength="100" class="form-control input-sm" />
+						</div>
+					</div>					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="canonical">#i18n{seo.modify_friendly_url.labelCanonical}:</label>						<div class="col-xs-12 col-sm-6">
+							<div class="checkbox">								<label>									<input name="canonical" id="canonical" type="checkbox" class="checkbox" ${checked_canonical} />									&#160;								</label>							</div>
+						</div>
+					</div>					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="sitemap">#i18n{seo.modify_friendly_url.labelSitemap}:</label>						<div class="col-xs-12 col-sm-6">							<div class="checkbox">								<label>
+									<input name="sitemap" id="sitemap" type="checkbox" class="checkbox" ${checked_sitemap} />									&#160;								</label>							</div>
+						</div>
+					</div>					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="change_freq">#i18n{seo.modify_friendly_url.labelChangeFreq}:</label>						<div class="col-xs-12 col-sm-6">
+							<@comboWithParams name="change_freq"  items=change_freq_list default_value=selected_change_freq additionalParameters="class='form-control input-sm'" />
+						</div>
+					</div>					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="priority">#i18n{seo.modify_friendly_url.labelPriority}:</label>						<div class="col-xs-12 col-sm-6">
+							<@comboWithParams name="priority"  items=priority_list default_value=selected_priority additionalParameters="class='form-control input-sm'" />
+						</div>
+					</div>					<div class="form-group">						<div class="col-xs-12 col-sm-offset-3 col-sm-9">
+							<button class="btn btn-primary btn-sm btn-flat" type="submit">								<i class="fa fa-check"></i>&nbsp;#i18n{seo.modify_friendly_url.buttonModify}							</button>
+							<button class="btn btn-default btn-sm btn-flat" onclick="javascript:history.go(-1)" type="button">								<i class="fa fa-times"></i>&nbsp;#i18n{portal.util.labelCancel}							</button>
+						</div>					</div>
+				</form>				</fieldset>			</div>		</div>	</div></div>

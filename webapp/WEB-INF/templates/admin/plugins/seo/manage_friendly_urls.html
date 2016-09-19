@@ -4,15 +4,15 @@
 			<div class="box-header">
 				<h3 class="box-title">#i18n{seo.manage_friendly_urls.labelUrlList}</h3>
 				<div class="box-tools pull-right">
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
+					<a class="btn btn-primary btn-sm btn-flat" href="jsp/admin/plugins/seo/CreateFriendlyUrl.jsp">
 						<i class="fa fa-plus"></i>
 						<span class="hidden-xs">#i18n{seo.manage_friendly_urls.buttonCreate}</span>
 					</a>
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
+					<a class="btn btn-primary btn-sm btn-flat" href="jsp/admin/plugins/seo/GenerateAliasRules.jsp">
 						<i class="fa fa-cog"></i>
 						<span class="hidden-xs">#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}</span>
 					</a>
-					<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp">
+					<a class="btn btn-danger btn-sm btn-flat" href="jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp">
 						<i class="fa fa-trash"></i>
 						<span class="hidden-xs">#i18n{seo.manage_friendly_urls.buttonRemoveAllFriendlyUrls}</span>
 					</a>
@@ -37,7 +37,7 @@
 				<tr>
 
 					<td>${url.friendlyUrl} <span class="fa fa-arrow-circle-o-right"></span> ${url.technicalUrl}</td>
-					<td class="hidden-phone">
+					<td class="hidden-xs">
 						<#if url.canonical >
 						<span class="label label-success"><i class="icon-ok icon-white"></i>#i18n{portal.util.labelEnabled}</span>
 						<#else>
@@ -54,11 +54,11 @@
 					<td class="hidden-xs">${url.sitemapLastmod!"-"}</td>
 					<td class="hidden-xs">${url.sitemapChangeFreq!"-"}</td>
 					<td class="hidden-xs">${url.sitemapPriority!"-"}</td>
-					<td class="span2" >
-						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelModify}" >
+					<td>
+						<a class="btn btn-primary btn-sm btn-flat" href="jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelModify}" >
 							<i class="fa fa-pencil"></i>
 						</a>
-						<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
+						<a class="btn btn-danger btn-sm btn-flat" href="jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}" title="#i18n{portal.util.labelDelete}" >
 							<i class="fa fa-trash"></i>
 						</a>
 					</td>

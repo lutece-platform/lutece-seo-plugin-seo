@@ -8,10 +8,10 @@
 				<h3>#i18n{seo.generate_friendly_urls.labelGeneratorsList}</h3>
 				<table class="table table-hoevr table-condensed">
 					<tr>
-						<th>G&eacute;n&eacute;rateur</th>
-						<th>Fr&eacute;quence de modification par d&eacute;faut</th>
-						<th>Priorit&eacute; par d&eacute;faut</th>
-						<th>Action</th>
+						<th class="col-xs-5">G&eacute;n&eacute;rateur</th>
+						<th class="col-xs-3">Fr&eacute;quence de modification par d&eacute;faut</th>
+						<th class="col-xs-3">Priorit&eacute; par d&eacute;faut</th>
+						<th class="col-xs-1">Action</th>
 					</tr>
 					<#list generators_list as generator>
 					<form action="jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp" method="POST">
@@ -19,14 +19,14 @@
 						<tr>    
 							<td>${generator.name}</td>
 							<td>
-								<@combo name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq />
+								<@comboWithParams name="change_freq"  items=change_freq_list default_value=generator.defaultChangeFreq additionalParameters="class='form-control input-sm'" />
 							</td>
 							<td>
-								<@combo name="priority"  items=priority_list default_value=generator.defaultPriority />
+								<@comboWithParams name="priority"  items=priority_list default_value=generator.defaultPriority additionalParameters="class='form-control input-sm'" />
 							</td>
 							<td>
-								<button class="btn btn-primary btn-small" type="submit" title="#i18n{portal.util.labelModify}">
-									<i class="icon-refresh icon-white"></i>
+								<button class="btn btn-primary btn-sm btn-flat" type="submit" title="#i18n{portal.util.labelModify}">
+									<i class="fa fa-refresh"></i>
 								</button>
 							</td>
 						</tr>
@@ -44,9 +44,8 @@
 				<h3 class="box-title">#i18n{seo.generate_friendly_urls.labelOptions}</h3>
 			</div>
 			<div class="box-body">
-				<form class="form-horizontal" method="post"  action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
+				<form class="form-horizontal" method="post" action="jsp/admin/plugins/seo/DoGenerateAliasRules.jsp">
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 col-md-2 sr-only" for=""></label>
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="checkbox">
 								<label for="option_force_update">
@@ -58,7 +57,6 @@
 						</div> 
 					</div> 
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 col-md-2 sr-only" for=""></label>
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="checkbox">
 								<label for="option_add_path">
@@ -69,18 +67,18 @@
 						</div> 
 					</div> 
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 col-md-2 sr-only" for=""></label>
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="checkbox">
 								<label for="option_html_suffix">
 								<input name="option_html_suffix" id="option_html_suffix" type="checkbox" class="checkbox" value="on">
 								#i18n{seo.generate_friendly_urls.optionHtmlSuffix}
+								</label>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
-							<button class="btn btn-primary btn-falt" type="submit" >
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<button class="btn btn-primary btn-flat" type="submit" >
 								<span class="fa fa-play"></span>
 								#i18n{seo.generate_friendly_urls.buttonGenerate}
 							</button>
@@ -91,7 +89,3 @@
 		</div>
 	</div>
 </div>
-
-
-
-    
