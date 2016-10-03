@@ -101,6 +101,7 @@ public final class FriendlyUrlUtils
             nPosEndUrl = strCurrent.indexOf( END_URL );
             strUrl = strCurrent.substring( 0, nPosEndUrl );
             strUrl = removeBaseUrl( strUrl, strBaseUrl );
+            strUrl = strUrl.replaceAll( "&amp;", "&" );
             strFriendlyUrl = map.get( strUrl );
             sbOutput.append( ( strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
 

@@ -82,6 +82,7 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
         Map<String, String> map = new HashMap<String, String>( );
         map.put( "toto", "replaced" );
         map.put( "tutu", "replaced" );
+        map.put( "tutu?param1=1&param2=2", "replaced" );
 
         String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map, BASE_URL );
 
@@ -94,7 +95,7 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
             nPos = result.indexOf( "replaced", nPos + 1 );
         }
 
-        assertEquals( nReplacementCount, 3 );
+        assertEquals( nReplacementCount, 5 );
         System.out.println( result );
     }
 
