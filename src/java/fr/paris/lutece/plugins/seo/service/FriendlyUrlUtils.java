@@ -100,6 +100,7 @@ public final class FriendlyUrlUtils
             strCurrent = strEnd.substring( nPosBeginUrl );
             nPosEndUrl = strCurrent.indexOf( END_URL );
             strUrl = strCurrent.substring( 0, nPosEndUrl );
+            strUrl = strUrl.trim();
             strUrl = removeBaseUrl( strUrl, strBaseUrl );
             strUrl = strUrl.replaceAll( "&amp;", "&" );
             strFriendlyUrl = map.get( strUrl );

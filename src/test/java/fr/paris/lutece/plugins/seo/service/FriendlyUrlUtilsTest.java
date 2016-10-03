@@ -95,7 +95,7 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
             nPos = result.indexOf( "replaced", nPos + 1 );
         }
 
-        assertEquals( nReplacementCount, 5 );
+        assertEquals( nReplacementCount, 6 );
         System.out.println( result );
     }
 
