@@ -95,7 +95,7 @@ public final class FriendlyUrlService extends AbstractCacheableService
 
             for ( FriendlyUrl url : FriendlyUrlHome.findAll( ) )
             {
-                map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl( ) ) );
+                map.put( FriendlyUrlUtils.cleanUrl( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanUrl( url.getFriendlyUrl( ) ) );
             }
 
             putInCache( CACHE_KEY, map );
@@ -121,7 +121,7 @@ public final class FriendlyUrlService extends AbstractCacheableService
             {
                 if ( url.isCanonical( ) )
                 {
-                    map.put( FriendlyUrlUtils.cleanSlash( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl( ) ) );
+                    map.put( FriendlyUrlUtils.cleanUrl( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanUrl( url.getFriendlyUrl( ) ) );
                 }
             }
 

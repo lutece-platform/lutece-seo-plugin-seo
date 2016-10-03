@@ -130,7 +130,7 @@ public final class SitemapService
         {
             if ( url.isSitemap( ) )
             {
-                url.setFriendlyUrl( FriendlyUrlUtils.cleanSlash( url.getFriendlyUrl( ) ) );
+                url.setFriendlyUrl( FriendlyUrlUtils.cleanUrl( url.getFriendlyUrl( ) ) );
                 list.add( url );
             }
         }

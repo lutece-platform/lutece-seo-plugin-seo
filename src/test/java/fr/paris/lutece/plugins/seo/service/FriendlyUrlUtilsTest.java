@@ -53,6 +53,7 @@ import java.util.Map;
  */
 public class FriendlyUrlUtilsTest extends LuteceTestCase
 {
+    private static final String REPLACED = "replaced";
     private static final String SOURCE = "page.html";
     private static final String BASE_URL = "http://lutece.paris.fr/mywebapp/";
 
@@ -80,19 +81,19 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
 
         String strSource = getFileContent( SOURCE );
         Map<String, String> map = new HashMap<String, String>( );
-        map.put( "toto", "replaced" );
-        map.put( "tutu", "replaced" );
-        map.put( "tutu?param1=1&param2=2", "replaced" );
+        map.put( "toto", REPLACED );
+        map.put( "tutu", REPLACED );
+        map.put( "tutu?param1=1&param2=2", REPLACED );
 
         String result = FriendlyUrlUtils.replaceByFriendlyUrl( strSource, map, BASE_URL );
 
         int nReplacementCount = 0;
-        int nPos = result.indexOf( "replaced" );
+        int nPos = result.indexOf( REPLACED );
 
         while ( nPos != -1 )
         {
             nReplacementCount++;
-            nPos = result.indexOf( "replaced", nPos + 1 );
+            nPos = result.indexOf( REPLACED, nPos + 1 );
         }
 
         assertEquals( nReplacementCount, 6 );

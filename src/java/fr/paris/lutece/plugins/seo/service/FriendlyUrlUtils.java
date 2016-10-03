@@ -127,9 +127,12 @@ public final class FriendlyUrlUtils
      *            The source
      * @return The cleaned URL
      */
-    public static String cleanSlash( String strUrl )
+    public static String cleanUrl( String strUrl )
     {
-        return ( strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length( ) ) : strUrl );
+        String strClean = strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length( ) ) : strUrl;
+        strClean = strClean.replaceAll( "&amp;", "&" );
+        
+        return strClean;
     }
 
     /**
