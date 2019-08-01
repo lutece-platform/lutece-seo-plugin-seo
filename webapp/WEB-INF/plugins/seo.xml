@@ -129,13 +129,4 @@
         </daemon>
     </daemons>
 
-    
-    <!-- Applications
-    <applications>
-        <application>
-            <application-id>seo</application-id>
-            <application-class>fr.paris.lutece.plugins.seo.web.seoApp</application-class>
-        </application>
-    </applications>
-     -->
 </plug-in>

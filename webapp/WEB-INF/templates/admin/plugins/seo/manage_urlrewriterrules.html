@@ -1,18 +1,14 @@
-<div class="row">  
-	<div class="col-xs-12 col-sm-12 col-md-12">  
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{seo.manage_urlrewriterrules.labelRules}</h3>
-				<div class="box-tools pull-right">
-				<a class="btn btn-primary btn-sm btn-flat" href="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp" >
-					<i class="fa fa-plus"></i>
-					<span class="hidden-xs"> #i18n{seo.manage_urlrewriterrules.buttonCreate}</span>
-				</a>
-			</div>
-			</div>
-			<div class="box-body table-responsive">
+<@row>
+    <@columns>
+        <@box>
+            <@boxHeader title='#i18n{seo.manage_urlrewriterrules.labelRules}'>
+				<@btnGroup align='right'>
+				<@aButton color='primary' href="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp" buttonIcon='plus' title='#i18n{seo.manage_urlrewriterrules.buttonCreate}' />
+				</@btnGroup>
+			</@boxHeader>
+			<@boxBody>
 				<@paginationAdmin paginator=paginator combo=1 />
-				<table class="table table-hover table-condensed">
+				<@table>
 					<tr>
 						<th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</th>
 						<th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</th>
@@ -25,21 +21,17 @@
 						<td>${urlrewriterrule.ruleFrom}</td>
 						<td>${urlrewriterrule.ruleTo}</td>
 						<td>
-							<a class="btn btn-primary btn-sm btn-flat" href="jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" title="#i18n{portal.util.labelModify}" >
-								<i class="fa fa-pencil"></i>
-							</a>
-							<a class="btn btn-danger btn-sm btn-flat" href="jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}" title="#i18n{portal.util.labelDelete}">
-								<i class="fa fa-trash"></i>
-							</a>
+							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' showTitle=false />
 						</td>
 					</tr>
 					</#list>
-				</table>
-				<@paginationAdmin paginator=paginator />
-			</div>
-		</div>
-	</div>
-</div>
+				</@table>
+			<@paginationAdmin paginator=paginator />
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
 
 
 

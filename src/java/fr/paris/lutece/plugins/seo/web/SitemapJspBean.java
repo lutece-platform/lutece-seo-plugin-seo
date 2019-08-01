@@ -56,7 +56,7 @@ public class SitemapJspBean extends SEOPanelJspBean implements SEOPanel
     // Right
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
     private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/sitemap_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.sitemap.title";
+    private static final String PROPERTY_TITLE = "seo.panel.sitemap.title";
     private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
     private static final String MARK_DAEMON_ENABLED = "daemon_enabled";
     private static final int PANEL_ORDER = 2;
@@ -108,7 +108,7 @@ public class SitemapJspBean extends SEOPanelJspBean implements SEOPanel
     @Override
     public String getPanelTitle( )
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale( ) );
+        return I18nService.getLocalizedString( PROPERTY_TITLE, getPanelLocale( ) );
     }
 
     /**

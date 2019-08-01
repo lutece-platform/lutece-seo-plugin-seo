@@ -1,72 +1,35 @@
-<div class="row">  
-	<div class="col-xs-12 col-sm-12 col-md-12">  
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{seo.create_friendly_url.title}</h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" action="jsp/admin/plugins/seo/DoCreateFriendlyUrl.jsp" method="POST">
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-2 col-md-2" for="rule_from">#i18n{seo.create_friendly_url.labelFriendlyUrl}*</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input name="rule_from" id="rule_from" tabindex="1" value="" class="form-control" maxlength="100" type="text">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-2 col-md-2" for="rule_to">#i18n{seo.create_friendly_url.labelRuleTechnicalUrl}*</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input name="rule_to" id="rule_to" tabindex="2" value=""  class="form-control"  type="text" maxlength="100">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-2 col-md-2 sr-only" for="canonical">#i18n{seo.create_friendly_url.labelCanonical}</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="checkbox">
-							<label>
-								<input name="canonical" id="canonical" type="checkbox" class="checkbox" checked>
-								#i18n{seo.create_friendly_url.labelCanonical}
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-2 col-md-2 sr-only" for="sitemap">#i18n{seo.create_friendly_url.labelSitemap}</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="checkbox">
-							<label>
-								<input name="sitemap" id="sitemap" type="checkbox" class="checkbox" checked>
-								#i18n{seo.create_friendly_url.labelSitemap}
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-2 col-md-2" for="change_freq">#i18n{seo.create_friendly_url.labelChangeFreq}:</label>
-					<div class="col-xs-12 col-sm-2 col-md-2">
-						<@comboWithParams name="change_freq" default_value=selected_change_freq additionalParameters="class=\"form-control\"" items=change_freq_list />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-2 col-md-2" for="priority">#i18n{seo.create_friendly_url.labelPriority}:</label>
-					<div class="col-xs-12 col-sm-1 col-md-1">
-						<@comboWithParams name="priority" default_value=selected_priority additionalParameters="class=\"form-control\"" items=priority_list />
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-offset-2 col-sm-offset-10 col-md-offset-2 col-md-10">
-					<button class="btn btn-primary btn-flat" type="submit">
-						<i class="fa fa-check"></i>&nbsp;#i18n{seo.create_friendly_url.buttonCreate}
-					</button>
-					<a class="btn btn-default btn-flat" href="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp?plugin_name=seo" >
-						<i class="fa fa-close"></i>&nbsp;#i18n{portal.util.labelCancel}
-					</a>
-				</div>
-				</form>
-			</div>
-		</div>	
-	</div>
-</div>
-
-
+<@row>
+    <@columns>
+        <@box>
+            <@boxHeader title='#i18n{seo.create_friendly_url.title}' />
+            <@boxBody>
+				<@tform name='create_friendly_url' action='jsp/admin/plugins/seo/DoCreateFriendlyUrl.jsp'>
+                    <@formGroup labelKey='#i18n{seo.create_friendly_url.labelFriendlyUrl}' helpKey='#i18n{seo.create_friendly_url.labelFriendlyUrl.help}' mandatory=true>
+                        <@input name="rule_from" id="rule_from" tabIndex="1" value="" class="form-control" maxlength=100 type="text" />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{seo.create_friendly_url.labelRuleTechnicalUrl}' helpKey='#i18n{seo.create_friendly_url.labelRuleTechnicalUrl.help}' mandatory=true>
+                        <@input name="rule_to" id="rule_to" tabIndex="2" value=""  class="form-control" type="text" maxlength=100 />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{seo.create_friendly_url.labelCanonical}'>
+                        <@checkBox name="canonical" id="canonical" labelKey='#i18n{seo.create_friendly_url.labelCanonical.help}' value='1' />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{seo.create_friendly_url.labelSitemap}'>
+                        <@checkBox name="sitemap" id="sitemap" labelKey='#i18n{seo.create_friendly_url.labelSitemap.help}' value='1' />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{seo.create_friendly_url.labelChangeFreq}' helpKey='#i18n{seo.create_friendly_url.labelChangeFreq.help}' mandatory=true>
+                        <@select name="change_freq" items=change_freq_list default_value=selected_change_freq />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{seo.create_friendly_url.labelPriority}' helpKey='#i18n{seo.create_friendly_url.labelPriority.help}' mandatory=true>
+                        <@select name="priority" items=priority_list default_value=selected_priority  />
+                    </@formGroup>
+                    <@btnGroup>
+                        <@button type='submit' buttonIcon='check' title='#i18n{seo.create_friendly_url.buttonCreate}' />
+                        <@aButton href='jsp/admin/plugins/seo/ManageFriendlyUrls.jsp?plugin_name=seo' buttonIcon='close' color='default' title='#i18n{portal.util.labelCancel}' />
+                    </@btnGroup>
+               </@tform>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@row>
 
 

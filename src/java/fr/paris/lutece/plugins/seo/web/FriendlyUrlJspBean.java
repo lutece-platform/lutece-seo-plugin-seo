@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,26 +74,27 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     // Right
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
 
+    
+    public static final String PARAMETER_URL_ID = "id_url";
+    public static final String PARAMETER_TOGGLE = "toggle";
+    public static final String PARAMETER_FROM = "rule_from";
+    public static final String PARAMETER_TO = "rule_to";
+    public static final String PARAMETER_CANONICAL = "canonical";
+    public static final String PARAMETER_SITEMAP = "sitemap";
+    public static final String PARAMETER_CHANGE_FREQ = "change_freq";
+    public static final String PARAMETER_PRIORITY = "priority";
+    
+    public static final String TOGGLE_CANONICAL_URLS = "add_canonical_url";
+    public static final String TOGGLE_REPLACE_URL = "replace_url_in_content";
+    public static final String TOGGLE_FRIENDLY_URL_DAEMON = "friendly_url_daemon_enabled";
+    
     // parameters
-    private static final String PARAMETER_URL_ID = "id_url";
-    private static final String PARAMETER_FROM = "rule_from";
-    private static final String PARAMETER_TO = "rule_to";
-    private static final String PARAMETER_CANONICAL = "canonical";
-    private static final String PARAMETER_SITEMAP = "sitemap";
-    private static final String PARAMETER_CHANGE_FREQ = "change_freq";
-    private static final String PARAMETER_PRIORITY = "priority";
     private static final String PARAMETER_GENERATOR_KEY = "generator_key";
     private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "page_index";
     private static final String PARAMETER_OPTION_FORCE_UPDATE = "option_force_update";
     private static final String PARAMETER_OPTION_ADD_PATH = "option_add_path";
     private static final String PARAMETER_OPTION_HTML_SUFFIX = "option_html_suffix";
-    private static final String PARAMETER_TOGGLE = "toggle";
-    private static final String TOGGLE_CANONICAL_URLS = "add_canonical_url";
-    private static final String TOGGLE_REPLACE_URL = "replace_url_in_content";
-    private static final String TOGGLE_FRIENDLY_URL_DAEMON = "friendly_url_daemon_enabled";
     private static final String VALUE_ON = "on";
-    private static final String CHECKED = "checked";
-    private static final String UNCHECKED = "";
 
     // templates
     private static final String TEMPLATE_MANAGE_FRIENDLY_URL = "/admin/plugins/seo/manage_friendly_urls.html";
@@ -119,11 +120,6 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_GENERATORS_LIST = "generators_list";
-    private static final String MARK_ID_URL = "id_url";
-    private static final String MARK_FRIENDLY_URL = "friendly_url";
-    private static final String MARK_TECHNICAL_URL = "technical_url";
-    private static final String MARK_CHECKED_CANONICAL = "checked_canonical";
-    private static final String MARK_CHECKED_SITEMAP = "checked_sitemap";
     private static final String MARK_CHANGE_FREQ_LIST = "change_freq_list";
     private static final String MARK_SELECTED_CHANGE_FREQ = "selected_change_freq";
     private static final String MARK_PRIORITY_LIST = "priority_list";
@@ -237,16 +233,9 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         FriendlyUrl url = FriendlyUrlHome.findByPrimaryKey( nRuleId );
 
         HashMap model = new HashMap( );
-        model.put( MARK_ID_URL, url.getId( ) );
-        model.put( MARK_FRIENDLY_URL, url.getFriendlyUrl( ) );
-        model.put( MARK_TECHNICAL_URL, url.getTechnicalUrl( ) );
-        model.put( MARK_CHECKED_CANONICAL, ( url.isCanonical( ) ) ? CHECKED : UNCHECKED );
-        model.put( MARK_CHECKED_SITEMAP, ( url.isSitemap( ) ) ? CHECKED : UNCHECKED );
-        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
-        model.put( MARK_SELECTED_CHANGE_FREQ, url.getSitemapChangeFreq( ) );
-        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
-        model.put( MARK_SELECTED_PRIORITY, url.getSitemapPriority( ) );
         model.put( MARK_RULE, url );
+        model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
+        model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale( ), model );
 
@@ -455,20 +444,20 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     {
         String strToggle = request.getParameter( PARAMETER_TOGGLE );
 
-        if ( strToggle.equals( TOGGLE_REPLACE_URL ) )
+        switch( strToggle )
         {
-            toggleReplaceUrl( );
-        }
-        else
-            if ( strToggle.equals( TOGGLE_CANONICAL_URLS ) )
-            {
+            case TOGGLE_REPLACE_URL:
+                toggleReplaceUrl( );
+                break;
+            case TOGGLE_CANONICAL_URLS:
                 toggleCanonicalUrls( );
-            }
-            else
-                if ( strToggle.equals( TOGGLE_FRIENDLY_URL_DAEMON ) )
-                {
-                    toggleFriendlyUrlDaemon( );
-                }
+                break;
+            case TOGGLE_FRIENDLY_URL_DAEMON:
+                toggleFriendlyUrlDaemon( );
+                break;
+            default:
+                break;
+        }
 
         return getHomeUrl( request );
     }

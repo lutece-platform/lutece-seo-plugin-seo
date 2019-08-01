@@ -69,10 +69,10 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
     public static final String RIGHT_MANAGE_URLREWRITERADMIN = SEOJspBean.RIGHT_MANAGE_SEO;
 
     // parameters
-    private static final String PARAMETER_RULE_ID = "id_rule";
-    private static final String PARAMETER_FROM = "rule_from";
-    private static final String PARAMETER_TO = "rule_to";
-    private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "urlrewriterrule_page_index";
+    public static final String PARAMETER_RULE_ID = "id_rule";
+    public static final String PARAMETER_FROM = "rule_from";
+    public static final String PARAMETER_TO = "rule_to";
+    public static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "urlrewriterrule_page_index";
 
     // templates
     private static final String TEMPLATE_MANAGE_URLREWRITERRULES = "/admin/plugins/seo/manage_urlrewriterrules.html";
@@ -81,7 +81,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
 
     // Panel
     private static final String TEMPLATE_CONTENT = "/admin/plugins/seo/panel/url_rewriter_rules_panel.html";
-    private static final String PROPERTY_TITlE = "seo.panel.url_rewriter_rules.title";
+    private static final String PROPERTY_TITLE = "seo.panel.url_rewriter_rules.title";
     private static final int PANEL_ORDER = 3;
     private static final String PANEL_KEY = "URL_REWRITER";
 
@@ -322,7 +322,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
     @Override
     public String getPanelTitle( )
     {
-        return I18nService.getLocalizedString( PROPERTY_TITlE, getPanelLocale( ) );
+        return I18nService.getLocalizedString( PROPERTY_TITLE, getPanelLocale( ) );
     }
 
     /**

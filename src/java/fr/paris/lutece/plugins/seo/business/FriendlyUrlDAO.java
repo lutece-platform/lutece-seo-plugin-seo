@@ -92,8 +92,8 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
         }
         if ( friendlyUrl.getDateModification( ) != null )
         {
-            query_values.append( "date_modification, " );
-            query_columns.append( "?, " );
+            query_columns.append( "date_modification, " );
+            query_values.append( "?, " );
         }
         query_columns.append( SQL_QUERY_INSERT_COLUMNS_SUFFIX );
         query_values.append( SQL_QUERY_INSERT_VALUES_SUFFIX );

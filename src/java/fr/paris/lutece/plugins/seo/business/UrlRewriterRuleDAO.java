@@ -196,4 +196,10 @@ public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
 
         return urlRewriterRuleList;
     }
+
+    @Override
+    public int getLastId( Plugin plugin )
+    {
+        return newPrimaryKey( plugin );
+    }
 }

@@ -94,4 +94,12 @@ public interface IUrlRewriterRuleDAO
      * @return The collection which contains the data of all the urlRewriterRule objects
      */
     Collection<UrlRewriterRule> selectUrlRewriterRulesList( Plugin plugin );
+    
+    /**
+     * Return the last id created (used by unit tests)
+     * @param plugin
+     *            the Plugin
+     * @return The last id
+     */
+    int getLastId( Plugin plugin );
 }

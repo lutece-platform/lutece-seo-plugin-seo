@@ -139,7 +139,7 @@ public final class FriendlyUrlHome
 
         return listFriendlyUrls;
     }
-
+    
     /**
      * On change
      */
@@ -147,4 +147,6 @@ public final class FriendlyUrlHome
     {
         FriendlyUrlService.instance( ).resetCache( );
     }
+    
+    
 }

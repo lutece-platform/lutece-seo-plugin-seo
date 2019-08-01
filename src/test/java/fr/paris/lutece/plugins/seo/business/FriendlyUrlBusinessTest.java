@@ -45,8 +45,8 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
     private final static String FRIENDLYURL2 = "FriendlyUrl2";
     private final static String TECHNICALURL1 = "TechnicalUrl1";
     private final static String TECHNICALURL2 = "TechnicalUrl2";
-    private final static Timestamp DATECREATION1 = new Timestamp( 0 );
-    private final static Timestamp DATECREATION2 = new Timestamp( 1 );
+    private final static Timestamp DATECREATION1 = null;
+    private final static Timestamp DATECREATION2 = null;
     private final static Timestamp DATEMODIFICATION1 = new Timestamp( 2 );
     private final static Timestamp DATEMODIFICATION2 = new Timestamp( 3 );
     private final static boolean ISCANONICAL1 = true;
@@ -63,8 +63,6 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
         friendlyUrl.setId( IDURL1 );
         friendlyUrl.setFriendlyUrl( FRIENDLYURL1 );
         friendlyUrl.setTechnicalUrl( TECHNICALURL1 );
-        friendlyUrl.setDateCreation( DATECREATION1 );
-        friendlyUrl.setDateModification( DATEMODIFICATION1 );
         friendlyUrl.setCanonical( ISCANONICAL1 );
         friendlyUrl.setSitemap( ISSITEMAP1 );
         friendlyUrl.setSitemapLastmod( SITEMAPLASTMOD1 );
@@ -76,8 +74,6 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
         assertEquals( friendlyUrlStored.getId( ), friendlyUrl.getId( ) );
         assertEquals( friendlyUrlStored.getFriendlyUrl( ), friendlyUrl.getFriendlyUrl( ) );
         assertEquals( friendlyUrlStored.getTechnicalUrl( ), friendlyUrl.getTechnicalUrl( ) );
-        assertEquals( friendlyUrlStored.getDateCreation( ), friendlyUrl.getDateCreation( ) );
-        assertEquals( friendlyUrlStored.getDateModification( ), friendlyUrl.getDateModification( ) );
         assertEquals( friendlyUrlStored.isCanonical( ), friendlyUrl.isCanonical( ) );
         assertEquals( friendlyUrlStored.isSitemap( ), friendlyUrl.isSitemap( ) );
         assertEquals( friendlyUrlStored.getSitemapLastmod( ), friendlyUrl.getSitemapLastmod( ) );
@@ -86,8 +82,6 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
         friendlyUrl.setId( IDURL2 );
         friendlyUrl.setFriendlyUrl( FRIENDLYURL2 );
         friendlyUrl.setTechnicalUrl( TECHNICALURL2 );
-        friendlyUrl.setDateCreation( DATECREATION2 );
-        friendlyUrl.setDateModification( DATEMODIFICATION2 );
         friendlyUrl.setCanonical( ISCANONICAL2 );
         friendlyUrl.setSitemap( ISSITEMAP2 );
         friendlyUrl.setSitemapLastmod( SITEMAPLASTMOD2 );
@@ -96,8 +90,6 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
         assertEquals( friendlyUrlStored.getId( ), friendlyUrl.getId( ) );
         assertEquals( friendlyUrlStored.getFriendlyUrl( ), friendlyUrl.getFriendlyUrl( ) );
         assertEquals( friendlyUrlStored.getTechnicalUrl( ), friendlyUrl.getTechnicalUrl( ) );
-        assertEquals( friendlyUrlStored.getDateCreation( ), friendlyUrl.getDateCreation( ) );
-        assertEquals( friendlyUrlStored.getDateModification( ), friendlyUrl.getDateModification( ) );
         assertEquals( friendlyUrlStored.isCanonical( ), friendlyUrl.isCanonical( ) );
         assertEquals( friendlyUrlStored.isSitemap( ), friendlyUrl.isSitemap( ) );
         assertEquals( friendlyUrlStored.getSitemapLastmod( ), friendlyUrl.getSitemapLastmod( ) );

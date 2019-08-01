@@ -41,8 +41,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 public class UrlRewriterRuleBusinessTest extends LuteceTestCase
 {
-    private final static int IDRULE1 = 1;
-    private final static int IDRULE2 = 2;
     private final static String RULEFROM1 = "RuleFrom1";
     private final static String RULEFROM2 = "RuleFrom2";
     private final static String RULETO1 = "RuleTo1";
@@ -50,16 +48,13 @@ public class UrlRewriterRuleBusinessTest extends LuteceTestCase
 
     public void testBusiness( )
     {
-        Plugin plugin = PluginService.getPlugin( "seo" );
-
         // Initialize an object
         UrlRewriterRule urlRewriterRule = new UrlRewriterRule( );
-        urlRewriterRule.setIdRule( IDRULE1 );
         urlRewriterRule.setRuleFrom( RULEFROM1 );
         urlRewriterRule.setRuleTo( RULETO1 );
 
         // Create test
-        UrlRewriterRuleHome.create( urlRewriterRule );
+        urlRewriterRule = UrlRewriterRuleHome.create( urlRewriterRule );
 
         UrlRewriterRule urlRewriterRuleStored = UrlRewriterRuleHome.findByPrimaryKey( urlRewriterRule.getIdRule( ) );
         assertEquals( urlRewriterRuleStored.getIdRule( ), urlRewriterRule.getIdRule( ) );
@@ -67,7 +62,6 @@ public class UrlRewriterRuleBusinessTest extends LuteceTestCase
         assertEquals( urlRewriterRuleStored.getRuleTo( ), urlRewriterRule.getRuleTo( ) );
 
         // Update test
-        urlRewriterRule.setIdRule( IDRULE2 );
         urlRewriterRule.setRuleFrom( RULEFROM2 );
         urlRewriterRule.setRuleTo( RULETO2 );
         UrlRewriterRuleHome.update( urlRewriterRule );
