@@ -47,11 +47,11 @@ public class SitemapDaemonTest extends LuteceTestCase
      * Test of run method, of class SitemapDaemon.
      */
     @Test
-    public void testRun()
+    public void testRun( )
     {
         System.out.println( "run" );
-        SitemapDaemon instance = new SitemapDaemon();
-        instance.run();
+        SitemapDaemon instance = new SitemapDaemon( );
+        instance.run( );
     }
-    
+
 }

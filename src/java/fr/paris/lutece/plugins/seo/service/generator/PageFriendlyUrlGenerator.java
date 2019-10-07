@@ -78,8 +78,8 @@ public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
         StringBuilder sbLog = new StringBuilder( );
 
         String strKeyPrefix = SEODataKeys.PREFIX_GENERATOR + getClass( ).getName( );
-        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL, DatastoreService.VALUE_TRUE ).equals(
-                DatastoreService.VALUE_TRUE );
+        _bCanonical = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CANONICAL, DatastoreService.VALUE_TRUE )
+                .equals( DatastoreService.VALUE_TRUE );
         _bSitemap = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_SITEMAP, DatastoreService.VALUE_TRUE )
                 .equals( DatastoreService.VALUE_TRUE );
         _strChangeFreq = DatastoreService.getDataValue( strKeyPrefix + SEODataKeys.SUFFIX_CHANGE_FREQ, DEFAULT_CHANGE_FREQ );

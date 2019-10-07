@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
@@ -47,18 +46,18 @@ import org.springframework.mock.web.MockHttpServletRequest;
  */
 public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
 {
-    
+
     @Test
-    public void testUrlRewriterAdminJspBean()
+    public void testUrlRewriterAdminJspBean( )
     {
-        for( CommonsInclude ci : CommonsService.getCommonsIncludes() )
+        for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
         {
-            CommonsService.activateCommons( ci.getKey() );
-            System.out.println( "############################ Tests using " + ci.getName() + " " + ci.getDescription() );
-            String strRuleId = String.valueOf( UrlRewriterRuleHome.getLastId() );
-            getCreateRule();
-            doCreateRule();
-            getManageUrlRewriterRules();
+            CommonsService.activateCommons( ci.getKey( ) );
+            System.out.println( "############################ Tests using " + ci.getName( ) + " " + ci.getDescription( ) );
+            String strRuleId = String.valueOf( UrlRewriterRuleHome.getLastId( ) );
+            getCreateRule( );
+            doCreateRule( );
+            getManageUrlRewriterRules( );
             getModifyRule( strRuleId );
             doModifyRule( strRuleId );
             deleteRule( strRuleId );
@@ -69,35 +68,35 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageUrlRewriterRules method, of class UrlRewriterAdminJspBean.
      */
-    private void getManageUrlRewriterRules()
+    private void getManageUrlRewriterRules( )
     {
         System.out.println( "getManageUrlRewriterRules" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.getManageUrlRewriterRules( request );
     }
 
     /**
      * Test of getCreateRule method, of class UrlRewriterAdminJspBean.
      */
-    private void getCreateRule()
+    private void getCreateRule( )
     {
         System.out.println( "getCreateRule" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.getCreateRule( request );
     }
 
     /**
      * Test of doCreateRule method, of class UrlRewriterAdminJspBean.
      */
-    private void doCreateRule()
+    private void doCreateRule( )
     {
         System.out.println( "doCreateRule" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM , "http://from.url" );
-        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO , "http://to.url");
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "http://from.url" );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "http://to.url" );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.doCreateRule( request );
     }
 
@@ -107,9 +106,9 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     private void getModifyRule( String strID )
     {
         System.out.println( "getModifyRule" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.getModifyRule( request );
     }
 
@@ -119,23 +118,23 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     private void doModifyRule( String strID )
     {
         System.out.println( "doModifyRule" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
-        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM , "http://from.url" );
-        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO , "http://to.url");
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "http://from.url" );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "http://to.url" );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.doModifyRule( request );
     }
 
     /**
      * Test of deleteRule method, of class UrlRewriterAdminJspBean.
      */
-    private void deleteRule(  String strID )
+    private void deleteRule( String strID )
     {
         System.out.println( "deleteRule" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID,  strID  );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.deleteRule( request );
     }
 
@@ -145,9 +144,9 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     private void doDeleteRule( String strID )
     {
         System.out.println( "doDeleteRule" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID,  strID );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.doDeleteRule( request );
     }
 
@@ -155,11 +154,11 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
      * Test of doGenerate method, of class UrlRewriterAdminJspBean.
      */
     @Test
-    public void testDoGenerate()
+    public void testDoGenerate( )
     {
         System.out.println( "doGenerate" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
         instance.doGenerate( request );
     }
 
@@ -167,44 +166,44 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
      * Test of getPanelTitle method, of class UrlRewriterAdminJspBean.
      */
     @Test
-    public void testGetPanelTitle()
+    public void testGetPanelTitle( )
     {
         System.out.println( "getPanelTitle" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
-        instance.getPanelTitle();
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        instance.getPanelTitle( );
     }
 
     /**
      * Test of getPanelContent method, of class UrlRewriterAdminJspBean.
      */
     @Test
-    public void testGetPanelContent()
+    public void testGetPanelContent( )
     {
         System.out.println( "getPanelContent" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
-        instance.getPanelContent();
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        instance.getPanelContent( );
     }
 
     /**
      * Test of getPanelOrder method, of class UrlRewriterAdminJspBean.
      */
     @Test
-    public void testGetPanelOrder()
+    public void testGetPanelOrder( )
     {
         System.out.println( "getPanelOrder" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
-        instance.getPanelOrder();
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        instance.getPanelOrder( );
     }
 
     /**
      * Test of getPanelKey method, of class UrlRewriterAdminJspBean.
      */
     @Test
-    public void testGetPanelKey()
+    public void testGetPanelKey( )
     {
         System.out.println( "getPanelKey" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean();
-        instance.getPanelKey();
+        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        instance.getPanelKey( );
     }
-    
+
 }

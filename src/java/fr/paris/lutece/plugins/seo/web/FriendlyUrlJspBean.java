@@ -74,7 +74,6 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     // Right
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
 
-    
     public static final String PARAMETER_URL_ID = "id_url";
     public static final String PARAMETER_TOGGLE = "toggle";
     public static final String PARAMETER_FROM = "rule_from";
@@ -83,11 +82,11 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     public static final String PARAMETER_SITEMAP = "sitemap";
     public static final String PARAMETER_CHANGE_FREQ = "change_freq";
     public static final String PARAMETER_PRIORITY = "priority";
-    
+
     public static final String TOGGLE_CANONICAL_URLS = "add_canonical_url";
     public static final String TOGGLE_REPLACE_URL = "replace_url_in_content";
     public static final String TOGGLE_FRIENDLY_URL_DAEMON = "friendly_url_daemon_enabled";
-    
+
     // parameters
     private static final String PARAMETER_GENERATOR_KEY = "generator_key";
     private static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "page_index";
@@ -333,15 +332,17 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
         return JSP_MANAGE_FRIENDLY_URLS;
     }
-    
+
     /**
      * Remove all URL
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The forward url
      */
     public String doDeleteAllUrls( HttpServletRequest request )
     {
-        FriendlyUrlHome.removeAll(  );
+        FriendlyUrlHome.removeAll( );
 
         return JSP_MANAGE_FRIENDLY_URLS;
     }
@@ -409,8 +410,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         options.setHtmlSuffix( getOption( request, PARAMETER_OPTION_HTML_SUFFIX ) );
 
         DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, options.isAddPath( ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
-        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, options.isHtmlSuffix( ) ? DatastoreService.VALUE_TRUE
-                : DatastoreService.VALUE_FALSE );
+        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX,
+                options.isHtmlSuffix( ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
 
         FriendlyUrlGeneratorService.instance( ).generate( options );
 

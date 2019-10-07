@@ -51,18 +51,18 @@ public class SEOJspBeanTest extends LuteceTestCase
      * Test of getManageSEO method, of class SEOJspBean.
      */
     @Test
-    public void testGetManageSEO()
+    public void testGetManageSEO( )
     {
         System.out.println( "getManageSEO" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        SEOJspBean instance = new SEOJspBean();
-        
-        for( CommonsInclude ci : CommonsService.getCommonsIncludes() )
+        HttpServletRequest request = new MockHttpServletRequest( );
+        SEOJspBean instance = new SEOJspBean( );
+
+        for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
         {
-            CommonsService.activateCommons( ci.getKey() );
-            System.out.println( "############################ Tests using " + ci.getName() + " " + ci.getDescription() );
+            CommonsService.activateCommons( ci.getKey( ) );
+            System.out.println( "############################ Tests using " + ci.getName( ) + " " + ci.getDescription( ) );
             instance.getManageSEO( request );
         }
     }
-    
+
 }

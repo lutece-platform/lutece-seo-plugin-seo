@@ -268,6 +268,6 @@ public class FriendlyUrl implements Comparable
     @Override
     public int compareTo( Object o )
     {
-        return _strFriendlyUrl.compareTo( (( FriendlyUrl ) o).getFriendlyUrl() );
+        return _strFriendlyUrl.compareTo( ( (FriendlyUrl) o ).getFriendlyUrl( ) );
     }
 }

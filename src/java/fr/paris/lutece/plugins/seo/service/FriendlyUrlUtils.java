@@ -66,7 +66,8 @@ public final class FriendlyUrlUtils
      */
     public static String convertToFriendlyUrl( String strSource )
     {
-        return Normalizer.normalize( strSource.toLowerCase( ), Form.NFD ).replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" )
+        return Normalizer.normalize( strSource.toLowerCase( ), Form.NFD )
+                .replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" )
                 .replaceAll( "[^\\p{Alnum}]+", "-" );
     }
 
@@ -100,7 +101,7 @@ public final class FriendlyUrlUtils
             strCurrent = strEnd.substring( nPosBeginUrl );
             nPosEndUrl = strCurrent.indexOf( END_URL );
             strUrl = strCurrent.substring( 0, nPosEndUrl );
-            strUrl = strUrl.trim();
+            strUrl = strUrl.trim( );
             strUrl = removeBaseUrl( strUrl, strBaseUrl );
             strUrl = strUrl.replaceAll( "&amp;", "&" );
             strFriendlyUrl = map.get( strUrl );
@@ -131,7 +132,7 @@ public final class FriendlyUrlUtils
     {
         String strClean = strUrl.startsWith( SLASH ) ? strUrl.substring( 1, strUrl.length( ) ) : strUrl;
         strClean = strClean.replaceAll( "&amp;", "&" );
-        
+
         return strClean;
     }
 

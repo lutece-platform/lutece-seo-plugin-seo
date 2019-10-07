@@ -119,15 +119,15 @@ public final class UrlRewriterRuleHome
     {
         return _dao.selectUrlRewriterRulesList( _plugin );
     }
-    
+
     /**
      * The last id
+     * 
      * @return the last id
      */
-    public static int getLastId()
+    public static int getLastId( )
     {
         return _dao.getLastId( _plugin );
     }
 
-    
 }

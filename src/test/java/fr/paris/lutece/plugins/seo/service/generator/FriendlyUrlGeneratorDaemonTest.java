@@ -47,11 +47,11 @@ public class FriendlyUrlGeneratorDaemonTest extends LuteceTestCase
      * Test of run method, of class FriendlyUrlGeneratorDaemon.
      */
     @Test
-    public void testRun()
+    public void testRun( )
     {
         System.out.println( "run" );
-        FriendlyUrlGeneratorDaemon instance = new FriendlyUrlGeneratorDaemon();
-        instance.run();
+        FriendlyUrlGeneratorDaemon instance = new FriendlyUrlGeneratorDaemon( );
+        instance.run( );
     }
-    
+
 }

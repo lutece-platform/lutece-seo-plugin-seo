@@ -52,128 +52,126 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     private static final String DATA_SITEMAP = "1";
     private static final String DATA_CHANGE_FREQ = "weekly";
     private static final String DATA_PRIORITY = "0.5";
-    
-    private static final String[] TOGGLES  = {  
-        FriendlyUrlJspBean.TOGGLE_CANONICAL_URLS , 
-        FriendlyUrlJspBean.TOGGLE_FRIENDLY_URL_DAEMON ,
-        FriendlyUrlJspBean.TOGGLE_REPLACE_URL
+
+    private static final String [ ] TOGGLES = {
+            FriendlyUrlJspBean.TOGGLE_CANONICAL_URLS, FriendlyUrlJspBean.TOGGLE_FRIENDLY_URL_DAEMON, FriendlyUrlJspBean.TOGGLE_REPLACE_URL
     };
-    
+
     @Test
-    public void testSEO()
+    public void testSEO( )
     {
-        for( CommonsInclude ci : CommonsService.getCommonsIncludes() )
+        for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
         {
-            CommonsService.activateCommons( ci.getKey() );
-            System.out.println( "############################ Tests using " + ci.getName() + " " + ci.getDescription() );
-        
-            doDeleteAllUrls();
-            getCreateUrl();
-            doCreateUrl();
-            getManageFriendlyUrls();
-            getModifyUrl();
-            doModifyUrl();
-            deleteUrl();
-            doDeleteUrl();
+            CommonsService.activateCommons( ci.getKey( ) );
+            System.out.println( "############################ Tests using " + ci.getName( ) + " " + ci.getDescription( ) );
+
+            doDeleteAllUrls( );
+            getCreateUrl( );
+            doCreateUrl( );
+            getManageFriendlyUrls( );
+            getModifyUrl( );
+            doModifyUrl( );
+            deleteUrl( );
+            doDeleteUrl( );
         }
     }
-    
+
     /**
      * Test of getManageFriendlyUrls method, of class FriendlyUrlJspBean.
      */
-    private void getManageFriendlyUrls()
+    private void getManageFriendlyUrls( )
     {
         System.out.println( "getManageFriendlyUrls" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.getManageFriendlyUrls( request );
     }
 
     /**
      * Test of getCreateUrl method, of class FriendlyUrlJspBean.
      */
-    private void getCreateUrl()
+    private void getCreateUrl( )
     {
         System.out.println( "getCreateUrl" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.getCreateUrl( request );
     }
 
     /**
      * Test of doCreateUrl method, of class FriendlyUrlJspBean.
      */
-    private void doCreateUrl()
+    private void doCreateUrl( )
     {
         System.out.println( "doCreateUrl" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_FROM , DATA_FROM );
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_TO , DATA_TO);
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_CANONICAL , DATA_CANONICAL );
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_SITEMAP , DATA_SITEMAP );
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_CHANGE_FREQ , DATA_CHANGE_FREQ );
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_PRIORITY , DATA_PRIORITY );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_FROM, DATA_FROM );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_TO, DATA_TO );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_CANONICAL, DATA_CANONICAL );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_SITEMAP, DATA_SITEMAP );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_CHANGE_FREQ, DATA_CHANGE_FREQ );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_PRIORITY, DATA_PRIORITY );
 
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doCreateUrl( request );
     }
 
     /**
      * Test of getModifyUrl method, of class FriendlyUrlJspBean.
      */
-    private void getModifyUrl()
+    private void getModifyUrl( )
     {
         System.out.println( "getModifyUrl" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID , "1" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.getModifyUrl( request );
     }
 
     /**
      * Test of doModifyUrl method, of class FriendlyUrlJspBean.
      */
-   private void doModifyUrl()
+    private void doModifyUrl( )
     {
         System.out.println( "doModifyUrl" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID , "1" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doModifyUrl( request );
     }
 
     /**
      * Test of deleteUrl method, of class FriendlyUrlJspBean.
      */
-    private void deleteUrl()
+    private void deleteUrl( )
     {
         System.out.println( "deleteUrl" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.deleteUrl( request );
     }
 
     /**
      * Test of doDeleteUrl method, of class FriendlyUrlJspBean.
      */
-    private void doDeleteUrl()
+    private void doDeleteUrl( )
     {
         System.out.println( "doDeleteUrl" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID , "1" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doDeleteUrl( request );
     }
 
     /**
      * Test of doDeleteAllUrls method, of class FriendlyUrlJspBean.
      */
-    
-    private void doDeleteAllUrls()
+
+    private void doDeleteAllUrls( )
     {
         System.out.println( "doDeleteAllUrls" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doDeleteAllUrls( request );
     }
 
@@ -181,11 +179,11 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
      * Test of doGenerate method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testDoGenerate()
+    public void testDoGenerate( )
     {
         System.out.println( "doGenerate" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doGenerate( request );
     }
 
@@ -193,11 +191,11 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
      * Test of getGenerateAliasRules method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testGetGenerateAliasRules()
+    public void testGetGenerateAliasRules( )
     {
         System.out.println( "getGenerateAliasRules" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.getGenerateAliasRules( request );
     }
 
@@ -205,11 +203,11 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
      * Test of doGenerateAliasRules method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testDoGenerateAliasRules()
+    public void testDoGenerateAliasRules( )
     {
         System.out.println( "doGenerateAliasRules" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doGenerateAliasRules( request );
     }
 
@@ -217,14 +215,14 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
      * Test of doToggle method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testDoToggle()
+    public void testDoToggle( )
     {
         System.out.println( "doToggle" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
-        for( String strToggle : TOGGLES )
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        for ( String strToggle : TOGGLES )
         {
-            request.setParameter( FriendlyUrlJspBean.PARAMETER_TOGGLE , strToggle );
+            request.setParameter( FriendlyUrlJspBean.PARAMETER_TOGGLE, strToggle );
             instance.doToggle( request );
         }
     }
@@ -233,11 +231,11 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
      * Test of doUpdateGeneratorSettings method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testDoUpdateGeneratorSettings()
+    public void testDoUpdateGeneratorSettings( )
     {
         System.out.println( "doUpdateGeneratorSettings" );
-        HttpServletRequest request = new MockHttpServletRequest();
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
         instance.doUpdateGeneratorSettings( request );
     }
 
@@ -245,44 +243,44 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
      * Test of getPanelTitle method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testGetPanelTitle()
+    public void testGetPanelTitle( )
     {
         System.out.println( "getPanelTitle" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
-        instance.getPanelTitle();
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        instance.getPanelTitle( );
     }
 
     /**
      * Test of getPanelContent method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testGetPanelContent()
+    public void testGetPanelContent( )
     {
         System.out.println( "getPanelContent" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
-        instance.getPanelContent();
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        instance.getPanelContent( );
     }
 
     /**
      * Test of getPanelOrder method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testGetPanelOrder()
+    public void testGetPanelOrder( )
     {
         System.out.println( "getPanelOrder" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
-        instance.getPanelOrder();
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        instance.getPanelOrder( );
     }
 
     /**
      * Test of getPanelKey method, of class FriendlyUrlJspBean.
      */
     @Test
-    public void testGetPanelKey()
+    public void testGetPanelKey( )
     {
         System.out.println( "getPanelKey" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean();
-        instance.getPanelKey();
+        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        instance.getPanelKey( );
     }
 
 }

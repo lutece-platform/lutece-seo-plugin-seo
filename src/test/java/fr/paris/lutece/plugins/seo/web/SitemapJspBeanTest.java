@@ -48,11 +48,11 @@ public class SitemapJspBeanTest extends LuteceTestCase
      * Test of doGenerateSitemap method, of class SitemapJspBean.
      */
     @Test
-    public void testDoGenerateSitemap()
+    public void testDoGenerateSitemap( )
     {
         System.out.println( "doGenerateSitemap" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        SitemapJspBean instance = new SitemapJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        SitemapJspBean instance = new SitemapJspBean( );
         instance.doGenerateSitemap( request );
     }
 
@@ -60,11 +60,11 @@ public class SitemapJspBeanTest extends LuteceTestCase
      * Test of doSitemapDaemonToggle method, of class SitemapJspBean.
      */
     @Test
-    public void testDoSitemapDaemonToggle()
+    public void testDoSitemapDaemonToggle( )
     {
         System.out.println( "doSitemapDaemonToggle" );
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        SitemapJspBean instance = new SitemapJspBean();
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        SitemapJspBean instance = new SitemapJspBean( );
         instance.doSitemapDaemonToggle( request );
     }
 
@@ -72,44 +72,44 @@ public class SitemapJspBeanTest extends LuteceTestCase
      * Test of getPanelTitle method, of class SitemapJspBean.
      */
     @Test
-    public void testGetPanelTitle()
+    public void testGetPanelTitle( )
     {
         System.out.println( "getPanelTitle" );
-        SitemapJspBean instance = new SitemapJspBean();
-        instance.getPanelTitle();
+        SitemapJspBean instance = new SitemapJspBean( );
+        instance.getPanelTitle( );
     }
 
     /**
      * Test of getPanelContent method, of class SitemapJspBean.
      */
     @Test
-    public void testGetPanelContent()
+    public void testGetPanelContent( )
     {
         System.out.println( "getPanelContent" );
-        SitemapJspBean instance = new SitemapJspBean();
-        instance.getPanelContent();
+        SitemapJspBean instance = new SitemapJspBean( );
+        instance.getPanelContent( );
     }
 
     /**
      * Test of getPanelOrder method, of class SitemapJspBean.
      */
     @Test
-    public void testGetPanelOrder()
+    public void testGetPanelOrder( )
     {
         System.out.println( "getPanelOrder" );
-        SitemapJspBean instance = new SitemapJspBean();
-        instance.getPanelOrder();
+        SitemapJspBean instance = new SitemapJspBean( );
+        instance.getPanelOrder( );
     }
 
     /**
      * Test of getPanelKey method, of class SitemapJspBean.
      */
     @Test
-    public void testGetPanelKey()
+    public void testGetPanelKey( )
     {
         System.out.println( "getPanelKey" );
-        SitemapJspBean instance = new SitemapJspBean();
-        instance.getPanelKey();
+        SitemapJspBean instance = new SitemapJspBean( );
+        instance.getPanelKey( );
     }
-    
+
 }

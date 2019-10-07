@@ -61,7 +61,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     public int newPrimaryKey( Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
@@ -78,7 +78,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     @Override
     public void insert( FriendlyUrl friendlyUrl, Plugin plugin )
     {
@@ -128,7 +128,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     @Override
     public FriendlyUrl load( int nId, Plugin plugin )
     {
@@ -161,7 +161,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     @Override
     public void delete( int nFriendlyUrlId, Plugin plugin )
     {
@@ -173,7 +173,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     @Override
     public void store( FriendlyUrl friendlyUrl, Plugin plugin )
     {
@@ -216,7 +216,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     @Override
     public List<FriendlyUrl> selectFriendlyUrlsList( Plugin plugin )
     {
@@ -249,7 +249,7 @@ public final class FriendlyUrlDAO implements IFriendlyUrlDAO
 
     /**
      * {@inheritDoc }
-     */ 
+     */
     @Override
     public void deleteAll( Plugin plugin )
     {
