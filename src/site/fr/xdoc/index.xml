@@ -3,6 +3,9 @@
     <properties>
         <title>Plugin SEO</title>
     </properties>
+    <head>
+        <meta name="keywords" content="seo, search, friendly url, canonical url, robot.txt, sitemap, moteur de recherche " />
+    </head>
     <body>
         <section name="Plugin SEO">
             <subsection name="Introduction">
@@ -12,6 +15,50 @@
                     URLS explicites, URLs canoniques, robots.txt,...
                 </p>
             </subsection>
+            <subsection name="Friendly URLs">
+                <p>Le module des Friendly URL vous permet de créer des URL plus explicites pour n'importe quelle ressource de votre site.</p>
+                <p>Par exemple l'URL technique :</p>
+                <p>
+                    <code>http://mysite/jsp/site/Portal.jsp?page_id=122 </code>
+                </p>
+                <p>peut être accessible avec une URL beaucoup plus conviviale </p>
+                <p>
+                    <code>http://mysite/pages/my_topic.html </code>
+                </p>
+            </subsection>
+            
+            
+            <subsection name="Sitemap">
+                <p>
+                    Le module Sitemap vous permet de créer et de générer un fichier Sitemap
+                    qui contient toutes les pages de votre site pour faire une meilleure indexation de recherche.
+                </p>
+            </subsection>
+            
+            
+            <subsection name="Robots.txt">
+                <p>
+                    Le module robot.txt vous permet de gérer le fichier qui indiquera aux robots comment
+                    naviguer dans votre site.
+                </p>
+            </subsection>
+
+
+            <subsection name="URL rewriting">
+                <p>
+                    Le module de réécriture d'URL vous permet de créer des règles pour rediriger 
+                    automatiquement l'URL vers un autre.
+                </p>.
+                <p>Par exemple l'URL :</p>
+                <p>
+                    <code>http://mysite/app/wiki </code>
+                </p>
+                <p>peut être redirigé vers </p>
+                <p>
+                    <code>http://mysite/jsp/site/Portal.jsp?page=wiki </code>
+                </p>
+            </subsection>
+
         </section>
     </body>
 </document>

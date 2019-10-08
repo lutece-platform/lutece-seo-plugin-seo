@@ -7,37 +7,37 @@
 
 ## Introduction
 
-This plugin enables centralized management of all modules to do SEO (Search Engine Optimizations) sitemap, friendly URLs, canonical URLs, robots.txt, ...
+Ce plugin permet de centraliser la gestion de tous les modules permettant de faire du SEO (Search Engine Optimizations) : sitemap,URLS explicites, URLs canoniques, robots.txt,...
 
 ## Friendly URLs
 
-The friendly URLs module lets you create nicer URL for any resource of your site.
+Le module des Friendly URL vous permet de créer des URL plus explicites pour n'importe quelle ressource de votre site.
 
-For example the technical URL :
+Par exemple l'URL technique :
 
  `http://mysite/jsp/site/Portal.jsp?page_id=122` 
 
-can be accessible with a much more friendly URL
+peut être accessible avec une URL beaucoup plus conviviale
 
  `http://mysite/pages/my_topic.html` 
 
 ## Sitemap
 
-The Sitemap module lets you create and generate a Sitemap file that contains all the page of your site to do a better search indexing.
+Le module Sitemap vous permet de créer et de générer un fichier Sitemap qui contient toutes les pages de votre site pour faire une meilleure indexation de recherche.
 
 ## Robots.txt
 
-The robot.txt module lets you manage the file that will indicate to bots how to navigate in your site
+Le module robot.txt vous permet de gérer le fichier qui indiquera aux robots comment naviguer dans votre site.
 
 ## URL rewriting
 
-The URL rewriting module lets you create rules to redirect automatically URL to another.
-
-For example the URL :
+Le module de réécriture d'URL vous permet de créer des règles pour rediriger automatiquement l'URL vers un autre.
+.
+Par exemple l'URL :
 
  `http://mysite/app/wiki` 
 
-can be redirected to
+peut être redirigé vers
 
  `http://mysite/jsp/site/Portal.jsp?page=wiki` 
 
