@@ -73,7 +73,7 @@ public class SEOJspBean extends PluginAdminPageJspBean
             panel.setRequest( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PANELS_LIST, PanelService.instance( ).getPanels( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale( ), model );

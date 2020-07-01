@@ -114,7 +114,15 @@ public final class RuleFileService
         String strLog = MessageFormat.format( strLogFormat, args );
         DatastoreService.setDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, strLog );
         DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, DatastoreService.VALUE_TRUE );
+        
+        String strFileContent = t.getHtml( );
+        
+        int nStartXml = strFileContent.indexOf("<?xml" );
+        if( nStartXml != 0 )
+        {
+            strFileContent = strFileContent.substring( nStartXml );
+        }
 
-        return t.getHtml( );
+        return strFileContent;
     }
 }
