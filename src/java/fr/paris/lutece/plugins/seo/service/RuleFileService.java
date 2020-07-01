@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -114,11 +114,11 @@ public final class RuleFileService
         String strLog = MessageFormat.format( strLogFormat, args );
         DatastoreService.setDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, strLog );
         DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, DatastoreService.VALUE_TRUE );
-        
+
         String strFileContent = t.getHtml( );
-        
-        int nStartXml = strFileContent.indexOf("<?xml" );
-        if( nStartXml != 0 )
+
+        int nStartXml = strFileContent.indexOf( "<?xml" );
+        if ( nStartXml != 0 )
         {
             strFileContent = strFileContent.substring( nStartXml );
         }

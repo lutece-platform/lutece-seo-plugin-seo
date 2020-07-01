@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,9 +66,8 @@ public final class FriendlyUrlUtils
      */
     public static String convertToFriendlyUrl( String strSource )
     {
-        return Normalizer.normalize( strSource.toLowerCase( ), Form.NFD )
-                .replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" )
-                .replaceAll( "[^\\p{Alnum}]+", "-" );
+        return Normalizer.normalize( strSource.toLowerCase( ), Form.NFD ).replaceAll( "\\p{InCombiningDiacriticalMarks}+", "" ).replaceAll( "[^\\p{Alnum}]+",
+                "-" );
     }
 
     /**
