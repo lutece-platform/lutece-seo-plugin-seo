@@ -1,16 +1,9 @@
-
-<#macro seoPanel title='' parentId='' childId='' icon='' color='primary'>
-<@row>
-  <@columns>
-      	<@accordionContainer id=parentId>
-		<@accordionPanel color=color collapsed=false childId=childId >
-			<@accordionHeader title=title headerIcon=icon >
-            </@accordionHeader>
-			<@accordionBody>
-<#nested>
-            </@accordionBody>    
-		</@accordionPanel>
-        </@accordionContainer>
-	</@columns>
-</@row>
+<#macro seoPanel title='' parentId='' childId='' icon=''>
+	<@accordionPanel childId=childId >
+		<@accordionHeader title=title headerIcon=icon >
+		</@accordionHeader>
+		<@accordionBody>
+			<#nested>
+		</@accordionBody>    
+	</@accordionPanel>
 </#macro>

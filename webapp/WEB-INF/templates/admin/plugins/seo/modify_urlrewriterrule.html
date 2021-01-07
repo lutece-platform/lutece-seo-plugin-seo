@@ -3,13 +3,13 @@
         <@box>
             <@boxHeader title='#i18n{seo.modify_urlrewriterrule.title}' />
             <@boxBody>
-				<@tform action="jsp/admin/plugins/seo/DoModifyUrlRewriterRule.jsp">
-					<input type="hidden" name="id_rule" value="${rule.idRule}">
-					<@formGroup labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}.help' mandatory=true>
-    					<@input type='text' name='rule_from' id='rule_from' tabIndex='1' value='${rule.ruleFrom}' maxlength=100 />
+				<@tform action='jsp/admin/plugins/seo/DoModifyUrlRewriterRule.jsp'>
+					<@input type='hidden' name='id_rule' value='${rule.idRule}' />
+					<@formGroup labelFor='rule_from' labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}.help' mandatory=true>
+    					<@input type='text' name='rule_from' id='rule_from' value='${rule.ruleFrom}' maxlength=100 />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo.help}' mandatory=true >
-						<@input type='text' name='rule_to' id='rule_to' tabIndex='2' value='${rule.ruleTo}' maxlength=100 />
+					<@formGroup labelFor='rule_to' labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo.help}' mandatory=true >
+						<@input type='text' name='rule_to' id='rule_to' value='${rule.ruleTo}' maxlength=100 />
 					</@formGroup>
 					<@btnGroup>
 						<@button type='submit' color='primary' buttonIcon='check' title='#i18n{seo.modify_urlrewriterrule.buttonModify}' />

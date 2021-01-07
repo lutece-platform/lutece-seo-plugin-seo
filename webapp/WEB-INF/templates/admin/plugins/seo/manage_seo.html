@@ -1,16 +1,17 @@
 <#include "panel_utils.html">
-
-<@seoPanel title='#i18n{seo.adminDashboard.pageTitle}' icon='globe' parentId='seo_parameters' childId='seo_parameters_management' >
-
 <@row>
-    <@columns>
-        <#list panels_list as panel>
-            <@seoPanel title='${panel.panelTitle}' icon='globe' parentId='seo_parameters' childId='seo_parameters_${panel.panelIndex}' >
-            ${panel.panelContent}
-            </@seoPanel>
-        </#list>
-    </@columns>
+	<@columns>
+		<@box>
+			<@boxHeader title='#i18n{seo.adminDashboard.pageTitle}' />
+			<@boxBody>
+				<@accordionContainer id='seo_parameters'>
+					<#list panels_list as panel>
+						<@seoPanel title=panel.panelTitle icon='globe' childId='seo_parameters_${panel.panelIndex}' >
+							${panel.panelContent}
+						</@seoPanel>
+					</#list>
+				</@accordionContainer>
+			</@boxBody>
+		</@box>
+	</@columns>
 </@row>
-
-</@seoPanel>
-

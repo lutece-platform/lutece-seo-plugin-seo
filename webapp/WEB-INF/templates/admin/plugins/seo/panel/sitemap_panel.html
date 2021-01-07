@@ -1,74 +1,57 @@
-<@row>
-    <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.panel.sitemap.titleManageSitemap}' />
-			<@boxBody>
-				<p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>
-				<p>
-                    <@btnGroup align='right'>
-                        <@aButton href='http://www.sitemaps.org/fr/' title='#i18n{seo.panel.sitemap.labelMore}' buttonIcon='external-link' iconPosition='right' />
-                        <@button type='button' buttonIcon='file-o' title='#i18n{seo.panel.sitemap.buttonDisplaySitemap}' params=' data-toggle="modal" data-target="#sitemapModal"' />
-                    </@btnGroup>
-				</p>
-                    
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
-<@row>
-    <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.panel.sitemap.titleGenerate}'>
-				<form class="form-inline pull-right spaced" action="jsp/admin/plugins/seo/DoGenerateSitemap.jsp" method="GET">
-					<@button type='submit' color='primary' buttonIcon='refresh' title='#i18n{seo.panel.sitemap.buttonUpdateFile}' />
-				</form>
-			</@boxHeader>
-			<@boxBody>
-			<#if sitemapLastGeneration?has_content>
-				<@alert color='info'>
-					<span class="fa fa-info"></span> ${sitemapLastGeneration}
-				</@alert>
-				</#if>
-				<p class="text-info">
+<@div>
+	<@div params='style="display:flex; justify-content:space-between;"'>
+		<h3>#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
+		<@btnGroup>
+			<@aButton href='http://www.sitemaps.org/fr/' title='#i18n{seo.panel.sitemap.labelMore}' hideTitle=['xs','sm','md'] buttonIcon='external-link' iconPosition='right' size='sm' />
+			<@button type='button' buttonIcon='file' title='#i18n{seo.panel.sitemap.buttonDisplaySitemap}' hideTitle=['xs','sm','md'] style='modal' buttonTargetId='#sitemapModal' size='sm' />
+		</@btnGroup>
+	</@div>
+	<p>#i18n{seo.panel.sitemap.explainManageSitemap}</p>
+</@div>
+
+<@div>
+	<@div params='style="display:flex; justify-content:space-between;"'>
+		<h3>#i18n{seo.panel.sitemap.titleGenerate}</h3>
+		<@div params='style="display:flex; justify-content:flex-end;"'>
+			<@tform id='doGenerateSitemap' action='jsp/admin/plugins/seo/DoGenerateSitemap.jsp' method='get' type='inline' />
+			<@tform id='doSitemapDaemonToggle' method='post' action='jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp' type='inline' />
+			<@btnGroup>
+				<@button type='submit' color='primary' buttonIcon='sync' title='#i18n{seo.panel.sitemap.buttonUpdateFile}' hideTitle=['xs','sm','md'] size='sm' formId='doGenerateSitemap' />
 				<#if daemon_enabled >
-					#i18n{seo.panel.sitemap.explainGenerate} <@tag color='success' tagIcon='check-circle'> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelEnabled}</@tag>
+					<@button type='submit' color='danger' buttonIcon='stop' title='#i18n{seo.panel.sitemap.buttonDisableGenerate}' hideTitle=['xs','sm','md'] size='sm' formId='doSitemapDaemonToggle' />
 				<#else>
-					#i18n{seo.panel.sitemap.explainGenerate} <@tag color='danger' tagIcon='times-circle' > #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelDisabled}</@tag>.
+					<@button type='submit' color='success' buttonIcon='play' title='#i18n{seo.panel.sitemap.buttonEnableGenerate}' hideTitle=['xs','sm','md'] size='sm' formId='doSitemapDaemonToggle' />
 				</#if>
-				</p>
-				<form method="post" class="form-inline" action="jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp">
-                    <@btnGroup align='right'>
-                    <#if daemon_enabled >
-                        <@button type='submit' color='danger' buttonIcon='stop' title='#i18n{seo.panel.sitemap.buttonDisableGenerate}' />
-                    <#else>
-                        <@button type='submit' color='success' buttonIcon='play' title='#i18n{seo.panel.sitemap.buttonEnableGenerate}' />
-                    </#if>
-                     </@btnGroup>
-				</form>
-            </@boxBody>
-		</@box>
-	</@columns>
-</@row>
+			 </@btnGroup>
+		</@div>
+	</@div>
+
+	<#if sitemapLastGeneration?has_content>
+		<@alert color='info'>
+			<@icon style='info' /> ${sitemapLastGeneration}
+		</@alert>
+	</#if>
+	<p class="text-primary">
+	<#if daemon_enabled >
+		#i18n{seo.panel.sitemap.explainGenerate} <@tag color='success' tagIcon='check-circle'> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelEnabled}</@tag>
+	<#else>
+		#i18n{seo.panel.sitemap.explainGenerate} <@tag color='danger' tagIcon='times-circle'> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelDisabled}</@tag>
+	</#if>
+	</p>
+</@div>
 
 <!-- Modal -->
-<div class="modal fade" id="sitemapModal" tabindex="-1" role="dialog" aria-labelledby="sitemapModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="sitemapModalLabel">Sitemap</h4>
-      </div>
-      <div class="modal-body">
+<@modal id='sitemapModal'>
+	<@modalHeader modalTitle='Sitemap' id='sitemapModalLabel' />
+	<@modalBody>
         <pre>
 			<code id="sitemap" class="language-html" data-lang="html"></code>
 		</pre>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
+	</@modalBody>
+	<@modalFooter>
+        <@button type='button' params='data-dismiss="modal"' title='#i18n{portal.util.labelCancel}' />
+	</@modalFooter>
+</@modal>
 <!-- /.modal -->
 <script>
 function format( source , tag ) {

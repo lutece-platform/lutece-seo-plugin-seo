@@ -2,29 +2,27 @@
     <@columns>
         <@box>
             <@boxHeader title='#i18n{seo.manage_urlrewriterrules.labelRules}'>
-				<@btnGroup align='right'>
-				<@aButton color='primary' href="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp" buttonIcon='plus' title='#i18n{seo.manage_urlrewriterrules.buttonCreate}' />
-				</@btnGroup>
+				<@aButton color='primary' href="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp" buttonIcon='plus' title='#i18n{seo.manage_urlrewriterrules.buttonCreate}' hideTitle=['xs','sm','md'] size='sm' />
 			</@boxHeader>
 			<@boxBody>
 				<@paginationAdmin paginator=paginator combo=1 />
 				<@table>
-					<tr>
-						<th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</th>
-						<th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</th>
-						<th>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</th>
-						<th>#i18n{seo.manage_urlrewriterrules.columnActions}</th>
-					</tr>
+					<@tr>
+						<@th>#i18n{seo.manage_urlrewriterrules.columnIdRule}</@th>
+						<@th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</@th>
+						<@th>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</@th>
+						<@th>#i18n{seo.manage_urlrewriterrules.columnActions}</@th>
+					</@tr>
 					<#list urlrewriterrule_list as urlrewriterrule >
-					<tr>
-						<td>${urlrewriterrule.idRule}</td>
-						<td>${urlrewriterrule.ruleFrom}</td>
-						<td>${urlrewriterrule.ruleTo}</td>
-						<td>
-							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' size='sm' />
-							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' size='sm' />
-						</td>
-					</tr>
+					<@tr>
+						<@td>${urlrewriterrule.idRule}</@td>
+						<@td>${urlrewriterrule.ruleFrom}</@td>
+						<@td>${urlrewriterrule.ruleTo}</@td>
+						<@td>
+							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='pencil' size='sm' />
+							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' />
+						</@td>
+					</@tr>
 					</#list>
 				</@table>
 			<@paginationAdmin paginator=paginator />
@@ -32,7 +30,3 @@
 		</@box>
 	</@columns>
 </@row>
-
-
-
-

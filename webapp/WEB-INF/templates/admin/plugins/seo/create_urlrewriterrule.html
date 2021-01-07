@@ -3,20 +3,19 @@
         <@box>
             <@boxHeader title='#i18n{seo.create_urlrewriterrule.title}' />
             <@boxBody>
-				<@tform action="jsp/admin/plugins/seo/DoCreateUrlRewriterRule.jsp">
-					<@formGroup labelKey='#i18n{seo.create_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.create_urlrewriterrule.labelRuleFrom}.help' mandatory=true>
-    					<@input type='text' name='rule_from' id='rule_from' tabIndex='1' value='' maxlength=100 />
+				<@tform action='jsp/admin/plugins/seo/DoCreateUrlRewriterRule.jsp'>
+					<@formGroup labelFor='rule_from' labelKey='#i18n{seo.create_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.create_urlrewriterrule.labelRuleFrom}.help' mandatory=true>
+    					<@input type='text' name='rule_from' id='rule_from' value='' maxlength=100 />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{seo.create_urlrewriterrule.labelRuleTo}' helpKey='#i18n{seo.create_urlrewriterrule.labelRuleTo.help}' mandatory=true >
-						<@input type='text' name='rule_to' id='rule_to' tabIndex='2' value='' maxlength=100 />
+					<@formGroup labelFor='rule_to' labelKey='#i18n{seo.create_urlrewriterrule.labelRuleTo}' helpKey='#i18n{seo.create_urlrewriterrule.labelRuleTo.help}' mandatory=true >
+						<@input type='text' name='rule_to' id='rule_to' value='' maxlength=100 />
 					</@formGroup>
 					<@btnGroup>
 						<@button type='submit' color='primary' buttonIcon='check' title='#i18n{seo.create_urlrewriterrule.buttonCreate}' />
-						<@aButton color='default' buttonIcon='close' href="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp?plugin_name=seo" title='#i18n{portal.util.labelCancel}' />
+						<@aButton color='default' buttonIcon='close' href='jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp?plugin_name=seo' title='#i18n{portal.util.labelCancel}' />
 					</@btnGroup>
                </@tform>
             </@boxBody>
         </@box>
     </@columns>
 </@row>
-
