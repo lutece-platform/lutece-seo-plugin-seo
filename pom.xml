@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>plugin-seo</artifactId>
     <packaging>lutece-plugin</packaging>    
-    <version>3.3.1-SNAPSHOT</version>
+    <version>3.3.1</version>
     <name>Lutece seo plugin</name>
 
     <properties>
@@ -48,7 +48,7 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-seo-plugin-seo.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-seo-plugin-seo.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-seo-plugin-seo.git</url>
-      <tag>HEAD</tag>
+      <tag>plugin-seo-3.3.1</tag>
   </scm>
 
 </project>
