@@ -1,16 +1,39 @@
-<#include "panel_utils.html">
 <@row>
 	<@columns>
-		<@box>
-			<@boxHeader title='#i18n{seo.adminDashboard.pageTitle}' />
+		<@box title='#i18n{seo.adminDashboard.pageTitle}' >
 			<@boxBody>
-				<@accordionContainer id='seo_parameters'>
+			<@tabs>
+				<@tabList>
+					<#assign isActive=true />
 					<#list panels_list as panel>
-						<@seoPanel title=panel.panelTitle icon='globe' childId='seo_parameters_${panel.panelIndex}' >
-							${panel.panelContent}
-						</@seoPanel>
+						<@tabLink active=isActive href='#seo_parameters_${panel.panelIndex}' title=panel.panelTitle />
+						<#assign isActive=false />
+					</#list>
+				</@tabList>
+				<@tabContent>
+					<#assign isActive=true /> 
+					<#list panels_list as panel>
+					<@tabPanel id='seo_parameters_${panel.panelIndex}' active=isActive >
+						${panel.panelContent}
+					</@tabPanel>
+					<#assign isActive=false />
+					</#list>
+				</@tabContent>
+			</@tabs>
+<#--
+				<@accordionContainer id='seo_parameters'>
+					<#assign isCollapsed=false /> 
+					<#list panels_list as panel>
+						<@accordionPanel id='seo_parameters_${panel.panelIndex}' collapsed=isCollapsed >
+							<@accordionHeader title=panel.panelTitle headerIcon='globe' />
+							<@accordionBody>
+								${panel.panelContent}
+							</@accordionBody>    
+						</@accordionPanel>
+						<#assign isCollapsed=true /> 
 					</#list>
 				</@accordionContainer>
+-->
 			</@boxBody>
 		</@box>
 	</@columns>
