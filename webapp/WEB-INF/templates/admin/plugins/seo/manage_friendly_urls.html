@@ -1,19 +1,16 @@
 <@row>
     <@columns>
         <@box>
-            <@boxHeader title='#i18n{seo.manage_friendly_urls.labelUrlList}'>
-				<@btnGroup align='right'>
-					<@aButton color='primary' href='jsp/admin/plugins/seo/CreateFriendlyUrl.jsp' buttonIcon='plus-square' title='#i18n{seo.manage_friendly_urls.buttonCreate}' hideTitle=['xs','sm','md'] size='sm' />
-					<@aButton color='primary' href='jsp/admin/plugins/seo/GenerateAliasRules.jsp' buttonIcon='cog' title='#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}' hideTitle=['xs','sm','md'] size='sm' />
-					<@aButton color='danger'  href='jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp' buttonIcon='trash' title='#i18n{seo.manage_friendly_urls.buttonRemoveAllFriendlyUrls}' hideTitle=['xs','sm','md'] size='sm' />
-				</@btnGroup>
+            <@boxHeader title='#i18n{seo.manage_friendly_urls.labelUrlList}' skipHeader=true >
+				<@aButton color='primary' href='jsp/admin/plugins/seo/CreateFriendlyUrl.jsp' buttonIcon='plus-square' title='#i18n{seo.manage_friendly_urls.buttonCreate}' hideTitle=['xs','sm','md'] size='sm' />
+				<@aButton color='primary' href='jsp/admin/plugins/seo/GenerateAliasRules.jsp' buttonIcon='cog' title='#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}' hideTitle=['xs','sm','md'] size='sm' />
+				<@aButton color='danger'  href='jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp' buttonIcon='trash' title='#i18n{seo.manage_friendly_urls.buttonRemoveAllFriendlyUrls}' hideTitle=['xs','sm','md'] size='sm' />
 			</@boxHeader>
 			<@boxBody>
-				<@paginationAdmin paginator=paginator combo=1 />
-				<@table>
-					<thead>
+				
+				<@table headBody=true>
 					<@tr>
-						<@th>#i18n{seo.manage_friendly_urls.columnFriendlyUrl} <@icon style='arrow-circle-right' />#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</@th>
+						<@th colspan=3>#i18n{seo.manage_friendly_urls.columnFriendlyUrl} <@icon style='arrow-circle-right' />#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</@th>
 						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnCanonical}</@th>
 						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnSitemap}</@th>
 						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnLastMod}</@th>
@@ -21,38 +18,37 @@
 						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnPriority}</@th>
 						<@th>#i18n{seo.manage_friendly_urls.columnActions}</@th>
 					</@tr>
-					</thead>
-					<tbody>
-						<#list friendly_url_list as url >
-						<@tr>
-
-							<@td>${url.friendlyUrl} <@icon style='arrow-circle-right' /> ${url.technicalUrl}</@td>
-							<@td hide=['xs']>
-								<#if url.canonical >
-									<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>
-								<#else>
-									<@tag color='danger' tagIcon='times' >#i18n{portal.util.labelDisabled}</@tag>
-								</#if>
-							</@td>
-							<@td hide=['xs']>
-								<#if url.sitemap >
-									<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>
-								<#else>
-									<@tag color='danger' tagIcon='times' >#i18n{portal.util.labelDisabled}</@tag>
-								</#if>
-							</@td>
-							<@td hide=['xs']>${url.sitemapLastmod!"-"}</@td>
-							<@td hide=['xs']>${url.sitemapChangeFreq!"-"}</@td>
-							<@td hide=['xs']>${url.sitemapPriority!"-"}</@td>
-							<@td>
-								<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}' buttonIcon='pencil' title='#i18n{portal.util.labelModify}' hideTitle=['all'] size='sm' />
-								<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}'  buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' />
-							</@td>
-						</@tr>
-						</#list>
-					</tbody>
+					<@tableHeadBodySeparator />
+					<#list friendly_url_list as url >
+					<@tr>
+						<@td>${url.friendlyUrl}</@td>
+						<@td><@icon style='arrow-circle-right' /></@td>
+						<@td>${url.technicalUrl}</@td>
+						<@td hide=['xs']>
+							<#if url.canonical >
+								<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>
+							<#else>
+								<@tag color='danger' tagIcon='times' >#i18n{portal.util.labelDisabled}</@tag>
+							</#if>
+						</@td>
+						<@td hide=['xs']>
+							<#if url.sitemap >
+								<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>
+							<#else>
+								<@tag color='danger' tagIcon='times' >#i18n{portal.util.labelDisabled}</@tag>
+							</#if>
+						</@td>
+						<@td hide=['xs']>${url.sitemapLastmod!"-"}</@td>
+						<@td hide=['xs']>${url.sitemapChangeFreq!"-"}</@td>
+						<@td hide=['xs']>${url.sitemapPriority!"-"}</@td>
+						<@td>
+							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}' buttonIcon='pencil' title='#i18n{portal.util.labelModify}' hideTitle=['all'] size='sm' />
+							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}'  buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' />
+						</@td>
+					</@tr>
+					</#list>
 				</@table>
-				<@paginationAdmin paginator=paginator />
+				<@paginationAdmin paginator=paginator combo=1 />
 			</@boxBody>
 		</@box>
 	</@columns>

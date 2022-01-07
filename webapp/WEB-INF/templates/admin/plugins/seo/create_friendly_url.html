@@ -1,7 +1,6 @@
 <@row>
     <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.create_friendly_url.title}' />
+        <@box title='#i18n{seo.create_friendly_url.title}'>
             <@boxBody>
 				<@tform name='create_friendly_url' action='jsp/admin/plugins/seo/DoCreateFriendlyUrl.jsp'>
                     <@formGroup labelFor='rule_from' labelKey='#i18n{seo.create_friendly_url.labelFriendlyUrl}' helpKey='#i18n{seo.create_friendly_url.labelFriendlyUrl.help}' mandatory=true>
@@ -11,10 +10,10 @@
                         <@input type='text' name='rule_to' id='rule_to' value='' maxlength=100 />
                     </@formGroup>
                     <@formGroup labelKey='#i18n{seo.create_friendly_url.labelCanonical}'>
-                        <@checkBox name='canonical' id='canonical' labelFor='canonical' labelKey='#i18n{seo.create_friendly_url.labelCanonical.help}' value='1' />
+                        <@checkBox orientation='switch' name='canonical' id='canonical' labelFor='canonical' labelKey='#i18n{seo.create_friendly_url.labelCanonical.help}' value='1' />
                     </@formGroup>
                     <@formGroup labelKey='#i18n{seo.create_friendly_url.labelSitemap}'>
-                        <@checkBox name='sitemap' id='sitemap' labelFor='sitemap' labelKey='#i18n{seo.create_friendly_url.labelSitemap.help}' value='1' />
+                        <@checkBox orientation='switch' name='sitemap' id='sitemap' labelFor='sitemap' labelKey='#i18n{seo.create_friendly_url.labelSitemap.help}' value='1' />
                     </@formGroup>
                     <@formGroup labelFor='change_freq' labelKey='#i18n{seo.create_friendly_url.labelChangeFreq}' helpKey='#i18n{seo.create_friendly_url.labelChangeFreq.help}' mandatory=true>
                         <@select name='change_freq' items=change_freq_list default_value=selected_change_freq />
@@ -23,10 +22,8 @@
                         <@select name='priority' items=priority_list default_value=selected_priority  />
                     </@formGroup>
 					<@formGroup>
-						<@btnGroup>
-							<@button type='submit' buttonIcon='check' title='#i18n{seo.create_friendly_url.buttonCreate}' />
-							<@aButton href='jsp/admin/plugins/seo/ManageFriendlyUrls.jsp?plugin_name=seo' buttonIcon='close' color='default' title='#i18n{portal.util.labelCancel}' />
-						</@btnGroup>
+                        <@button type='submit' buttonIcon='check' title='#i18n{seo.create_friendly_url.buttonCreate}' size='' />
+                        <@aButton href='jsp/admin/plugins/seo/ManageFriendlyUrls.jsp?plugin_name=seo' buttonIcon='close' color='default' title='#i18n{portal.util.labelCancel}' size='' />
 					</@formGroup>
                </@tform>
             </@boxBody>

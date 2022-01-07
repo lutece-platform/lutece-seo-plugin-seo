@@ -1,7 +1,6 @@
 <@row>
     <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.modify_urlrewriterrule.title}' />
+        <@box title='#i18n{seo.modify_urlrewriterrule.title}'>
             <@boxBody>
 				<@tform action='jsp/admin/plugins/seo/DoModifyUrlRewriterRule.jsp'>
 					<@input type='hidden' name='id_rule' value='${rule.idRule}' />
@@ -11,10 +10,10 @@
 					<@formGroup labelFor='rule_to' labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo.help}' mandatory=true >
 						<@input type='text' name='rule_to' id='rule_to' value='${rule.ruleTo}' maxlength=100 />
 					</@formGroup>
-					<@btnGroup>
-						<@button type='submit' color='primary' buttonIcon='check' title='#i18n{seo.modify_urlrewriterrule.buttonModify}' />
-						<@aButton color='default' buttonIcon='close' href="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp?plugin_name=seo" title='#i18n{portal.util.labelCancel}' />
-					</@btnGroup>
+					<@formGroup>
+						<@button type='submit' color='primary' buttonIcon='check' title='#i18n{seo.modify_urlrewriterrule.buttonModify}' size='' />
+						<@aButton color='default' buttonIcon='close' href="jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp?plugin_name=seo" title='#i18n{portal.util.labelCancel}' size='' />
+					</@formGroup>
                </@tform>
             </@boxBody>
         </@box>

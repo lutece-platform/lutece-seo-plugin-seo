@@ -1,7 +1,6 @@
 <@row>
     <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.generate_friendly_urls.labelTitle}' />
+        <@box title='#i18n{seo.generate_friendly_urls.labelTitle}' >
 			<@boxBody>
 				<@fieldSet legend='#i18n{seo.generate_friendly_urls.labelGeneratorsList}'>
 					<@table>
@@ -30,7 +29,6 @@
 						</#list>
 					</@table>
 				</@fieldSet>
-				
 				<@tform method='post' action='jsp/admin/plugins/seo/DoGenerateAliasRules.jsp'>
 					<@fieldSet legend='#i18n{seo.generate_friendly_urls.labelOptions}'>
 						<@formGroup helpKey='#i18n{seo.generate_friendly_urls.helpForceUpdate}'>
