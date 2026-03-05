@@ -36,9 +36,10 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.plugins.seo.service.PanelService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 
-import java.util.Locale;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * Abstract SEO Panel
@@ -46,6 +47,10 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class SEOPanelJspBean extends PluginAdminPageJspBean implements SEOPanel
 {
     private static final String HASH_PANEL = "#panel";
+
+    @Inject
+    private PanelService _panelService;
+
     private Locale _locale;
     private HttpServletRequest _request;
 
@@ -55,7 +60,7 @@ public abstract class SEOPanelJspBean extends PluginAdminPageJspBean implements 
     @Override
     public int getPanelIndex( )
     {
-        return PanelService.instance( ).getIndex( getPanelKey( ) );
+        return _panelService.getIndex( getPanelKey( ) );
     }
 
     /**

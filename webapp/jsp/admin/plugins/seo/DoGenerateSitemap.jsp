@@ -1,11 +1,6 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
-<jsp:useBean id="seoSitemap" scope="session" class="fr.paris.lutece.plugins.seo.web.SitemapJspBean" />
+<%@page import="fr.paris.lutece.plugins.seo.web.SEOJspBean"%>
 
-<%
-    seoSitemap.init( request, seoSitemap.RIGHT_MANAGE_SEO );
-    response.sendRedirect( seoSitemap.doGenerateSitemap( request ) );
-%>
-
-<%@ include file="../../AdminFooter.jsp" %>
-
+${ seoSitemap.init( pageContext.request, SEOJspBean.RIGHT_MANAGE_SEO ) }
+${ pageContext.response.sendRedirect( seoSitemap.doGenerateSitemap( pageContext.request ) ) }

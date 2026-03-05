@@ -38,14 +38,19 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * SEO JSP Bean
  */
+@ApplicationScoped
+@Named( "seoJspBean" )
 public class SEOJspBean extends PluginAdminPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////
@@ -58,6 +63,9 @@ public class SEOJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
     private static final String MARK_PANELS_LIST = "panels_list";
 
+    @Inject
+    private PanelService _panelService;
+
     /**
      * Manage SEO Home page
      *
@@ -67,14 +75,14 @@ public class SEOJspBean extends PluginAdminPageJspBean
      */
     public String getManageSEO( HttpServletRequest request )
     {
-        for ( SEOPanel panel : PanelService.instance( ).getPanels( ) )
+        for ( SEOPanel panel : _panelService.getPanels( ) )
         {
             panel.setPanelLocale( getLocale( ) );
             panel.setRequest( request );
         }
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_PANELS_LIST, PanelService.instance( ).getPanels( ) );
+        model.put( MARK_PANELS_LIST, _panelService.getPanels( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale( ), model );
 

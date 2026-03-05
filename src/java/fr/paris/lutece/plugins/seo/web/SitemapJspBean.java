@@ -40,14 +40,18 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Sitemap JSP Bean
  */
+@ApplicationScoped
+@Named( "seoSitemap" )
 public class SitemapJspBean extends SEOPanelJspBean implements SEOPanel
 {
     // //////////////////////////////////////////////////////////////////////////

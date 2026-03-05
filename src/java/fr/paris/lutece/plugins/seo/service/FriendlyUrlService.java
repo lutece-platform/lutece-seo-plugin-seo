@@ -37,6 +37,12 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import javax.cache.CacheException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,20 +50,18 @@ import java.util.Map;
 /**
  * Friendly Url Service
  */
-public final class FriendlyUrlService extends AbstractCacheableService
+@ApplicationScoped
+public class FriendlyUrlService extends AbstractCacheableService<String, Object>
 {
     private static final String CACHE_KEY = "friendly_url_cache_key";
     private static final String CACHE_KEY_CANONICAL = "canonical_url_cache_key";
     private static final String NAME = "SEO Friendly Url Cache Service";
-    private static FriendlyUrlService _singleton = new FriendlyUrlService( );
-    private static boolean _bReplaceUrl;
+    private boolean _bReplaceUrl;
 
-    /**
-     * Private constructor
-     */
-    private FriendlyUrlService( )
+    @PostConstruct
+    public void init( )
     {
-        initCache( );
+        initCache( NAME, String.class, Object.class );
         _bReplaceUrl = DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
     }
 
@@ -71,34 +75,25 @@ public final class FriendlyUrlService extends AbstractCacheableService
     }
 
     /**
-     * Return the unique instance
-     * 
-     * @return The instance
-     */
-    public static synchronized FriendlyUrlService instance( )
-    {
-        return _singleton;
-    }
-
-    /**
      * Returns the map of Friendly URL
-     * 
+     *
      * @return The map
      */
+    @SuppressWarnings( "unchecked" )
     public Map<String, String> getFriendlyUrlMap( )
     {
-        Map<String, String> map = (Map<String, String>) getFromCache( CACHE_KEY );
+        Map<String, String> map = (Map<String, String>) get( CACHE_KEY );
 
         if ( map == null )
         {
-            map = new HashMap<String, String>( );
+            map = new HashMap<>( );
 
             for ( FriendlyUrl url : FriendlyUrlHome.findAll( ) )
             {
                 map.put( FriendlyUrlUtils.cleanUrl( url.getTechnicalUrl( ) ), FriendlyUrlUtils.cleanUrl( url.getFriendlyUrl( ) ) );
             }
 
-            putInCache( CACHE_KEY, map );
+            put( CACHE_KEY, map );
         }
 
         return map;
@@ -106,16 +101,17 @@ public final class FriendlyUrlService extends AbstractCacheableService
 
     /**
      * Returns the map of Canonical URL
-     * 
+     *
      * @return The map
      */
+    @SuppressWarnings( "unchecked" )
     Map<String, String> getCanonicalUrlMap( )
     {
-        Map<String, String> map = (Map<String, String>) getFromCache( CACHE_KEY_CANONICAL );
+        Map<String, String> map = (Map<String, String>) get( CACHE_KEY_CANONICAL );
 
         if ( map == null )
         {
-            map = new HashMap<String, String>( );
+            map = new HashMap<>( );
 
             for ( FriendlyUrl url : FriendlyUrlHome.findAll( ) )
             {
@@ -125,7 +121,7 @@ public final class FriendlyUrlService extends AbstractCacheableService
                 }
             }
 
-            putInCache( CACHE_KEY_CANONICAL, map );
+            put( CACHE_KEY_CANONICAL, map );
         }
 
         return map;
@@ -133,7 +129,7 @@ public final class FriendlyUrlService extends AbstractCacheableService
 
     /**
      * Is the URL replace service enabled
-     * 
+     *
      * @return True if enabled, otherwise false
      */
     public boolean isUrlReplaceEnabled( )
@@ -143,12 +139,67 @@ public final class FriendlyUrlService extends AbstractCacheableService
 
     /**
      * Set enabled or disabled the Url Replace Service
-     * 
+     *
      * @param bEnabled
      *            The service status
      */
     public void setUrlReplaceEnabled( boolean bEnabled )
     {
         _bReplaceUrl = bEnabled;
+    }
+
+    @Override
+    public void put( String key, Object value )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                super.put( key, value );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache put error for key {}", key, e );
+            }
+        }
+    }
+
+    @Override
+    public Object get( String key )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                return super.get( key );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache get error for key {}", key, e );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean remove( String key )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                return super.remove( key );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache remove error for key {}", key, e );
+            }
+        }
+        return false;
+    }
+
+    private boolean isCacheAvailable( )
+    {
+        return _cache != null && !_cache.isClosed( );
     }
 }

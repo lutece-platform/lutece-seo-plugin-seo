@@ -14,7 +14,7 @@
 					<#assign isActive=true /> 
 					<#list panels_list as panel>
 					<@tabPanel id='seo_parameters_${panel.panelIndex}' active=isActive >
-						${panel.panelContent}
+						${panel.panelContent!}
 					</@tabPanel>
 					<#assign isActive=false />
 					</#list>
@@ -27,7 +27,7 @@
 						<@accordionPanel id='seo_parameters_${panel.panelIndex}' collapsed=isCollapsed >
 							<@accordionHeader title=panel.panelTitle headerIcon='globe' />
 							<@accordionBody>
-								${panel.panelContent}
+								${panel.panelContent!}
 							</@accordionBody>    
 						</@accordionPanel>
 						<#assign isCollapsed=true /> 

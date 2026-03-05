@@ -21,9 +21,9 @@
 					<@tableHeadBodySeparator />
 					<#list friendly_url_list as url >
 					<@tr>
-						<@td>${url.friendlyUrl}</@td>
+						<@td>${url.friendlyUrl!}</@td>
 						<@td><@icon style='arrow-circle-right' /></@td>
-						<@td>${url.technicalUrl}</@td>
+						<@td>${url.technicalUrl!}</@td>
 						<@td hide=['xs']>
 							<#if url.canonical >
 								<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>

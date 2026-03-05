@@ -35,8 +35,9 @@
 package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.test.LuteceTestCase;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import org.junit.jupiter.api.Test;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * SitemapJspBeanTest
@@ -52,7 +53,7 @@ public class SitemapJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doGenerateSitemap" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        SitemapJspBean instance = new SitemapJspBean( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
         instance.doGenerateSitemap( request );
     }
 
@@ -64,7 +65,7 @@ public class SitemapJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doSitemapDaemonToggle" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        SitemapJspBean instance = new SitemapJspBean( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
         instance.doSitemapDaemonToggle( request );
     }
 
@@ -75,7 +76,7 @@ public class SitemapJspBeanTest extends LuteceTestCase
     public void testGetPanelTitle( )
     {
         System.out.println( "getPanelTitle" );
-        SitemapJspBean instance = new SitemapJspBean( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
         instance.getPanelTitle( );
     }
 
@@ -86,7 +87,7 @@ public class SitemapJspBeanTest extends LuteceTestCase
     public void testGetPanelContent( )
     {
         System.out.println( "getPanelContent" );
-        SitemapJspBean instance = new SitemapJspBean( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
         instance.getPanelContent( );
     }
 
@@ -97,7 +98,7 @@ public class SitemapJspBeanTest extends LuteceTestCase
     public void testGetPanelOrder( )
     {
         System.out.println( "getPanelOrder" );
-        SitemapJspBean instance = new SitemapJspBean( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
         instance.getPanelOrder( );
     }
 
@@ -108,7 +109,7 @@ public class SitemapJspBeanTest extends LuteceTestCase
     public void testGetPanelKey( )
     {
         System.out.println( "getPanelKey" );
-        SitemapJspBean instance = new SitemapJspBean( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
         instance.getPanelKey( );
     }
 

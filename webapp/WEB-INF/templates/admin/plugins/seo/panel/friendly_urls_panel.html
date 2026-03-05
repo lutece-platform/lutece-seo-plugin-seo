@@ -1,5 +1,5 @@
 <@div>
-	<@div class='d-flex is-flex justify-content-between align-items-center is-justify-content-space-between is-align-items-center'>
+	<@div class='d-flex justify-content-between align-items-center'>
 		<h3>#i18n{seo.panel.friendly_urls.titleManageFriendlyUrls}</h3>
 		<@tform action="jsp/admin/plugins/seo/ManageFriendlyUrls.jsp" method='get'>
 			<@input type='hidden' name='plugin_name' value='seo' />
@@ -13,7 +13,7 @@
 	</@div>
 </@div>
 <@div>
-	<@div class='d-flex is-flex justify-content-between align-items-center is-justify-content-space-between is-align-items-center'>
+	<@div class='d-flex justify-content-between align-items-center'>
 		<h3>#i18n{seo.panel.friendly_urls.titleUpdateConfigFile}</h3>
 		<@tform method='post' action='jsp/admin/plugins/seo/DoGenerateRuleFile.jsp' align='right'>
 			<@button type='submit' color='primary' buttonIcon='sync' title='#i18n{seo.panel.friendly_urls.buttonUpdateConfigFile}' hideTitle=['xs','sm','md'] size='' />
@@ -22,15 +22,15 @@
 	<@div>
 	<#if config_uptodate>
 		<@p class='text-success'><strong>#i18n{seo.panel.friendly_urls.labelFileIsUptodate}</strong></@p>
-		<@alert color='success' iconTitle='check-circle fa-2x'>${rewrite_config_last_update}</@alert>
+		<@alert color='success' iconTitle='check-circle fa-2x'>${rewrite_config_last_update!}</@alert>
 	<#else>
 		<@p class='text-danger'><strong>#i18n{seo.panel.friendly_urls.labelFileIsNotUptodate}</strong></@p>
-		<@alert color='danger' iconTitle='ban fa-2x'>${rewrite_config_last_update}</@alert>
+		<@alert color='danger' iconTitle='ban fa-2x'>${rewrite_config_last_update!}</@alert>
 	</#if>
 	</@div>
 </@div>
 <@div>
-	<@div class='d-flex is-flex justify-content-between align-items-center is-justify-content-space-between is-align-items-center'>
+	<@div class='d-flex justify-content-between align-items-center'>
 		<h3>#i18n{seo.panel.friendly_urls.titleAutoGenerate}</h3>
 		<@tform method='post' action='jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp'>
 			<@input type='hidden' name='toggle' value='friendly_url_daemon_enabled' />
@@ -56,7 +56,7 @@
 	</@div>
 </@div>
 <@div>
-	<@div class='d-flex is-flex justify-content-between align-items-center is-justify-content-space-between is-align-items-center'>
+	<@div class='d-flex justify-content-between align-items-center'>
 		<h3>#i18n{seo.panel.friendly_urls.titleRewriteLinks}</h3>
 		<@tform method='post' action='jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp'>
 			<@input type='hidden' name='toggle' value='replace_url_in_content' />
@@ -83,7 +83,7 @@
 	</@div>
 </@div>
 <@div>
-	<@div class='d-flex is-flex justify-content-between align-items-center is-justify-content-space-between is-align-items-center'>
+	<@div class='d-flex justify-content-between align-items-center'>
 		<h3>#i18n{seo.panel.friendly_urls.titleCanonicalUrls}</h3>
 		<@tform method='post' action='jsp/admin/plugins/seo/DoFriendlyUrlToggle.jsp'>
 			<@input type='hidden' name='toggle' value='add_canonical_url' />

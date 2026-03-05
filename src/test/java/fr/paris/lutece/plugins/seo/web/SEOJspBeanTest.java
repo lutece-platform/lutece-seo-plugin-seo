@@ -37,9 +37,10 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
-import javax.servlet.http.HttpServletRequest;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.Test;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * SEOJspBeanTest
@@ -55,7 +56,7 @@ public class SEOJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageSEO" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        SEOJspBean instance = new SEOJspBean( );
+        SEOJspBean instance = CDI.current( ).select( SEOJspBean.class ).get( );
 
         for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
         {

@@ -1,12 +1,9 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
-
 <jsp:include page="../../AdminHeader.jsp" />
 
-<jsp:useBean id="seoFriendlyUrl" scope="session" class="fr.paris.lutece.plugins.seo.web.FriendlyUrlJspBean" />
+<%@page import="fr.paris.lutece.plugins.seo.web.SEOJspBean"%>
 
-<% seoFriendlyUrl.init( request, seoFriendlyUrl.RIGHT_MANAGE_SEO ); %>
-<%= seoFriendlyUrl.getGenerateAliasRules ( request ) %>
+${ seoFriendlyUrl.init( pageContext.request, SEOJspBean.RIGHT_MANAGE_SEO ) }
+${ seoFriendlyUrl.getGenerateAliasRules( pageContext.request ) }
 
 <%@ include file="../../AdminFooter.jsp" %>
-
-

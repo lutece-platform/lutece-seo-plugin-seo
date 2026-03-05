@@ -35,17 +35,38 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
+import javax.cache.CacheException;
 
 /**
  *
  * @author pierre
  */
-public class CanonicalUrlContentPostProcessor extends AbstractCacheableService implements ContentPostProcessor
+@ApplicationScoped
+@Named( "seo.canonicalUrlContentPostProcessor" )
+public class CanonicalUrlContentPostProcessor extends AbstractCacheableService<String, Object> implements ContentPostProcessor
 {
     private static final String NAME = "SEO Canonical Url replacer";
+
+    @Inject
+    private CanonicalUrlService _canonicalUrlService;
+
+    @Inject
+    private FriendlyUrlService _friendlyUrlService;
+
+    @PostConstruct
+    public void init( )
+    {
+        initCache( NAME, String.class, Object.class );
+    }
 
     /**
      * {@inheritDoc }
@@ -62,13 +83,68 @@ public class CanonicalUrlContentPostProcessor extends AbstractCacheableService i
     @Override
     public String process( HttpServletRequest request, String strContent )
     {
-        if ( CanonicalUrlService.instance( ).isCanonicalUrlsEnabled( ) )
+        if ( _canonicalUrlService.isCanonicalUrlsEnabled( ) )
         {
             String strBaseUrl = AppPathService.getBaseUrl( request );
 
-            return CanonicalUrlService.instance( ).addCanonicalUrl( strContent, request, FriendlyUrlService.instance( ).getCanonicalUrlMap( ), strBaseUrl );
+            return _canonicalUrlService.addCanonicalUrl( strContent, request, _friendlyUrlService.getCanonicalUrlMap( ), strBaseUrl );
         }
 
         return strContent;
+    }
+
+    @Override
+    public void put( String key, Object value )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                super.put( key, value );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache put error for key {}", key, e );
+            }
+        }
+    }
+
+    @Override
+    public Object get( String key )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                return super.get( key );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache get error for key {}", key, e );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean remove( String key )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                return super.remove( key );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache remove error for key {}", key, e );
+            }
+        }
+        return false;
+    }
+
+    private boolean isCacheAvailable( )
+    {
+        return _cache != null && !_cache.isClosed( );
     }
 }

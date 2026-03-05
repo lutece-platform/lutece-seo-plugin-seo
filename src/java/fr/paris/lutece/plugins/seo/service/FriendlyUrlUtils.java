@@ -108,7 +108,7 @@ public final class FriendlyUrlUtils
 
             if ( strFriendlyUrl != null )
             {
-                AppLogService.debug( "Url : " + strUrl + " replaced by : " + strFriendlyUrl );
+                AppLogService.debug( "Url : {} replaced by : {}", strUrl, strFriendlyUrl );
             }
 
             strCurrent = strCurrent.substring( nPosEndUrl );

@@ -35,7 +35,7 @@
 package fr.paris.lutece.plugins.seo.service.sitemap;
 
 import fr.paris.lutece.test.LuteceTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * SitemapDaemonTest

@@ -36,9 +36,10 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
-import javax.servlet.http.HttpServletRequest;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.Test;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  *
@@ -83,7 +84,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageFriendlyUrls" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getManageFriendlyUrls( request );
     }
 
@@ -94,7 +95,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateUrl" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getCreateUrl( request );
     }
 
@@ -112,7 +113,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         request.setParameter( FriendlyUrlJspBean.PARAMETER_CHANGE_FREQ, DATA_CHANGE_FREQ );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_PRIORITY, DATA_PRIORITY );
 
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doCreateUrl( request );
     }
 
@@ -124,7 +125,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         System.out.println( "getModifyUrl" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getModifyUrl( request );
     }
 
@@ -136,7 +137,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         System.out.println( "doModifyUrl" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doModifyUrl( request );
     }
 
@@ -147,7 +148,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "deleteUrl" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.deleteUrl( request );
     }
 
@@ -159,7 +160,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         System.out.println( "doDeleteUrl" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doDeleteUrl( request );
     }
 
@@ -171,7 +172,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doDeleteAllUrls" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doDeleteAllUrls( request );
     }
 
@@ -183,7 +184,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doGenerate" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doGenerate( request );
     }
 
@@ -195,7 +196,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getGenerateAliasRules" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getGenerateAliasRules( request );
     }
 
@@ -207,7 +208,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doGenerateAliasRules" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doGenerateAliasRules( request );
     }
 
@@ -219,7 +220,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doToggle" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         for ( String strToggle : TOGGLES )
         {
             request.setParameter( FriendlyUrlJspBean.PARAMETER_TOGGLE, strToggle );
@@ -235,7 +236,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doUpdateGeneratorSettings" );
         HttpServletRequest request = new MockHttpServletRequest( );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.doUpdateGeneratorSettings( request );
     }
 
@@ -246,7 +247,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testGetPanelTitle( )
     {
         System.out.println( "getPanelTitle" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getPanelTitle( );
     }
 
@@ -257,7 +258,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testGetPanelContent( )
     {
         System.out.println( "getPanelContent" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getPanelContent( );
     }
 
@@ -268,7 +269,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testGetPanelOrder( )
     {
         System.out.println( "getPanelOrder" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getPanelOrder( );
     }
 
@@ -279,7 +280,7 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testGetPanelKey( )
     {
         System.out.println( "getPanelKey" );
-        FriendlyUrlJspBean instance = new FriendlyUrlJspBean( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
         instance.getPanelKey( );
     }
 

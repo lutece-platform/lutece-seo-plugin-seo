@@ -1,8 +1,6 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
-<jsp:useBean id="seoFriendlyUrl" scope="session" class="fr.paris.lutece.plugins.seo.web.FriendlyUrlJspBean" />
+<%@page import="fr.paris.lutece.plugins.seo.web.SEOJspBean"%>
 
-<%
-    seoFriendlyUrl.init( request, seoFriendlyUrl.RIGHT_MANAGE_SEO );
-    response.sendRedirect( seoFriendlyUrl.doUpdateGeneratorSettings( request ) );
-%>
+${ seoFriendlyUrl.init( pageContext.request, SEOJspBean.RIGHT_MANAGE_SEO ) }
+${ pageContext.response.sendRedirect( seoFriendlyUrl.doUpdateGeneratorSettings( pageContext.request ) ) }

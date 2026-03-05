@@ -35,6 +35,8 @@ package fr.paris.lutece.plugins.seo.business;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
+import org.junit.jupiter.api.Test;
+
 import java.sql.Timestamp;
 
 public class FriendlyUrlBusinessTest extends LuteceTestCase
@@ -56,6 +58,7 @@ public class FriendlyUrlBusinessTest extends LuteceTestCase
     private final static String SITEMAPLASTMOD1 = "SitemapLastmod1";
     private final static String SITEMAPLASTMOD2 = "SitemapLastmod2";
 
+    @Test
     public void testBusiness( )
     {
         // Initialize an object

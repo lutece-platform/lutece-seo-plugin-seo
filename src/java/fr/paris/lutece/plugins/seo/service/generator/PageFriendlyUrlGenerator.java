@@ -42,11 +42,16 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+
 import java.util.List;
 
 /**
  * Page Alias Generator
  */
+@ApplicationScoped
+@Named( "seo.pageFriendlyUrlGenerator" )
 public class PageFriendlyUrlGenerator implements FriendlyUrlGenerator
 {
     private static final String GENERATOR_NAME = "Page Friendly URL Generator";

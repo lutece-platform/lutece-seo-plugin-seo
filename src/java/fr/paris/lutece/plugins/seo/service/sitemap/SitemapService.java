@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -66,7 +67,9 @@ public final class SitemapService
 {
     private static final String TEMPLATE_SITEMAP_XML = "/admin/plugins/seo/sitemap.xml";
     private static final String MARK_URLS_LIST = "urls_list";
+    private static final String MARK_BASE_URL = "base_url";
     private static final String FILE_SITEMAP = "/sitemap.xml";
+    private static final String PROPERTY_LUTECE_PROD_URL = "lutece.prod.url";
     private static final String PROPERTY_SITEMAP_LOG = "seo.sitemap.log";
 
     /**
@@ -87,6 +90,12 @@ public final class SitemapService
         Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_URLS_LIST, list );
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_LUTECE_PROD_URL, "" );
+        if ( !strBaseUrl.isEmpty( ) && !strBaseUrl.endsWith( "/" ) )
+        {
+            strBaseUrl += "/";
+        }
+        model.put( MARK_BASE_URL, strBaseUrl );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
@@ -102,7 +111,7 @@ public final class SitemapService
         }
         catch( IOException e )
         {
-            AppLogService.error( "Error writing Sitemap file : " + e.getMessage( ), e.getCause( ) );
+            AppLogService.error( "Error writing Sitemap file : {}", e.getMessage( ), e.getCause( ) );
             strResult = "Error : " + e.getMessage( );
         }
 

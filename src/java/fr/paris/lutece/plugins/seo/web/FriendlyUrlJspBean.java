@@ -55,17 +55,22 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * This class provides the user interface to manage FriendlyUrl features ( manage, create, modify, remove )
  */
+@ApplicationScoped
+@Named( "seoFriendlyUrl" )
 public class FriendlyUrlJspBean extends SEOPanelJspBean
 {
     // //////////////////////////////////////////////////////////////////////////
@@ -136,6 +141,15 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_URL = "seo.message.confirmRemoveUrl";
     private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationSuccessful";
+
+    @Inject
+    private FriendlyUrlService _friendlyUrlService;
+
+    @Inject
+    private CanonicalUrlService _canonicalUrlService;
+
+    @Inject
+    private FriendlyUrlGeneratorService _friendlyUrlGeneratorService;
 
     // Variables
     private int _nDefaultItemsPerPage;
@@ -365,7 +379,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         }
         catch( IOException e )
         {
-            AppLogService.error( "Error generating url file : " + e.getMessage( ), e );
+            AppLogService.error( "Error generating url file : {}", e.getMessage( ), e );
             strMessage = MESSAGE_GENERATION_FAILED;
             nMessageType = AdminMessage.TYPE_STOP;
 
@@ -387,7 +401,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         HashMap model = new HashMap( );
         model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
         model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
-        model.put( MARK_GENERATORS_LIST, FriendlyUrlGeneratorService.instance( ).getGenerators( ) );
+        model.put( MARK_GENERATORS_LIST, _friendlyUrlGeneratorService.getGenerators( ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_GENERATE_ALIAS, getLocale( ), model );
 
@@ -413,7 +427,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX,
                 options.isHtmlSuffix( ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
 
-        FriendlyUrlGeneratorService.instance( ).generate( options );
+        _friendlyUrlGeneratorService.generate( options );
 
         return JSP_MANAGE_FRIENDLY_URLS;
     }
@@ -473,13 +487,13 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         if ( strStatus.equals( DatastoreService.VALUE_TRUE ) )
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_FALSE );
-            FriendlyUrlService.instance( ).setUrlReplaceEnabled( false );
+            _friendlyUrlService.setUrlReplaceEnabled( false );
             AppLogService.info( "SEO : URL replace service disabled" );
         }
         else
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, DatastoreService.VALUE_TRUE );
-            FriendlyUrlService.instance( ).setUrlReplaceEnabled( true );
+            _friendlyUrlService.setUrlReplaceEnabled( true );
             AppLogService.info( "SEO : URL replace service enabled" );
         }
     }
@@ -494,13 +508,13 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         if ( strStatus.equals( DatastoreService.VALUE_TRUE ) )
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_FALSE );
-            CanonicalUrlService.instance( ).setCanonicalUrlsEnabled( false );
+            _canonicalUrlService.setCanonicalUrlsEnabled( false );
             AppLogService.info( "SEO : Canonical URLs disabled" );
         }
         else
         {
             DatastoreService.setDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_TRUE );
-            CanonicalUrlService.instance( ).setCanonicalUrlsEnabled( true );
+            _canonicalUrlService.setCanonicalUrlsEnabled( true );
             AppLogService.info( "SEO : Canonical URLs enabled" );
         }
     }

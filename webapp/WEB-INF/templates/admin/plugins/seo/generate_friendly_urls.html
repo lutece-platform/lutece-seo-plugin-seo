@@ -12,9 +12,9 @@
 						</@tr>
 						<#list generators_list as generator>
 						<@tform action='jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp' method='post'>
-							<@input type='hidden' name='generator_key' value='${generator.key}' />
-							<@tr>    
-								<@td>${generator.name}</@td>
+							<@input type='hidden' name='generator_key' value='${generator.key!}' />
+							<@tr>
+								<@td>${generator.name!}</@td>
 								<@td>
 									<@select name='change_freq' items=change_freq_list default_value=generator.defaultChangeFreq />
 								</@td>

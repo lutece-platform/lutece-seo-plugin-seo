@@ -35,15 +35,19 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.service.PanelService;
 
-import java.util.Locale;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * Abstract SEO Panel
  */
 public abstract class AbstractSEOPanel implements SEOPanel
 {
+    @Inject
+    private PanelService _panelService;
+
     private Locale _locale;
     private HttpServletRequest _request;
 
@@ -53,7 +57,7 @@ public abstract class AbstractSEOPanel implements SEOPanel
     @Override
     public int getPanelIndex( )
     {
-        return PanelService.instance( ).getIndex( getPanelKey( ) );
+        return _panelService.getIndex( getPanelKey( ) );
     }
 
     /**

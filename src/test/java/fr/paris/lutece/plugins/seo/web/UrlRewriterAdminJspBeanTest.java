@@ -38,8 +38,9 @@ import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import org.junit.jupiter.api.Test;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * UrlRewriterAdminJspBeanTest
@@ -72,7 +73,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageUrlRewriterRules" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getManageUrlRewriterRules( request );
     }
 
@@ -83,7 +84,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateRule" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getCreateRule( request );
     }
 
@@ -96,7 +97,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "http://from.url" );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "http://to.url" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.doCreateRule( request );
     }
 
@@ -108,7 +109,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         System.out.println( "getModifyRule" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getModifyRule( request );
     }
 
@@ -122,7 +123,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "http://from.url" );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "http://to.url" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.doModifyRule( request );
     }
 
@@ -134,7 +135,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         System.out.println( "deleteRule" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.deleteRule( request );
     }
 
@@ -146,7 +147,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         System.out.println( "doDeleteRule" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.doDeleteRule( request );
     }
 
@@ -158,7 +159,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doGenerate" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.doGenerate( request );
     }
 
@@ -169,7 +170,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     public void testGetPanelTitle( )
     {
         System.out.println( "getPanelTitle" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getPanelTitle( );
     }
 
@@ -180,7 +181,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     public void testGetPanelContent( )
     {
         System.out.println( "getPanelContent" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getPanelContent( );
     }
 
@@ -191,7 +192,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     public void testGetPanelOrder( )
     {
         System.out.println( "getPanelOrder" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getPanelOrder( );
     }
 
@@ -202,7 +203,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
     public void testGetPanelKey( )
     {
         System.out.println( "getPanelKey" );
-        UrlRewriterAdminJspBean instance = new UrlRewriterAdminJspBean( );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.getPanelKey( );
     }
 

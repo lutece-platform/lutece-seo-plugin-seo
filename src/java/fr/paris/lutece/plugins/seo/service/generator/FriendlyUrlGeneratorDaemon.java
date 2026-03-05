@@ -39,6 +39,8 @@ import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import jakarta.enterprise.inject.spi.CDI;
+
 import java.io.IOException;
 
 import java.text.DateFormat;
@@ -67,7 +69,7 @@ public class FriendlyUrlGeneratorDaemon extends Daemon
             options.setAddPath( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ).equals( DatastoreService.VALUE_TRUE ) );
             options.setHtmlSuffix( DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_HTML_SUFFIX, "" ).equals( DatastoreService.VALUE_TRUE ) );
 
-            FriendlyUrlGeneratorService.instance( ).generate( options );
+            CDI.current( ).select( FriendlyUrlGeneratorService.class ).get( ).generate( options );
             strLog = "Friendly Url Generator Deamon last run : " + DateFormat.getDateTimeInstance( ).format( new Date( ) );
 
             try

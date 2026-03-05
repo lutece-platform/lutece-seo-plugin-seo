@@ -48,6 +48,10 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 import java.util.Collection;
@@ -55,11 +59,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * This class provides the user interface to manage UrlRewriterRule features ( manage, create, modify, remove )
  */
+@ApplicationScoped
+@Named( "seoUrlRewriter" )
 public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
 {
     // //////////////////////////////////////////////////////////////////////////
@@ -305,7 +309,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
         }
         catch( IOException e )
         {
-            AppLogService.error( "Error generating rule file : " + e.getMessage( ), e );
+            AppLogService.error( "Error generating rule file : {}", e.getMessage( ), e );
             strMessage = MESSAGE_GENERATION_FAILED;
             nMessageType = AdminMessage.TYPE_STOP;
         }
