@@ -36,9 +36,10 @@ package fr.paris.lutece.plugins.seo.business;
 import fr.paris.lutece.plugins.seo.service.FriendlyUrlService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import java.util.Collections;
 
+import jakarta.enterprise.inject.spi.CDI;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,10 +48,6 @@ import java.util.List;
 public final class FriendlyUrlHome
 {
     private static final String PLUGIN_NAME = "seo";
-    private static Plugin _plugin = PluginService.getPlugin( PLUGIN_NAME );
-
-    // Static variable pointed at the DAO instance
-    private static IFriendlyUrlDAO _dao = (IFriendlyUrlDAO) SpringContextService.getBean( "seo.friendlyUrlDAO" );
 
     /**
      * Private constructor - this class need not be instantiated
@@ -59,16 +56,26 @@ public final class FriendlyUrlHome
     {
     }
 
+    private static IFriendlyUrlDAO getDAO( )
+    {
+        return CDI.current( ).select( IFriendlyUrlDAO.class ).get( );
+    }
+
+    private static Plugin getPlugin( )
+    {
+        return PluginService.getPlugin( PLUGIN_NAME );
+    }
+
     /**
      * Create an instance of the friendlyUrl class
-     * 
+     *
      * @param friendlyUrl
      *            The instance of the FriendlyUrl which contains the informations to store
      * @return The instance of friendlyUrl which has been created with its primary key.
      */
     public static FriendlyUrl create( FriendlyUrl friendlyUrl )
     {
-        _dao.insert( friendlyUrl, _plugin );
+        getDAO( ).insert( friendlyUrl, getPlugin( ) );
         notifyUpdate( );
 
         return friendlyUrl;
@@ -76,14 +83,14 @@ public final class FriendlyUrlHome
 
     /**
      * Update of the friendlyUrl data specified in parameter
-     * 
+     *
      * @param friendlyUrl
      *            The instance of the FriendlyUrl which contains the data to store
      * @return The instance of the friendlyUrl which has been updated
      */
     public static FriendlyUrl update( FriendlyUrl friendlyUrl )
     {
-        _dao.store( friendlyUrl, _plugin );
+        getDAO( ).store( friendlyUrl, getPlugin( ) );
         notifyUpdate( );
 
         return friendlyUrl;
@@ -91,13 +98,13 @@ public final class FriendlyUrlHome
 
     /**
      * Remove the friendlyUrl whose identifier is specified in parameter
-     * 
+     *
      * @param nFriendlyUrlId
      *            The friendlyUrl Id
      */
     public static void remove( int nFriendlyUrlId )
     {
-        _dao.delete( nFriendlyUrlId, _plugin );
+        getDAO( ).delete( nFriendlyUrlId, getPlugin( ) );
         notifyUpdate( );
     }
 
@@ -106,7 +113,7 @@ public final class FriendlyUrlHome
      */
     public static void removeAll( )
     {
-        _dao.deleteAll( _plugin );
+        getDAO( ).deleteAll( getPlugin( ) );
         notifyUpdate( );
     }
 
@@ -115,24 +122,24 @@ public final class FriendlyUrlHome
 
     /**
      * Returns an instance of a friendlyUrl whose identifier is specified in parameter
-     * 
+     *
      * @param nKey
      *            The friendlyUrl primary key
      * @return an instance of FriendlyUrl
      */
     public static FriendlyUrl findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin );
+        return getDAO( ).load( nKey, getPlugin( ) );
     }
 
     /**
      * Load the data of all the friendlyUrl objects and returns them in form of a collection
-     * 
+     *
      * @return the list which contains the data of all the friendlyUrl objects
      */
     public static List<FriendlyUrl> findAll( )
     {
-        List<FriendlyUrl> listFriendlyUrls = _dao.selectFriendlyUrlsList( _plugin );
+        List<FriendlyUrl> listFriendlyUrls = getDAO( ).selectFriendlyUrlsList( getPlugin( ) );
         Collections.sort( listFriendlyUrls );
 
         return listFriendlyUrls;
@@ -143,7 +150,7 @@ public final class FriendlyUrlHome
      */
     private static void notifyUpdate( )
     {
-        FriendlyUrlService.instance( ).resetCache( );
+        CDI.current( ).select( FriendlyUrlService.class ).get( ).resetCache( );
     }
 
 }

@@ -1,7 +1,6 @@
---
--- Structure for table seo_rule
---
-
+-- liquibase formatted sql
+-- changeset seo:create_db_seo.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 DROP TABLE IF EXISTS seo_rule;
 CREATE TABLE seo_rule (		
   id_rule INT DEFAULT '0' NOT NULL,

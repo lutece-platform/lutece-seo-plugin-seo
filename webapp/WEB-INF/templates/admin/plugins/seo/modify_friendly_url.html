@@ -3,12 +3,12 @@
         <@box title='#i18n{seo.modify_friendly_url.title}' >
             <@boxBody>
 				<@tform name='modify_friendly_url' action='jsp/admin/plugins/seo/DoModifyFriendlyUrl.jsp'>
-					<@input type='hidden' name='id_url' value='${url.id}' />
+					<@input type='hidden' name='id_url' value='${url.id!}' />
                     <@formGroup labelFor='rule_from' labelKey='#i18n{seo.modify_friendly_url.labelFriendlyUrl}' helpKey='#i18n{seo.modify_friendly_url.labelFriendlyUrl.help}' mandatory=true>
-                        <@input type='text' name='rule_from' id='rule_from' value='${url.friendlyUrl}' maxlength=100 />
+                        <@input type='text' name='rule_from' id='rule_from' value='${url.friendlyUrl!}' maxlength=100 />
                     </@formGroup>
                     <@formGroup labelFor='rule_to' labelKey='#i18n{seo.modify_friendly_url.labelRuleTechnicalUrl}' helpKey='#i18n{seo.modify_friendly_url.labelRuleTechnicalUrl.help}' mandatory=true>
-                        <@input type='text' name='rule_to' id='rule_to' value='${url.technicalUrl}' maxlength=100 />
+                        <@input type='text' name='rule_to' id='rule_to' value='${url.technicalUrl!}' maxlength=100 />
                     </@formGroup>
                     <@formGroup labelKey='#i18n{seo.modify_friendly_url.labelCanonical}'>
                         <@checkBox orientation='switch' name='canonical' id='canonical' labelFor='canonical' labelKey='#i18n{seo.modify_friendly_url.labelCanonical.help}' checked=url.canonical />

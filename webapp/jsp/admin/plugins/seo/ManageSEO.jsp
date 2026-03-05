@@ -1,10 +1,9 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
-
 <jsp:include page="../../AdminHeader.jsp" />
 
-<jsp:useBean id="seo" scope="session" class="fr.paris.lutece.plugins.seo.web.SEOJspBean" />
+<%@page import="fr.paris.lutece.plugins.seo.web.SEOJspBean"%>
 
-<% seo.init( request, seo.RIGHT_MANAGE_SEO ); %>
-<%= seo.getManageSEO ( request ) %>
+${ seoJspBean.init( pageContext.request, SEOJspBean.RIGHT_MANAGE_SEO ) }
+${ seoJspBean.getManageSEO( pageContext.request ) }
 
 <%@ include file="../../AdminFooter.jsp" %>

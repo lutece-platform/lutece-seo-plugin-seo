@@ -35,7 +35,8 @@ package fr.paris.lutece.plugins.seo.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -44,10 +45,7 @@ import java.util.Collection;
  */
 public final class UrlRewriterRuleHome
 {
-    // Static variable pointed at the DAO instance
-    private static final String BEAN_DAO = "seo.urlRewriterRuleDAO";
-    private static IUrlRewriterRuleDAO _dao = (IUrlRewriterRuleDAO) SpringContextService.getBean( BEAN_DAO );
-    private static Plugin _plugin = PluginService.getPlugin( "seo" );
+    private static final String PLUGIN_NAME = "seo";
 
     /**
      * Private constructor - this class need not be instantiated
@@ -56,43 +54,53 @@ public final class UrlRewriterRuleHome
     {
     }
 
+    private static IUrlRewriterRuleDAO getDAO( )
+    {
+        return CDI.current( ).select( IUrlRewriterRuleDAO.class ).get( );
+    }
+
+    private static Plugin getPlugin( )
+    {
+        return PluginService.getPlugin( PLUGIN_NAME );
+    }
+
     /**
      * Create an instance of the urlRewriterRule class
-     * 
+     *
      * @param urlRewriterRule
      *            The instance of the UrlRewriterRule which contains the informations to store
      * @return The instance of urlRewriterRule which has been created with its primary key.
      */
     public static UrlRewriterRule create( UrlRewriterRule urlRewriterRule )
     {
-        _dao.insert( urlRewriterRule, _plugin );
+        getDAO( ).insert( urlRewriterRule, getPlugin( ) );
 
         return urlRewriterRule;
     }
 
     /**
      * Update of the urlRewriterRule which is specified in parameter
-     * 
+     *
      * @param urlRewriterRule
      *            The instance of the UrlRewriterRule which contains the data to store
      * @return The instance of the urlRewriterRule which has been updated
      */
     public static UrlRewriterRule update( UrlRewriterRule urlRewriterRule )
     {
-        _dao.store( urlRewriterRule, _plugin );
+        getDAO( ).store( urlRewriterRule, getPlugin( ) );
 
         return urlRewriterRule;
     }
 
     /**
      * Remove the urlRewriterRule whose identifier is specified in parameter
-     * 
+     *
      * @param nUrlRewriterRuleId
      *            The urlRewriterRule Id
      */
     public static void remove( int nUrlRewriterRuleId )
     {
-        _dao.delete( nUrlRewriterRuleId, _plugin );
+        getDAO( ).delete( nUrlRewriterRuleId, getPlugin( ) );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -100,34 +108,34 @@ public final class UrlRewriterRuleHome
 
     /**
      * Returns an instance of a urlRewriterRule whose identifier is specified in parameter
-     * 
+     *
      * @param nKey
      *            The urlRewriterRule primary key
      * @return an instance of UrlRewriterRule
      */
     public static UrlRewriterRule findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin );
+        return getDAO( ).load( nKey, getPlugin( ) );
     }
 
     /**
      * Load the data of all the urlRewriterRule objects and returns them in form of a collection
-     * 
+     *
      * @return the collection which contains the data of all the urlRewriterRule objects
      */
     public static Collection<UrlRewriterRule> findAll( )
     {
-        return _dao.selectUrlRewriterRulesList( _plugin );
+        return getDAO( ).selectUrlRewriterRulesList( getPlugin( ) );
     }
 
     /**
      * The last id
-     * 
+     *
      * @return the last id
      */
     public static int getLastId( )
     {
-        return _dao.getLastId( _plugin );
+        return getDAO( ).getLastId( getPlugin( ) );
     }
 
 }

@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.seo.service;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;

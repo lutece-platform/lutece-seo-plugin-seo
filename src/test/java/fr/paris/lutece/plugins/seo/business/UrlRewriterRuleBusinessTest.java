@@ -35,9 +35,9 @@ package fr.paris.lutece.plugins.seo.business;
 
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
+
+import org.junit.jupiter.api.Test;
 
 public class UrlRewriterRuleBusinessTest extends LuteceTestCase
 {
@@ -46,6 +46,7 @@ public class UrlRewriterRuleBusinessTest extends LuteceTestCase
     private final static String RULETO1 = "RuleTo1";
     private final static String RULETO2 = "RuleTo2";
 
+    @Test
     public void testBusiness( )
     {
         // Initialize an object

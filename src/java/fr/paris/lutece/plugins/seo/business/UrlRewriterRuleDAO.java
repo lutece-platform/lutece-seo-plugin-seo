@@ -36,13 +36,16 @@ package fr.paris.lutece.plugins.seo.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * This class provides Data Access methods for UrlRewriterRule objects
  */
-public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
+@ApplicationScoped
+public class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_rule ) FROM seo_rule";
@@ -54,33 +57,34 @@ public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
 
     /**
      * Generates a new primary key
-     * 
+     *
      * @param plugin
      *            The Plugin
      * @return The new primary key
      */
     public int newPrimaryKey( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery( );
-
-        int nKey;
-
-        if ( !daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin ) )
         {
-            // if the table is empty
-            nKey = 1;
+            daoUtil.executeQuery( );
+
+            int nKey;
+
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+
+            return nKey;
         }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
-
-        return nKey;
     }
 
     /**
      * Insert a new record in the table.
-     * 
+     *
      * @param urlRewriterRule
      *            instance of the UrlRewriterRule object to insert
      * @param plugin
@@ -88,21 +92,21 @@ public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
      */
     public void insert( UrlRewriterRule urlRewriterRule, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin ) )
+        {
+            urlRewriterRule.setIdRule( newPrimaryKey( plugin ) );
 
-        urlRewriterRule.setIdRule( newPrimaryKey( plugin ) );
+            daoUtil.setInt( 1, urlRewriterRule.getIdRule( ) );
+            daoUtil.setString( 2, urlRewriterRule.getRuleFrom( ) );
+            daoUtil.setString( 3, urlRewriterRule.getRuleTo( ) );
 
-        daoUtil.setInt( 1, urlRewriterRule.getIdRule( ) );
-        daoUtil.setString( 2, urlRewriterRule.getRuleFrom( ) );
-        daoUtil.setString( 3, urlRewriterRule.getRuleTo( ) );
-
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
      * Load the data of the urlRewriterRule from the table
-     * 
+     *
      * @param nId
      *            The identifier of the urlRewriterRule
      * @param plugin
@@ -111,29 +115,29 @@ public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
      */
     public UrlRewriterRule load( int nId, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery( );
-
         UrlRewriterRule urlRewriterRule = null;
 
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin ) )
         {
-            urlRewriterRule = new UrlRewriterRule( );
+            daoUtil.setInt( 1, nId );
+            daoUtil.executeQuery( );
 
-            urlRewriterRule.setIdRule( daoUtil.getInt( 1 ) );
-            urlRewriterRule.setRuleFrom( daoUtil.getString( 2 ) );
-            urlRewriterRule.setRuleTo( daoUtil.getString( 3 ) );
+            if ( daoUtil.next( ) )
+            {
+                urlRewriterRule = new UrlRewriterRule( );
+
+                urlRewriterRule.setIdRule( daoUtil.getInt( 1 ) );
+                urlRewriterRule.setRuleFrom( daoUtil.getString( 2 ) );
+                urlRewriterRule.setRuleTo( daoUtil.getString( 3 ) );
+            }
         }
-
-        daoUtil.free( );
 
         return urlRewriterRule;
     }
 
     /**
      * Delete a record from the table
-     * 
+     *
      * @param nUrlRewriterRuleId
      *            The identifier of the urlRewriterRule
      * @param plugin
@@ -141,15 +145,16 @@ public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
      */
     public void delete( int nUrlRewriterRuleId, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1, nUrlRewriterRuleId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin ) )
+        {
+            daoUtil.setInt( 1, nUrlRewriterRuleId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
      * Update the record in the table
-     * 
+     *
      * @param urlRewriterRule
      *            The reference of the urlRewriterRule
      * @param plugin
@@ -157,42 +162,43 @@ public final class UrlRewriterRuleDAO implements IUrlRewriterRuleDAO
      */
     public void store( UrlRewriterRule urlRewriterRule, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin ) )
+        {
+            daoUtil.setInt( 1, urlRewriterRule.getIdRule( ) );
+            daoUtil.setString( 2, urlRewriterRule.getRuleFrom( ) );
+            daoUtil.setString( 3, urlRewriterRule.getRuleTo( ) );
+            daoUtil.setInt( 4, urlRewriterRule.getIdRule( ) );
 
-        daoUtil.setInt( 1, urlRewriterRule.getIdRule( ) );
-        daoUtil.setString( 2, urlRewriterRule.getRuleFrom( ) );
-        daoUtil.setString( 3, urlRewriterRule.getRuleTo( ) );
-        daoUtil.setInt( 4, urlRewriterRule.getIdRule( ) );
-
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
      * Load the data of all the urlRewriterRules and returns them as a collection
-     * 
+     *
      * @param plugin
      *            The plugin
      * @return The Collection which contains the data of all the urlRewriterRules
      */
     public Collection<UrlRewriterRule> selectUrlRewriterRulesList( Plugin plugin )
     {
-        Collection<UrlRewriterRule> urlRewriterRuleList = new ArrayList<UrlRewriterRule>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery( );
+        Collection<UrlRewriterRule> urlRewriterRuleList = new ArrayList<>( );
 
-        while ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin ) )
         {
-            UrlRewriterRule urlRewriterRule = new UrlRewriterRule( );
+            daoUtil.executeQuery( );
 
-            urlRewriterRule.setIdRule( daoUtil.getInt( 1 ) );
-            urlRewriterRule.setRuleFrom( daoUtil.getString( 2 ) );
-            urlRewriterRule.setRuleTo( daoUtil.getString( 3 ) );
+            while ( daoUtil.next( ) )
+            {
+                UrlRewriterRule urlRewriterRule = new UrlRewriterRule( );
 
-            urlRewriterRuleList.add( urlRewriterRule );
+                urlRewriterRule.setIdRule( daoUtil.getInt( 1 ) );
+                urlRewriterRule.setRuleFrom( daoUtil.getString( 2 ) );
+                urlRewriterRule.setRuleTo( daoUtil.getString( 3 ) );
+
+                urlRewriterRuleList.add( urlRewriterRule );
+            }
         }
-
-        daoUtil.free( );
 
         return urlRewriterRuleList;
     }

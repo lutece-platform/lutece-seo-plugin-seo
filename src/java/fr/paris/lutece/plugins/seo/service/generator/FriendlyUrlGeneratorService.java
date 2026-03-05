@@ -37,8 +37,12 @@ import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,40 +51,27 @@ import java.util.List;
 /**
  * Alias Generator Service
  */
-public final class FriendlyUrlGeneratorService
+@ApplicationScoped
+public class FriendlyUrlGeneratorService
 {
     private static final String SUFFIX_HTML = ".html";
     private static final int NOT_FOUND = -1;
-    private static List<FriendlyUrlGenerator> _listGenerators = new ArrayList<FriendlyUrlGenerator>( );
-    private static FriendlyUrlGeneratorService _singleton;
 
-    /**
-     * private constructore
-     */
-    private FriendlyUrlGeneratorService( )
+    @Inject
+    private Instance<FriendlyUrlGenerator> _generatorInstances;
+
+    private List<FriendlyUrlGenerator> _listGenerators;
+
+    @PostConstruct
+    public void init( )
     {
-    }
-
-    /**
-     * Return the unique instance
-     * 
-     * @return The instance
-     */
-    public static synchronized FriendlyUrlGeneratorService instance( )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = new FriendlyUrlGeneratorService( );
-
-            _listGenerators = SpringContextService.getBeansOfType( FriendlyUrlGenerator.class );
-        }
-
-        return _singleton;
+        _listGenerators = new ArrayList<>( );
+        _generatorInstances.forEach( _listGenerators::add );
     }
 
     /**
      * Generate Alias rules
-     * 
+     *
      * @param options
      *            Options
      */
@@ -88,7 +79,7 @@ public final class FriendlyUrlGeneratorService
     {
         Collection<FriendlyUrl> listExisting = FriendlyUrlHome.findAll( );
 
-        List<FriendlyUrl> listRules = new ArrayList<FriendlyUrl>( );
+        List<FriendlyUrl> listRules = new ArrayList<>( );
 
         for ( FriendlyUrlGenerator generator : _listGenerators )
         {
@@ -101,12 +92,12 @@ public final class FriendlyUrlGeneratorService
 
     /**
      * Gets the generators list
-     * 
+     *
      * @return The generators list
      */
     public List<GeneratorSettings> getGenerators( )
     {
-        List<GeneratorSettings> list = new ArrayList<GeneratorSettings>( );
+        List<GeneratorSettings> list = new ArrayList<>( );
 
         for ( FriendlyUrlGenerator generator : _listGenerators )
         {
@@ -126,20 +117,20 @@ public final class FriendlyUrlGeneratorService
 
     /**
      * Process rules list
-     * 
+     *
      * @param listRules
      *            The rule list
      * @param listExisting
      *            The existing rules
      * @param options
-     *            Oprions
+     *            Options
      */
     private void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting, GeneratorOptions options )
     {
         AppLogService.info( "Processing Url rewriting Alias rules" );
-        AppLogService.info( "* Option Force update existing rules : " + ( options.isForceUpdate( ) ? "on" : "off" ) );
-        AppLogService.info( "* Option Add path : " + ( options.isAddPath( ) ? "on" : "off" ) );
-        AppLogService.info( "* Option Html suffix : " + ( options.isHtmlSuffix( ) ? "on" : "off" ) );
+        AppLogService.info( "* Option Force update existing rules : {}", options.isForceUpdate( ) ? "on" : "off" );
+        AppLogService.info( "* Option Add path : {}", options.isAddPath( ) ? "on" : "off" );
+        AppLogService.info( "* Option Html suffix : {}", options.isHtmlSuffix( ) ? "on" : "off" );
 
         for ( FriendlyUrl url : listRules )
         {
@@ -157,25 +148,25 @@ public final class FriendlyUrlGeneratorService
                     // update the existing alias
                     url.setId( nExistingRuleId );
                     FriendlyUrlHome.update( url );
-                    AppLogService.info( "Updated : " + url.getFriendlyUrl( ) + " -> " + url.getTechnicalUrl( ) );
+                    AppLogService.info( "Updated : {} -> {}", url.getFriendlyUrl( ), url.getTechnicalUrl( ) );
                 }
                 else
                 {
-                    AppLogService.info( "Ignored : " + url.getFriendlyUrl( ) + " -> " + url.getTechnicalUrl( ) );
+                    AppLogService.info( "Ignored : {} -> {}", url.getFriendlyUrl( ), url.getTechnicalUrl( ) );
                 }
             }
             else
             {
                 // create a new alias
                 FriendlyUrlHome.create( url );
-                AppLogService.info( "Created : " + url.getFriendlyUrl( ) + " -> " + url.getTechnicalUrl( ) );
+                AppLogService.info( "Created : {} -> {}", url.getFriendlyUrl( ), url.getTechnicalUrl( ) );
             }
         }
     }
 
     /**
      * Get existing rule if
-     * 
+     *
      * @param listExisting
      *            The list of existing rules
      * @param url

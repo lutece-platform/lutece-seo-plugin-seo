@@ -36,43 +36,33 @@ package fr.paris.lutece.plugins.seo.service;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import java.util.Map;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Canonical Url Service
  */
-public final class CanonicalUrlService
+@ApplicationScoped
+public class CanonicalUrlService
 {
     private static final String HEAD = "<head>";
     private static final String COMMENT = "\n\t\t<!-- Canonical URL added by SEO plugin --> ";
     private static final String CANONICAL_TAG_BEGIN = "\n\t\t<link rel=\"canonical\" href=\"";
     private static final String CANONICAL_TAG_END = "\" />\n";
-    private static CanonicalUrlService _singleton = new CanonicalUrlService( );
-    private static boolean _bCanonical;
+    private boolean _bCanonical;
 
-    /**
-     * Private constructor
-     */
-    private CanonicalUrlService( )
+    @PostConstruct
+    public void init( )
     {
         _bCanonical = DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE );
     }
 
     /**
-     * Return the unique instance
-     * 
-     * @return The instance
-     */
-    public static synchronized CanonicalUrlService instance( )
-    {
-        return _singleton;
-    }
-
-    /**
      * Tells if canonical urls are enabled
-     * 
+     *
      * @return True if canonical urls are enabled, otherwise false
      */
     public boolean isCanonicalUrlsEnabled( )
@@ -82,7 +72,7 @@ public final class CanonicalUrlService
 
     /**
      * Sets the status of Canonical URLs (Enabled or Disabled)
-     * 
+     *
      * @param bEnabled
      *            The status
      */
@@ -93,7 +83,7 @@ public final class CanonicalUrlService
 
     /**
      * Add canonical URL into an HTML page's content
-     * 
+     *
      * @param strContent
      *            The HTML page's content
      * @param request
@@ -122,7 +112,7 @@ public final class CanonicalUrlService
 
     /**
      * Add canonical URL into an HTML page's content
-     * 
+     *
      * @param strContent
      *            The HTML page's content
      * @param strUrl
@@ -136,7 +126,7 @@ public final class CanonicalUrlService
 
         if ( nPos < 0 )
         {
-            AppLogService.error( "CanonicalUrl Service : no HEAD tag found in " + strUrl );
+            AppLogService.error( "CanonicalUrl Service : no HEAD tag found in {}", strUrl );
 
             return strContent;
         }

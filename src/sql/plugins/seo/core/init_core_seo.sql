@@ -1,6 +1,6 @@
---
--- Dumping data for table core_admin_right
---
+-- liquibase formatted sql
+-- changeset seo:init_core_seo.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 INSERT INTO core_admin_right (id_right,name,level_right,admin_url,description,is_updatable,plugin_name,id_feature_group,icon_url,documentation_url, id_order ) VALUES 
 ('SEO_MANAGEMENT','seo.adminFeature.seo_management.name',1,'jsp/admin/plugins/seo/ManageSEO.jsp','seo.adminFeature.seo_management.name',0,'seo',NULL,NULL,NULL,4);
 

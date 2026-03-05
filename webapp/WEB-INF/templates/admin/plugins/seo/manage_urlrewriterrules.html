@@ -14,8 +14,8 @@
 					<@tableHeadBodySeparator />
 					<#list urlrewriterrule_list as urlrewriterrule >
 					<@tr>
-						<@td>${urlrewriterrule.ruleFrom}</@td>
-						<@td>${urlrewriterrule.ruleTo}</@td>
+						<@td>${urlrewriterrule.ruleFrom!}</@td>
+						<@td>${urlrewriterrule.ruleTo!}</@td>
 						<@td>
 							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='pencil' size='sm' />
 							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' />
