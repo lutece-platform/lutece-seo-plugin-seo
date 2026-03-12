@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
-        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
-
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <!--
 
     Configuration file for UrlRewriteFilter
@@ -9,7 +7,6 @@
 
 -->
 <urlrewrite>
-
     <rule>
         <note>
             The rule means that requests to /test/status/ will be redirected to /rewrite-status
@@ -18,21 +15,18 @@
         <from>/test/status/</from>
         <to type="redirect">%{context-path}/rewrite-status</to>
     </rule>
-
     <#list rules_list as rule>
         <rule>
             <from>^${rule.ruleFrom}</from>
             <to>${rule.ruleTo}</to>
         </rule>
     </#list>
-    
     <#list url_list as url>
         <rule>
             <from>^${url.friendlyUrl}</from>
             <to>${url.technicalUrl}</to>
         </rule>
     </#list>
-
     <outbound-rule>
         <note>
             The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)
@@ -45,8 +39,6 @@
         <from>/rewrite-status</from>
         <to>/test/status/</to>
     </outbound-rule>
-
-
     <!--
 
     INSTALLATION
@@ -105,6 +97,4 @@
     request.setAttribute("browser", "moz") will be called.
 
     -->
-
 </urlrewrite>
-
