@@ -1,30 +1,29 @@
-<@row>
-    <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.manage_urlrewriterrules.labelRules}' skipHeader=true >
-				<@aButton color='primary' href="jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp" buttonIcon='plus' title='#i18n{seo.manage_urlrewriterrules.buttonCreate}' hideTitle=['xs','sm','md'] size='sm' />
-			</@boxHeader>
-			<@boxBody>
-				<@table headBody=true>
-					<@tr>
-						<@th>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</@th>
-						<@th>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</@th>
-						<@th>#i18n{seo.manage_urlrewriterrules.columnActions}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#list urlrewriterrule_list as urlrewriterrule >
-					<@tr>
-						<@td>${urlrewriterrule.ruleFrom!}</@td>
-						<@td>${urlrewriterrule.ruleTo!}</@td>
-						<@td>
-							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='pencil' size='sm' />
-							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' />
-						</@td>
-					</@tr>
-					</#list>
-				</@table>
-				<@paginationAdmin paginator=paginator combo=1 />
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{seo.manage_urlrewriterrules.labelRules}'>
+			<@aButton color='primary' href='jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp' buttonIcon='plus' title='#i18n{seo.manage_urlrewriterrules.buttonCreate}' hideTitle=['xs','sm','md'] size='sm' />
+		</@pageHeader>
+		<@row>
+			<@columns class='d-inline-flex justify-content-end'>
+				<@aButton color='primary' href='jsp/admin/plugins/seo/CreateUrlRewriterRule.jsp' buttonIcon='plus' title='#i18n{seo.manage_urlrewriterrules.buttonCreate}' hideTitle=['xs','sm'] />
+			</@columns>
+		</@row>	
+		<@manageFeature>
+			<#list urlrewriterrule_list as urlrewriterrule>
+			<@manageFeatureItem>
+				<@manageFeatureItemColumn auto=true >
+					<@p class='fs-3 mb-0'>#i18n{seo.manage_urlrewriterrules.columnRuleFrom}</@p>
+					<strong class="fs-3 fw-bold mx-2">${urlrewriterrule.ruleFrom!}</strong>
+					<@p class='fs-3 mb-0'>#i18n{seo.manage_urlrewriterrules.columnRuleTo}</@p>
+					<strong class="fs-3 fw-bold ms-2">${urlrewriterrule.ruleTo!}</strong>
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn align='end'>
+					<@offcanvas targetUrl='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' targetElement='#modify_urlrewriterrule' id='edit-rule-${urlrewriterrule.idRule}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='pencil' btnColor='primary' position='end' title='#i18n{portal.util.labelModify}' hideTitle=['xs','sm'] />
+					<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' />
+				</@manageFeatureItemColumn>
+			</@manageFeatureItem>
+			</#list>
+		</@manageFeature>
+		<@paginationAdmin paginator=paginator combo=1 />
+	</@pageColumn>
+</@pageContainer>

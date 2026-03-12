@@ -1,55 +1,43 @@
-<@row>
-    <@columns>
-        <@box>
-            <@boxHeader title='#i18n{seo.manage_friendly_urls.labelUrlList}' skipHeader=true >
-				<@aButton color='primary' href='jsp/admin/plugins/seo/CreateFriendlyUrl.jsp' buttonIcon='plus-square' title='#i18n{seo.manage_friendly_urls.buttonCreate}' hideTitle=['xs','sm','md'] size='sm' />
-				<@aButton color='primary' href='jsp/admin/plugins/seo/GenerateAliasRules.jsp' buttonIcon='cog' title='#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}' hideTitle=['xs','sm','md'] size='sm' />
-				<@aButton color='danger'  href='jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp' buttonIcon='trash' title='#i18n{seo.manage_friendly_urls.buttonRemoveAllFriendlyUrls}' hideTitle=['xs','sm','md'] size='sm' />
-			</@boxHeader>
-			<@boxBody>
-				
-				<@table headBody=true>
-					<@tr>
-						<@th colspan=3>#i18n{seo.manage_friendly_urls.columnFriendlyUrl} <@icon style='arrow-circle-right' />#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</@th>
-						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnCanonical}</@th>
-						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnSitemap}</@th>
-						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnLastMod}</@th>
-						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnChangeFreq}</@th>
-						<@th hide=['xs']>#i18n{seo.manage_friendly_urls.columnPriority}</@th>
-						<@th>#i18n{seo.manage_friendly_urls.columnActions}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#list friendly_url_list as url >
-					<@tr>
-						<@td>${url.friendlyUrl!}</@td>
-						<@td><@icon style='arrow-circle-right' /></@td>
-						<@td>${url.technicalUrl!}</@td>
-						<@td hide=['xs']>
-							<#if url.canonical >
-								<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>
-							<#else>
-								<@tag color='danger' tagIcon='times' >#i18n{portal.util.labelDisabled}</@tag>
-							</#if>
-						</@td>
-						<@td hide=['xs']>
-							<#if url.sitemap >
-								<@tag color='success' tagIcon='check' >#i18n{portal.util.labelEnabled}</@tag>
-							<#else>
-								<@tag color='danger' tagIcon='times' >#i18n{portal.util.labelDisabled}</@tag>
-							</#if>
-						</@td>
-						<@td hide=['xs']>${url.sitemapLastmod!"-"}</@td>
-						<@td hide=['xs']>${url.sitemapChangeFreq!"-"}</@td>
-						<@td hide=['xs']>${url.sitemapPriority!"-"}</@td>
-						<@td>
-							<@aButton color='primary' href='jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}' buttonIcon='pencil' title='#i18n{portal.util.labelModify}' hideTitle=['all'] size='sm' />
-							<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}'  buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' />
-						</@td>
-					</@tr>
-					</#list>
-				</@table>
-				<@paginationAdmin paginator=paginator combo=1 />
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<@pageContainer>
+	<@pageColumn id='manage_friendly_url'>
+		<@pageHeader title='#i18n{seo.manage_friendly_urls.labelUrlList}' />
+		<@row>
+			<@columns class='d-inline-flex justify-content-end'>
+				<@aButton color='primary' href='jsp/admin/plugins/seo/CreateFriendlyUrl.jsp' buttonIcon='plus' title='#i18n{seo.manage_friendly_urls.buttonCreate}' hideTitle=['xs','sm','md']  />
+				<@aButton color='primary' href='jsp/admin/plugins/seo/GenerateAliasRules.jsp' buttonIcon='settings' title='#i18n{seo.manage_friendly_urls.buttonGenerateFriendlyUrls}' hideTitle=['xs','sm','md'] />
+				<@aButton color='danger' href='jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp' buttonIcon='trash' title='#i18n{seo.manage_friendly_urls.buttonRemoveAllFriendlyUrls}' hideTitle=['xs','sm','md'] />
+			</@columns>
+		</@row>
+		<@manageFeature>
+			<#list friendly_url_list as url>
+			<@manageFeatureItem>	
+				<@manageFeatureItemColumn dir='column' valign='top'>
+					<@p class='mb-1 fw-bold'> #i18n{seo.manage_friendly_urls.columnFriendlyUrl} <@icon style='arrow-right icon icon-2' />#i18n{seo.manage_friendly_urls.columnTechnicalUrl}</@p>
+					<@p class='mb-0'>${url.friendlyUrl!} <@icon style='arrow-right icon icon-2' /> ${url.technicalUrl!}</@p>
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn dir='column' valign='top'>
+					<@p class='fw-bold'>#i18n{seo.manage_friendly_urls.columnPriority}</@p>
+					${url.sitemapPriority!"-"}
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn dir='column' valign='top'>
+					<@p class='fw-bold'><@span class='me-2'>#i18n{seo.manage_friendly_urls.columnCanonical}</@span><#if url.canonical><@tag color='success' tagIcon='check'>#i18n{portal.util.labelEnabled}</@tag><#else><@tag color='danger' tagIcon='times'>#i18n{portal.util.labelDisabled}</@tag></#if></@p>
+					<@p class='fw-bold'><@span class='me-2'>#i18n{seo.manage_friendly_urls.columnSitemap}</@span><#if url.sitemap><@tag color='success' tagIcon='check'>#i18n{portal.util.labelEnabled}</@tag><#else><@tag color='danger' tagIcon='times'>#i18n{portal.util.labelDisabled}</@tag></#if></@p>
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn dir='column' valign='top'>
+					<@p class='fw-bold'>#i18n{seo.manage_friendly_urls.columnLastMod}</@p>
+					${url.sitemapLastmod!'-'}
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn dir='column' valign='top'>
+					<@p class='fw-bold'>#i18n{seo.manage_friendly_urls.columnChangeFreq}</@p>
+					${url.sitemapChangeFreq!'-'}
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn align='end'>
+					<@offcanvas targetUrl='jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}' targetElement='#modify_friendly_url' id='edit-url-${url.id}' btnTitle='#i18n{portal.util.labelModify}' hideTitle=['xs','sm','md'] btnIcon='pencil' btnColor='primary' position='end' title='#i18n{portal.util.labelModify}' />
+					<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}' buttonIcon='trash' btnTitle='#i18n{portal.util.labelDelete}' title='#i18n{portal.util.labelDelete}' hideTitle=['xs','sm','md'] />
+				</@manageFeatureItemColumn>
+			</@manageFeatureItem>
+			</#list>
+		</@manageFeature>
+		<@paginationAdmin paginator=paginator combo=1 />
+	</@pageColumn>
+</@pageContainer>

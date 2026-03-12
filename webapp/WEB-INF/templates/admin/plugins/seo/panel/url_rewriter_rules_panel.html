@@ -1,13 +1,11 @@
-<@div class='d-flex justify-content-between'>
-    <h3>#i18n{seo.panel.url_rewriter_rules.titleManageRules}</h3>
-	<@tform method='get' action='jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp'>
-		<@input type='hidden' name='plugin_name' value='seo' />
-		<@button type='submit' color='primary' buttonIcon='cog' title='#i18n{seo.panel.url_rewriter_rules.buttonManageRules}' hideTitle=['xs','sm','md'] size='' /> 
-	</@tform>
-</@div>
-<@div>
-	<@p>#i18n{seo.panel.url_rewriter_rules.explainRules}</@p>
-	<@alert color='warning' iconTitle='exclamation-circle fa-2x'>
-		#i18n{seo.panel.url_rewriter_rules.warningRules}
-	</@alert>
-</@div>
+<@box>
+	<@boxHeader title='#i18n{seo.panel.url_rewriter_rules.titleManageRules}' boxTools=true>
+		<@offcanvas id='offcanvas-url-rewriter-rules' position='end' size='full' title='#i18n{seo.panel.url_rewriter_rules.buttonManageRules}' btnColor='primary' btnTitle='#i18n{seo.panel.url_rewriter_rules.buttonManageRules}' hideTitle=['xs','sm','md'] btnIcon='cog' targetUrl='jsp/admin/plugins/seo/ManageUrlRewriterRules.jsp?plugin_name=seo' useIframe=true  />
+	</@boxHeader>
+	<@boxBody>
+		<@p>#i18n{seo.panel.url_rewriter_rules.explainRules}</@p>
+		<@alert color='warning' iconTitle='exclamation-circle fa-2x'>
+			#i18n{seo.panel.url_rewriter_rules.warningRules}
+		</@alert>
+	</@boxBody>
+</@box>

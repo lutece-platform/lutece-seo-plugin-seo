@@ -1,60 +1,52 @@
-<@row>
-	<@columns class='d-flex justify-content-between'>
-		<h3>#i18n{seo.panel.sitemap.titleManageSitemap}</h3>
-		<@div>
-			<@aButton href='http://www.sitemaps.org/fr/' title='#i18n{seo.panel.sitemap.labelMore}' hideTitle=['xs','sm','md'] buttonIcon='external-link' iconPosition='right' size='' />
-			<@button type='button' buttonIcon='file' title='#i18n{seo.panel.sitemap.buttonDisplaySitemap}' hideTitle=['xs','sm','md'] style='modal' buttonTargetId='#sitemapModal' size='' />
-		</@div>
-	</@columns>
-	<@p class='text-muted py-2'>#i18n{seo.panel.sitemap.explainManageSitemap}</@p>
-	<@columns >
-		<@div class='d-flex justify-content-between'>
-			<h3>
-				#i18n{seo.panel.sitemap.titleGenerate} 
-				<#if daemon_enabled >
-					<@tag color='success' tagIcon='check-circle'> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelEnabled}</@tag>
-				<#else>
-					<@tag color='danger' tagIcon='times-circle'> #i18n{seo.panel.sitemap.labelStatus}  #i18n{portal.util.labelDisabled}</@tag>
-				</#if>
-			</h3>
-			<@tform id='doGenerateSitemap' action='jsp/admin/plugins/seo/DoGenerateSitemap.jsp' method='get' type='inline' />
-			<@tform id='doSitemapDaemonToggle' method='post' action='jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp' type='inline' />
-			<@div>
-			<@button type='submit' color='primary' buttonIcon='sync' title='#i18n{seo.panel.sitemap.buttonUpdateFile}' hideTitle=['xs','sm','md'] size='sm' formId='doGenerateSitemap'  size='' />
-			<#if daemon_enabled >
-				<@button type='submit' color='danger' buttonIcon='stop' title='#i18n{seo.panel.sitemap.buttonDisableGenerate}' hideTitle=['xs','sm','md'] size='sm' formId='doSitemapDaemonToggle' size='' />
-			<#else>
-				<@button type='submit' color='success' buttonIcon='play' title='#i18n{seo.panel.sitemap.buttonEnableGenerate}' hideTitle=['xs','sm','md'] size='sm' formId='doSitemapDaemonToggle' size='' />
-			</#if>
-			</@div>
-		</@div>
+<@box>
+	<@boxHeader title='#i18n{seo.panel.sitemap.titleManageSitemap}' boxTools=true>
+		<@aButton href='http://www.sitemaps.org/fr/' title='#i18n{seo.panel.sitemap.labelMore}' hideTitle=['xs','sm','md'] buttonIcon='external-link' target='_blank' iconPosition='right' size='' />
+		<@offcanvas id='sitemapOffcanvas' title='Sitemap' btnTitle='#i18n{seo.panel.sitemap.buttonDisplaySitemap}' btnIcon='file' hideTitle=['xs','sm','md'] position='end' size='half'>
+			<@code class='language-html' params='id="sitemap" data-lang="html"' />
+		</@offcanvas>
+	</@boxHeader>
+	<@boxBody>
+		<@p class='text-muted'>#i18n{seo.panel.sitemap.explainManageSitemap}</@p>
+	</@boxBody>
+</@box>
+<@box>
+	<#assign titleTag><#if daemon_enabled><@tag color='success' tagIcon='check-circle'>#i18n{seo.panel.sitemap.labelStatus} #i18n{portal.util.labelEnabled}</@tag><#else><@tag color='danger' tagIcon='times-circle'>#i18n{seo.panel.sitemap.labelStatus} #i18n{portal.util.labelDisabled}</@tag></#if></#assign>
+	<@boxHeader title='#i18n{seo.panel.sitemap.titleGenerate} ${titleTag}' boxTools=true>
+		<@tform id='doGenerateSitemap' action='jsp/admin/plugins/seo/DoGenerateSitemap.jsp' method='get' type='inline'>
+			<@button type='submit' color='primary' buttonIcon='sync' title='#i18n{seo.panel.sitemap.buttonUpdateFile}' hideTitle=['xs','sm','md'] formId='doGenerateSitemap' size='' />
+		</@tform>
+		<@tform id='doSitemapDaemonToggle' method='post' action='jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp' type='inline'>
+		<#if daemon_enabled>
+			<@button type='submit' color='danger' buttonIcon='stop' title='#i18n{seo.panel.sitemap.buttonDisableGenerate}' hideTitle=['xs','sm','md'] formId='doSitemapDaemonToggle' size='' />
+		<#else>
+			<@button type='submit' color='success' buttonIcon='play' title='#i18n{seo.panel.sitemap.buttonEnableGenerate}' hideTitle=['xs','sm','md'] formId='doSitemapDaemonToggle' size='' />
+		</#if>
+		</@tform>
+	</@boxHeader>
+	<@boxBody>
 		<#if sitemapLastGeneration?has_content>
 			<@alert color='info' iconTitle='info-circle fa-2x'>
 				${sitemapLastGeneration!}
 			</@alert>
 		</#if>
 		<@p class='text-muted'>#i18n{seo.panel.sitemap.explainGenerate}</@p>
-	</@columns>
-</@row>
-<!-- Modal -->
-<@modal id='sitemapModal'>
-	<@modalHeader modalTitle='Sitemap' id='sitemapModalLabel' />
-	<@modalBody>
-        <pre>
-			<code id="sitemap" class="language-html" data-lang="html"></code>
-		</pre>
-	</@modalBody>
-	<@modalFooter>
-        <@button type='button' params=' data-bs-dismiss="modal"' title='#i18n{portal.util.labelCancel}' />
-	</@modalFooter>
-</@modal>
-<!-- /.modal -->
+	</@boxBody>
+</@box>
 <script>
 document.addEventListener( 'DOMContentLoaded', function() {
     const sitemapEl = document.getElementById( 'sitemap' );
     fetch( 'sitemap.xml' )
-        .then( function( response ) { return response.text(); } )
+        .then( function( response ) {
+            if ( !response.ok ) {
+				if( sitemapEl ){
+					sitemapEl.innerHTML = '<div class="alert alert-danger"><i class="ti ti-alert-circle me-2"></i>${'#i18n{seo.panel.sitemap.errorFileNotFound}'?js_string}</div>';
+				}
+                return;
+            }
+            return response.text();
+        } )
         .then( function( text ) {
+            if ( !text ) return;
             let content = text.replace( /&/g, '&amp;' ).replace( />/g, '&gt;' ).replace( /</g, '&lt;' ).replace( /"/g, '&quot;' );
             content = content.replace( /&lt;url&gt;/g, '<br><b>&lt;url&gt;</b><br>' ).replace( /&lt;\/url&gt;/g, '<b>&lt;/url&gt;</b><br>' );
             content = content.replace( /&lt;loc&gt;/g, '<b>&lt;loc&gt;</b>' ).replace( /&lt;\/loc&gt;/g, '<b>&lt;/loc&gt;</b><br>' );
@@ -62,6 +54,9 @@ document.addEventListener( 'DOMContentLoaded', function() {
             content = content.replace( /&lt;lastmod&gt;/g, '<b>&lt;lastmod&gt;</b>' ).replace( /&lt;\/lastmod&gt;/g, '<b>&lt;/lastmod&gt;</b><br>' );
             content = content.replace( /&lt;changefreq&gt;/g, '<b>&lt;changefreq&gt;</b>' ).replace( /&lt;\/changefreq&gt;/g, '<b>&lt;/changefreq&gt;</b><br>' );
             sitemapEl.innerHTML = content;
+        } )
+        .catch( function() {
+            if( sitemapEl ){ sitemapEl.innerHTML = '<div class="alert alert-danger"><i class="ti ti-alert-circle me-2"></i>${'#i18n{seo.panel.sitemap.errorFileNotFound}'?js_string}</div>' };
         } );
 } );
 </script>

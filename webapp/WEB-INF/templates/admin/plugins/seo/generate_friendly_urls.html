@@ -1,51 +1,50 @@
-<@row>
-    <@columns>
-        <@box title='#i18n{seo.generate_friendly_urls.labelTitle}' >
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{seo.generate_friendly_urls.labelTitle}' />
+		<@box>
+			<@boxHeader title='#i18n{seo.generate_friendly_urls.labelGeneratorsList}' />
 			<@boxBody>
-				<@fieldSet legend='#i18n{seo.generate_friendly_urls.labelGeneratorsList}'>
-					<@table>
-						<@tr>
-							<@th xs=5>G&eacute;n&eacute;rateur</@th>
-							<@th xs=3>Fr&eacute;quence de modification par d&eacute;faut</@th>
-							<@th xs=3>Priorit&eacute; par d&eacute;faut</@th>
-							<@th xs=1>Action</@th>
-						</@tr>
-						<#list generators_list as generator>
-						<@tform action='jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp' method='post'>
-							<@input type='hidden' name='generator_key' value='${generator.key!}' />
-							<@tr>
-								<@td>${generator.name!}</@td>
-								<@td>
-									<@select name='change_freq' items=change_freq_list default_value=generator.defaultChangeFreq />
-								</@td>
-								<@td>
-									<@select name='priority' items=priority_list default_value=generator.defaultPriority />
-								</@td>
-								<@td>
-									<@button type='submit' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='sync' size='sm' />
-								</@td>
-							</@tr>
-						</@tform>
-						</#list>
-					</@table>
-				</@fieldSet>
-				<@tform method='post' action='jsp/admin/plugins/seo/DoGenerateAliasRules.jsp'>
-					<@fieldSet legend='#i18n{seo.generate_friendly_urls.labelOptions}'>
-						<@formGroup helpKey='#i18n{seo.generate_friendly_urls.helpForceUpdate}'>
-							<@checkBox labelFor='option_force_update' labelKey='#i18n{seo.generate_friendly_urls.optionForceUpdate}' name='option_force_update' id='option_force_update' value='on' />
-						</@formGroup>
-						<@formGroup>
-							<@checkBox labelFor='option_add_path' labelKey='#i18n{seo.generate_friendly_urls.optionAddPath}' name='option_add_path' id='option_add_path' value='on' />
-						</@formGroup>
-						<@formGroup>
-							<@checkBox labelFor='option_html_suffix' labelKey='#i18n{seo.generate_friendly_urls.optionHtmlSuffix}' name='option_html_suffix' id='option_html_suffix' value='on' />
-						</@formGroup>
-						<@formGroup>
-							<@button type='submit' title='#i18n{seo.generate_friendly_urls.buttonGenerate}' buttonIcon='play' />
-						</@formGroup>
-					</@fieldSet>
-				</@tform>
+				<@manageFeature>
+					<#list generators_list as generator>
+					<@tform action='jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp' method='post'>
+						<@input type='hidden' name='generator_key' value='${generator.key!}' />
+						<@manageFeatureItem>
+							<@manageFeatureItemColumn auto=true flex=false>
+								<strong>${generator.name!}</strong>
+							</@manageFeatureItemColumn>
+							<@manageFeatureItemColumn auto=true flex=false valign='top'>
+								<@p class='fw-bold fs-3'>#i18n{seo.generate_friendly_urls.columnChangeFreq}</@p>
+								<@select name='change_freq' items=change_freq_list default_value=generator.defaultChangeFreq />
+							</@manageFeatureItemColumn>
+							<@manageFeatureItemColumn auto=true flex=false valign='top'>
+								<@p class='fw-bold fs-3'>#i18n{seo.generate_friendly_urls.columnPriority}</@p>
+								<@select name='priority' items=priority_list default_value=generator.defaultPriority />
+							</@manageFeatureItemColumn>
+							<@manageFeatureItemColumn auto=true align='end'>
+								<@button type='submit' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='sync' size='sm' />
+							</@manageFeatureItemColumn>
+						</@manageFeatureItem>
+					</@tform>
+					</#list>
+				</@manageFeature>
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
+		<@tform method='post' action='jsp/admin/plugins/seo/DoGenerateAliasRules.jsp' boxed=true>
+			<@boxHeader title='#i18n{seo.generate_friendly_urls.labelOptions}' />
+			<@boxBody>
+				<@formGroup helpKey='#i18n{seo.generate_friendly_urls.helpForceUpdate}'>
+					<@checkBox labelFor='option_force_update' labelKey='#i18n{seo.generate_friendly_urls.optionForceUpdate}' name='option_force_update' id='option_force_update' value='on' />
+				</@formGroup>
+				<@formGroup>
+					<@checkBox labelFor='option_add_path' labelKey='#i18n{seo.generate_friendly_urls.optionAddPath}' name='option_add_path' id='option_add_path' value='on' />
+				</@formGroup>
+				<@formGroup>
+					<@checkBox labelFor='option_html_suffix' labelKey='#i18n{seo.generate_friendly_urls.optionHtmlSuffix}' name='option_html_suffix' id='option_html_suffix' value='on' />
+				</@formGroup>
+				<@formGroup>
+					<@button type='submit' title='#i18n{seo.generate_friendly_urls.buttonGenerate}' buttonIcon='play' />
+				</@formGroup>
+			</@boxBody>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
