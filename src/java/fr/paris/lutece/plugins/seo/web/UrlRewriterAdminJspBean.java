@@ -253,7 +253,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
         }
 
         rule.setRuleFrom( strFrom );
-        rule.setRuleTo( strTo.replaceAll( "&", "&amp;" ) );
+        rule.setRuleTo( strTo );
 
         return null;
     }
