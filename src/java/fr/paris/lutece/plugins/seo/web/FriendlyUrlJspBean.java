@@ -304,7 +304,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         }
 
         url.setFriendlyUrl( strFrom );
-        url.setTechnicalUrl( strTo.replaceAll( "&", "&amp;" ) );
+        url.setTechnicalUrl( strTo );
         url.setCanonical( strCanonical != null );
         url.setSitemap( strSitemap != null );
         url.setSitemapChangeFreq( strChangeFreq );
