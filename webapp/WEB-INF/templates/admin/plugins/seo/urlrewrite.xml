@@ -23,7 +23,7 @@
     </#list>
     <#list url_list as url>
         <rule>
-            <from>^${url.friendlyUrl}</from>
+            <from>^${url.friendlyUrl}$</from>
             <to>${url.technicalUrl?xml}</to>
         </rule>
     </#list>
