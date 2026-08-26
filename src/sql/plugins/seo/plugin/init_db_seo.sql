@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset seo:init_db_seo.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 
 
 INSERT INTO seo_friendly_url ( id_url, friendly_url, technical_url, is_canonical, is_sitemap, sitemap_lastmod, sitemap_changefreq, sitemap_priority ) VALUES

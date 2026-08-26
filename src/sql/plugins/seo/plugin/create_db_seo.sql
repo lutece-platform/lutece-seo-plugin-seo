@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset seo:create_db_seo.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Structure for table seo_rule
 --
