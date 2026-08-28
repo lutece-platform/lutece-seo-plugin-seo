@@ -40,6 +40,7 @@ import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -68,7 +69,10 @@ public final class SitemapService
     private static final String TEMPLATE_SITEMAP_XML = "/admin/plugins/seo/sitemap.xml";
     private static final String MARK_URLS_LIST = "urls_list";
     private static final String MARK_BASE_URL = "base_url";
-    private static final String FILE_SITEMAP = "/sitemap.xml";
+    private static final String PROPERTY_SITEMAP_FILE_PATH = "seo.sitemapFilePath";
+    private static final String DEFAULT_SITEMAP_FILE_PATH = "/sitemap-seo.xml";
+    private static final String LEGACY_SITEMAP_FILE_PATH = "/sitemap.xml";
+    private static final String PLUGIN_SITEMAP = "sitemap";
     private static final String PROPERTY_LUTECE_PROD_URL = "lutece.prod.url";
     private static final String PROPERTY_SITEMAP_LOG = "seo.sitemap.log";
 
@@ -100,8 +104,8 @@ public final class SitemapService
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
         String strXmlSitemap = templateList.getHtml( );
-        String strSiteMapFilePath = AppPathService.getWebAppPath( ) + FILE_SITEMAP;
-        File fileSiteMap = new File( strSiteMapFilePath );
+        String strSitemapFile = AppPropertiesService.getProperty( PROPERTY_SITEMAP_FILE_PATH, DEFAULT_SITEMAP_FILE_PATH );
+        File fileSiteMap = new File( AppPathService.getWebAppPath( ) + strSitemapFile );
 
         String strResult = "OK";
 
@@ -115,6 +119,8 @@ public final class SitemapService
             strResult = "Error : " + e.getMessage( );
         }
 
+        warnObsoleteSitemap( strSitemapFile );
+
         String strDate = DateFormat.getDateTimeInstance( ).format( new Date( ) );
         Object [ ] args = {
                 strDate, list.size( ), strResult
@@ -124,6 +130,30 @@ public final class SitemapService
         DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, strLog );
 
         return strLog;
+    }
+
+    /**
+     * Logs a message when a sitemap left by a former default of this plugin is still present at the webapp root while the sitemap is now written
+     * elsewhere. Nothing updates that file any more, and robots.txt usually still references it, so search engines keep reading a frozen sitemap. The
+     * message disappears once the obsolete file has been removed. Nothing is logged when the sitemap plugin is enabled, since that plugin legitimately
+     * maintains the very same file.
+     * 
+     * @param strSitemapFile
+     *            The sitemap file currently written, relative to the webapp root
+     */
+    private static void warnObsoleteSitemap( String strSitemapFile )
+    {
+        if ( LEGACY_SITEMAP_FILE_PATH.equals( strSitemapFile ) || PluginService.isPluginEnable( PLUGIN_SITEMAP ) )
+        {
+            return;
+        }
+
+        if ( new File( AppPathService.getWebAppPath( ) + LEGACY_SITEMAP_FILE_PATH ).exists( ) )
+        {
+            AppLogService.error(
+                    "SEO : {} is no longer written, the sitemap is now generated in {}. Search engines keep reading the former file as long as robots.txt references it : update the Sitemap directive to the new file, then remove the obsolete one.",
+                    LEGACY_SITEMAP_FILE_PATH, strSitemapFile );
+        }
     }
 
     /**
