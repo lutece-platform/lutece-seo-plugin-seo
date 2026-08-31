@@ -6,7 +6,7 @@
              
 <#list urls_list as url>             
     <url>
-        <loc>${url.friendlyUrl}</loc>
+        <loc>${base_url}${url.friendlyUrl}</loc>
         <priority>${url.sitemapPriority!""}</priority>
         <lastmod>${url.sitemapLastmod!""}</lastmod>
         <changefreq>${url.sitemapChangeFreq!""}</changefreq>

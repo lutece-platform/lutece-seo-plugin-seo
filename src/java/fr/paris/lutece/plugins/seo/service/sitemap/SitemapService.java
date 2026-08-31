@@ -68,10 +68,12 @@ public final class SitemapService
 {
     private static final String TEMPLATE_SITEMAP_XML = "/admin/plugins/seo/sitemap.xml";
     private static final String MARK_URLS_LIST = "urls_list";
+    private static final String MARK_BASE_URL = "base_url";
     private static final String PROPERTY_SITEMAP_FILE_PATH = "seo.sitemapFilePath";
     private static final String DEFAULT_SITEMAP_FILE_PATH = "/sitemap-seo.xml";
     private static final String LEGACY_SITEMAP_FILE_PATH = "/sitemap.xml";
     private static final String PLUGIN_SITEMAP = "sitemap";
+    private static final String PROPERTY_LUTECE_PROD_URL = "lutece.prod.url";
     private static final String PROPERTY_SITEMAP_LOG = "seo.sitemap.log";
 
     /**
@@ -92,6 +94,7 @@ public final class SitemapService
         Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_URLS_LIST, list );
+        model.put( MARK_BASE_URL, getSitemapBaseUrl( ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
@@ -122,6 +125,28 @@ public final class SitemapService
         DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, strLog );
 
         return strLog;
+    }
+
+    /**
+     * Gets the base URL the sitemap locations are prefixed with, ending with a slash. Sitemaps require absolute URLs, so an undefined
+     * lutece.prod.url leaves a sitemap search engines reject. That property belongs to the site, which declares it per environment, and this
+     * plugin has no sensible default to offer : the case is logged rather than left silent.
+     * 
+     * @return The base URL, empty when the property is not set
+     */
+    private static String getSitemapBaseUrl( )
+    {
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_LUTECE_PROD_URL, "" ).trim( );
+
+        if ( strBaseUrl.isEmpty( ) )
+        {
+            AppLogService.error( "SEO : " + PROPERTY_LUTECE_PROD_URL
+                    + " is not set, the sitemap is generated with relative URLs, which search engines reject. Declare it in the configuration of the site." );
+
+            return strBaseUrl;
+        }
+
+        return strBaseUrl.endsWith( "/" ) ? strBaseUrl : ( strBaseUrl + "/" );
     }
 
     /**
