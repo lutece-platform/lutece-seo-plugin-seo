@@ -94,12 +94,7 @@ public final class SitemapService
         Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_URLS_LIST, list );
-        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_LUTECE_PROD_URL, "" );
-        if ( !strBaseUrl.isEmpty( ) && !strBaseUrl.endsWith( "/" ) )
-        {
-            strBaseUrl += "/";
-        }
-        model.put( MARK_BASE_URL, strBaseUrl );
+        model.put( MARK_BASE_URL, getSitemapBaseUrl( ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
@@ -130,6 +125,29 @@ public final class SitemapService
         DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, strLog );
 
         return strLog;
+    }
+
+    /**
+     * Gets the base URL the sitemap locations are prefixed with, ending with a slash. Sitemaps require absolute URLs, so an undefined
+     * lutece.prod.url leaves a sitemap search engines reject. That property belongs to the site, which declares it per environment, and this
+     * plugin has no sensible default to offer : the case is logged rather than left silent.
+     * 
+     * @return The base URL, empty when the property is not set
+     */
+    private static String getSitemapBaseUrl( )
+    {
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_LUTECE_PROD_URL, "" ).trim( );
+
+        if ( strBaseUrl.isEmpty( ) )
+        {
+            AppLogService.error(
+                    "SEO : {} is not set, the sitemap is generated with relative URLs, which search engines reject. Declare it in the configuration of the site.",
+                    PROPERTY_LUTECE_PROD_URL );
+
+            return strBaseUrl;
+        }
+
+        return strBaseUrl.endsWith( "/" ) ? strBaseUrl : ( strBaseUrl + "/" );
     }
 
     /**
