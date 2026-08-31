@@ -59,6 +59,27 @@
                 </p>
             </subsection>
 
+            <subsection name="Page de diagnostic de la réécriture d'URL">
+                <p>
+                    Le filtre UrlRewriteFilter embarque une page de diagnostic qui affiche les règles
+                    de réécriture réellement chargées en mémoire, leurs erreurs d'analyse et les
+                    informations de la requête courante. Elle permet de savoir si une règle générée par
+                    le plugin a bien été relue par le filtre, ce que ni la base ni le fichier généré
+                    ne disent.
+                </p>
+                <p>
+                    Elle est <b>désactivée par défaut</b>. Pour l'activer sur un environnement de
+                    développement, passer le paramètre <code>statusEnabled</code> du filtre
+                    <code>seo_urlrewriter</code> à <code>true</code> dans
+                    <code>WEB-INF/plugins/seo.xml</code> ; la page est alors servie sur
+                    <code>&lt;context-path&gt;/status</code> (valeur de <code>statusPath</code>).
+                </p>
+                <p>
+                    À ne pas laisser active en production : l'accès est filtré sur l'en-tête
+                    <code>Host</code> (<code>statusEnabledOnHosts</code>), pas sur l'adresse du client.
+                </p>
+            </subsection>
+
         </section>
     </body>
 </document>
