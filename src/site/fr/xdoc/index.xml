@@ -80,6 +80,31 @@
                 </p>
             </subsection>
 
+            <subsection name="Sitemap — fichier de sortie">
+                <p>
+                    Le sitemap est écrit dans <code>&lt;webapp&gt;/sitemap-seo.xml</code>, chemin configurable par
+                    la propriété <code>seo.sitemapFilePath</code> de
+                    <code>WEB-INF/conf/plugins/seo.properties</code>.
+                </p>
+                <p>
+                    Il s'agissait auparavant de <code>&lt;webapp&gt;/sitemap.xml</code>, un chemin qui n'appartient
+                    pas à ce plugin. Le plugin <code>sitemap</code> y écrit aussi, en dur, un contenu différent
+                    — les pages et documents du site, là où ce module publie les URL explicites marquées comme
+                    devant figurer au sitemap : les deux daemons s'écrasaient mutuellement et c'était le dernier
+                    exécuté qui l'emportait. Un projet de site livrant son propre <code>sitemap.xml</code>
+                    écrasait les deux à chaque déploiement.
+                </p>
+                <p>
+                    Sur un site existant rien ne casse, mais la directive <code>Sitemap</code> du
+                    <code>robots.txt</code> continue de pointer sur l'ancien fichier, que plus rien n'alimente :
+                    la faire pointer sur le nouveau, puis supprimer le <code>sitemap.xml</code> devenu obsolète.
+                    Tant qu'il est présent, chaque génération journalise un rappel. Le <code>robots.txt</code>
+                    accepte plusieurs directives <code>Sitemap</code>, le plugin <code>sitemap</code> peut donc
+                    continuer d'annoncer le sien. Repositionner la propriété sur <code>/sitemap.xml</code>
+                    rétablit le comportement précédent.
+                </p>
+            </subsection>
+
         </section>
     </body>
 </document>

@@ -39,9 +39,11 @@ import fr.paris.lutece.plugins.seo.service.FriendlyUrlUtils;
 import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.io.FileUtils;
@@ -66,7 +68,12 @@ public final class SitemapService
 {
     private static final String TEMPLATE_SITEMAP_XML = "/admin/plugins/seo/sitemap.xml";
     private static final String MARK_URLS_LIST = "urls_list";
-    private static final String FILE_SITEMAP = "/sitemap.xml";
+    private static final String MARK_BASE_URL = "base_url";
+    private static final String PROPERTY_SITEMAP_FILE_PATH = "seo.sitemapFilePath";
+    private static final String DEFAULT_SITEMAP_FILE_PATH = "/sitemap-seo.xml";
+    private static final String LEGACY_SITEMAP_FILE_PATH = "/sitemap.xml";
+    private static final String PLUGIN_SITEMAP = "sitemap";
+    private static final String PROPERTY_LUTECE_PROD_URL = "lutece.prod.url";
     private static final String PROPERTY_SITEMAP_LOG = "seo.sitemap.log";
 
     /**
@@ -87,12 +94,13 @@ public final class SitemapService
         Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_URLS_LIST, list );
+        model.put( MARK_BASE_URL, getSitemapBaseUrl( ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
         String strXmlSitemap = templateList.getHtml( );
-        String strSiteMapFilePath = AppPathService.getWebAppPath( ) + FILE_SITEMAP;
-        File fileSiteMap = new File( strSiteMapFilePath );
+        String strSitemapFile = AppPropertiesService.getProperty( PROPERTY_SITEMAP_FILE_PATH, DEFAULT_SITEMAP_FILE_PATH );
+        File fileSiteMap = new File( AppPathService.getWebAppPath( ) + strSitemapFile );
 
         String strResult = "OK";
 
@@ -106,6 +114,8 @@ public final class SitemapService
             strResult = "Error : " + e.getMessage( );
         }
 
+        warnObsoleteSitemap( strSitemapFile );
+
         String strDate = DateFormat.getDateTimeInstance( ).format( new Date( ) );
         Object [ ] args = {
                 strDate, list.size( ), strResult
@@ -115,6 +125,52 @@ public final class SitemapService
         DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, strLog );
 
         return strLog;
+    }
+
+    /**
+     * Gets the base URL the sitemap locations are prefixed with, ending with a slash. Sitemaps require absolute URLs, so an undefined
+     * lutece.prod.url leaves a sitemap search engines reject. That property belongs to the site, which declares it per environment, and this
+     * plugin has no sensible default to offer : the case is logged rather than left silent.
+     * 
+     * @return The base URL, empty when the property is not set
+     */
+    private static String getSitemapBaseUrl( )
+    {
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_LUTECE_PROD_URL, "" ).trim( );
+
+        if ( strBaseUrl.isEmpty( ) )
+        {
+            AppLogService.error( "SEO : " + PROPERTY_LUTECE_PROD_URL
+                    + " is not set, the sitemap is generated with relative URLs, which search engines reject. Declare it in the configuration of the site." );
+
+            return strBaseUrl;
+        }
+
+        return strBaseUrl.endsWith( "/" ) ? strBaseUrl : ( strBaseUrl + "/" );
+    }
+
+    /**
+     * Logs a message when a sitemap left by a former default of this plugin is still present at the webapp root while the sitemap is now written
+     * elsewhere. Nothing updates that file any more, and robots.txt usually still references it, so search engines keep reading a frozen sitemap. The
+     * message disappears once the obsolete file has been removed. Nothing is logged when the sitemap plugin is enabled, since that plugin legitimately
+     * maintains the very same file.
+     * 
+     * @param strSitemapFile
+     *            The sitemap file currently written, relative to the webapp root
+     */
+    private static void warnObsoleteSitemap( String strSitemapFile )
+    {
+        if ( LEGACY_SITEMAP_FILE_PATH.equals( strSitemapFile ) || PluginService.isPluginEnable( PLUGIN_SITEMAP ) )
+        {
+            return;
+        }
+
+        if ( new File( AppPathService.getWebAppPath( ) + LEGACY_SITEMAP_FILE_PATH ).exists( ) )
+        {
+            AppLogService.error(
+                    "SEO : {} is no longer written, the sitemap is now generated in {}. Search engines keep reading the former file as long as robots.txt references it : update the Sitemap directive to the new file, then remove the obsolete one.",
+                    LEGACY_SITEMAP_FILE_PATH, strSitemapFile );
+        }
     }
 
     /**
