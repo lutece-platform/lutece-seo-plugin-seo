@@ -40,6 +40,7 @@ public final class SEODataKeys
 {
     public static final String KEY_SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
     public static final String KEY_REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
+    public static final String KEY_RULES_VERSION = "seo.rewrite.rules.version";
     public static final String KEY_CONFIG_UPTODATE = "seo.config.uptodate";
     public static final String KEY_SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
     public static final String KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED = "seo.generator.daemon.enabled";
