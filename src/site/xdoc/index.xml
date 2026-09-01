@@ -76,6 +76,29 @@
                 </p>
             </subsection>
 
+            <subsection name="Sitemap — output file">
+                <p>
+                    The sitemap is written to <code>&lt;webapp&gt;/sitemap-seo.xml</code>, a path configurable
+                    through the <code>seo.sitemapFilePath</code> property of
+                    <code>WEB-INF/conf/plugins/seo.properties</code>.
+                </p>
+                <p>
+                    It used to be <code>&lt;webapp&gt;/sitemap.xml</code>, a path this plugin does not own. The
+                    <code>sitemap</code> plugin writes there as well, in hard code and with a different content
+                    — the site pages and documents, where this module publishes the friendly URLs flagged for
+                    the sitemap — so both daemons overwrote each other and the last one executed won. A site
+                    build shipping its own <code>sitemap.xml</code> overwrote both at every deployment.
+                </p>
+                <p>
+                    On an existing site nothing breaks, but the <code>Sitemap</code> directive of
+                    <code>robots.txt</code> keeps pointing at the former file, which nothing updates any more :
+                    point it at the new one, then remove the obsolete <code>sitemap.xml</code>. As long as that
+                    file is present, every generation logs a reminder. <code>robots.txt</code> accepts several
+                    <code>Sitemap</code> directives, so the <code>sitemap</code> plugin can keep announcing its
+                    own. Setting the property back to <code>/sitemap.xml</code> restores the former behaviour.
+                </p>
+            </subsection>
+
         </section>
     </body>
 </document>
