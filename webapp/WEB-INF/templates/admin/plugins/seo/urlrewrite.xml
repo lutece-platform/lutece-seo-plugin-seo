@@ -12,6 +12,11 @@
 
 -->
 <urlrewrite>
+    <!-- Sitemap generated outside the webapp : served by SitemapServlet -->
+    <rule>
+        <from>^/sitemap-seo\.xml$</from>
+        <to>/servlet/plugins/seo/sitemap-seo.xml</to>
+    </rule>
     <#list rules_list as rule>
         <rule>
             <from>^${rule.ruleFrom}</from>

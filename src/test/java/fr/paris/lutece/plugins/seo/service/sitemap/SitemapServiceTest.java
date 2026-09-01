@@ -31,34 +31,46 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.seo.service;
+package fr.paris.lutece.plugins.seo.service.sitemap;
+
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.test.LuteceTestCase;
+
+import java.io.File;
+
+import org.junit.*;
 
 /**
- * SEO Data keys used to store datas using DatastoreService
+ * SitemapService Test
  */
-public final class SEODataKeys
+public class SitemapServiceTest extends LuteceTestCase
 {
-    public static final String KEY_SITEMAP_UPDATE_LOG = "seo.sitemap.update.log";
-    public static final String KEY_REWRITE_CONFIG_UPDATE = "seo.rewrite.config.lastUpdate";
-    public static final String KEY_RULES_VERSION = "seo.rewrite.rules.version";
-    public static final String KEY_CONFIG_UPTODATE = "seo.config.uptodate";
-    public static final String KEY_SITEMAP_DEAMON_ENABLED = "seo.sitmap.daemon.enabled";
-    public static final String KEY_FRIENDLY_URL_GENERATOR_DAEMON_ENABLED = "seo.generator.daemon.enabled";
-    public static final String KEY_URL_REPLACE_ENABLED = "seo.replaceUrl.enabled";
-    public static final String KEY_CANONICAL_URLS_ENABLED = "seo.canonicalUrls.enabled";
-    public static final String KEY_GENERATOR_ADD_PATH = "seo.generator.option.addPath";
-    public static final String KEY_GENERATOR_ADD_HTML_SUFFIX = "seo.generator.option.addHtmlSuffix";
-    public static final String PREFIX_GENERATOR = "seo.generator.";
-    public static final String SUFFIX_CANONICAL = ".canonical";
-    public static final String SUFFIX_SITEMAP = ".sitemap";
-    public static final String SUFFIX_CHANGE_FREQ = ".changeFreq";
-    public static final String SUFFIX_LAST_MOD = ".lastMod";
-    public static final String SUFFIX_PRIORITY = ".priority";
+    /**
+     * The whole point of the file living outside the webapp : a webapp is a build artefact, replaced at every deployment.
+     */
+    @Test
+    public void testSitemapFileIsOutsideTheWebapp( )
+    {
+        String strSitemap = SitemapService.getSitemapFile( ).getAbsolutePath( );
+        String strWebApp = new File( AppPathService.getWebAppPath( ) ).getAbsolutePath( );
+
+        assertFalse( strSitemap + " must not be inside " + strWebApp, strSitemap.startsWith( strWebApp + File.separator ) );
+        assertTrue( "unexpected sitemap file name : " + strSitemap, strSitemap.endsWith( File.separator + "sitemap-seo.xml" ) );
+    }
 
     /**
-     * Private constructor
+     * Generating writes the file, whatever the state of the directory beforehand : it is created when missing, and the
+     * default one does not survive a restart.
      */
-    private SEODataKeys( )
+    @Test
+    public void testGenerateSitemapWritesTheFile( )
     {
+        File fileSitemap = SitemapService.getSitemapFile( );
+        fileSitemap.delete( );
+
+        SitemapService.generateSitemap( );
+
+        assertTrue( fileSitemap + " should have been written", fileSitemap.isFile( ) );
+        assertTrue( fileSitemap + " should not be empty", fileSitemap.length( ) > 0 );
     }
 }
