@@ -46,10 +46,15 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.PosixFilePermissions;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -69,9 +74,14 @@ public final class SitemapService
     private static final String TEMPLATE_SITEMAP_XML = "/admin/plugins/seo/sitemap.xml";
     private static final String MARK_URLS_LIST = "urls_list";
     private static final String MARK_BASE_URL = "base_url";
-    private static final String PROPERTY_SITEMAP_FILE_PATH = "seo.sitemapFilePath";
-    private static final String DEFAULT_SITEMAP_FILE_PATH = "/sitemap-seo.xml";
+    private static final String PROPERTY_GENERATED_FILES_PATH = "seo.generatedFilesPath";
+    private static final String SYSTEM_TMP_DIR = "java.io.tmpdir";
+    private static final String DEFAULT_GENERATED_FILES_DIR = "lutece-seo";
+    private static final String SITEMAP_FILE_NAME = "sitemap-seo.xml";
     private static final String LEGACY_SITEMAP_FILE_PATH = "/sitemap.xml";
+    private static final String [ ] OBSOLETE_WEBAPP_SITEMAPS = {
+            "/sitemap-seo.xml", LEGACY_SITEMAP_FILE_PATH
+    };
     private static final String PLUGIN_SITEMAP = "sitemap";
     private static final String PROPERTY_LUTECE_PROD_URL = "lutece.prod.url";
     private static final String PROPERTY_SITEMAP_LOG = "seo.sitemap.log";
@@ -99,14 +109,13 @@ public final class SitemapService
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_SITEMAP_XML, Locale.getDefault( ), model );
 
         String strXmlSitemap = templateList.getHtml( );
-        String strSitemapFile = AppPropertiesService.getProperty( PROPERTY_SITEMAP_FILE_PATH, DEFAULT_SITEMAP_FILE_PATH );
-        File fileSiteMap = new File( AppPathService.getWebAppPath( ) + strSitemapFile );
+        File fileSiteMap = getSitemapFile( );
 
         String strResult = "OK";
 
         try
         {
-            FileUtils.writeStringToFile( fileSiteMap, strXmlSitemap );
+            writeAtomically( fileSiteMap, strXmlSitemap );
         }
         catch( IOException e )
         {
@@ -114,7 +123,7 @@ public final class SitemapService
             strResult = "Error : " + e.getMessage( );
         }
 
-        warnObsoleteSitemap( strSitemapFile );
+        warnObsoleteSitemap( );
 
         String strDate = DateFormat.getDateTimeInstance( ).format( new Date( ) );
         Object [ ] args = {
@@ -151,26 +160,98 @@ public final class SitemapService
     }
 
     /**
-     * Logs a message when a sitemap left by a former default of this plugin is still present at the webapp root while the sitemap is now written
-     * elsewhere. Nothing updates that file any more, and robots.txt usually still references it, so search engines keep reading a frozen sitemap. The
-     * message disappears once the obsolete file has been removed. Nothing is logged when the sitemap plugin is enabled, since that plugin legitimately
-     * maintains the very same file.
+     * Gets the file the sitemap is written to. It lives outside the webapp : the webapp is a build artefact, replaced at
+     * every deployment, and a generated file kept there is lost - or, on a site shipping its own sitemap, overwritten.
+     * The directory defaults to a subdirectory of the system temporary directory, always writable and harmless since the
+     * daemon rebuilds the sitemap anyway ; point seo.generatedFilesPath at a persistent volume to keep it across
+     * restarts.
      * 
-     * @param strSitemapFile
-     *            The sitemap file currently written, relative to the webapp root
+     * @return The sitemap file, whose parent directory may not exist yet
      */
-    private static void warnObsoleteSitemap( String strSitemapFile )
+    public static File getSitemapFile( )
     {
-        if ( LEGACY_SITEMAP_FILE_PATH.equals( strSitemapFile ) || PluginService.isPluginEnable( PLUGIN_SITEMAP ) )
-        {
-            return;
-        }
+        String strPath = AppPropertiesService.getProperty( PROPERTY_GENERATED_FILES_PATH, "" ).trim( );
 
-        if ( new File( AppPathService.getWebAppPath( ) + LEGACY_SITEMAP_FILE_PATH ).exists( ) )
+        File dir = strPath.isEmpty( ) ? new File( System.getProperty( SYSTEM_TMP_DIR ), DEFAULT_GENERATED_FILES_DIR ) : new File( strPath );
+
+        return new File( dir, SITEMAP_FILE_NAME );
+    }
+
+    /**
+     * Writes the sitemap through a temporary file renamed onto the target, so that a search engine reading it never gets
+     * a truncated document. Plain writing truncates the file before filling it again, and the daemon runs on every node,
+     * which means several writers as soon as the directory sits on a shared volume.
+     * 
+     * @param file
+     *            The target file
+     * @param strContent
+     *            The content to write
+     * @throws IOException
+     *             If the file cannot be written
+     */
+    private static void writeAtomically( File file, String strContent ) throws IOException
+    {
+        Path pathDir = file.toPath( ).getParent( );
+        Files.createDirectories( pathDir );
+
+        Path pathTemp = Files.createTempFile( pathDir, file.getName( ), ".tmp" );
+        Files.write( pathTemp, strContent.getBytes( StandardCharsets.UTF_8 ) );
+        relaxTemporaryFilePermissions( pathTemp );
+
+        try
         {
-            AppLogService.error(
-                    "SEO : {} is no longer written, the sitemap is now generated in {}. Search engines keep reading the former file as long as robots.txt references it : update the Sitemap directive to the new file, then remove the obsolete one.",
-                    LEGACY_SITEMAP_FILE_PATH, strSitemapFile );
+            Files.move( pathTemp, file.toPath( ), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE );
+        }
+        catch( AtomicMoveNotSupportedException e )
+        {
+            AppLogService.debug( "SEO : atomic move unsupported on {}, falling back on a plain move", pathDir, e );
+            Files.move( pathTemp, file.toPath( ), StandardCopyOption.REPLACE_EXISTING );
+        }
+    }
+
+    /**
+     * Gives the temporary file the permissions a plain write would have produced. Files.createTempFile creates it
+     * readable by its owner only, and the rename keeps that : on a shared volume, a node running under another user would
+     * no longer be able to read the sitemap.
+     * 
+     * @param path
+     *            The temporary file
+     */
+    private static void relaxTemporaryFilePermissions( Path path )
+    {
+        try
+        {
+            Files.setPosixFilePermissions( path, PosixFilePermissions.fromString( "rw-r--r--" ) );
+        }
+        catch( IOException | UnsupportedOperationException e )
+        {
+            AppLogService.debug( "SEO : unable to set the permissions of {}, keeping the ones it was created with", path, e );
+        }
+    }
+
+    /**
+     * Logs a message for every sitemap left at the webapp root by a former version of this plugin. Nothing writes there
+     * any more, so those files are frozen, and the web server keeps serving them to the search engines that discovered
+     * them. The message disappears once they have been removed. Nothing is said about sitemap.xml while the sitemap
+     * plugin is enabled, since that plugin legitimately maintains it there.
+     */
+    private static void warnObsoleteSitemap( )
+    {
+        boolean bSitemapPluginEnabled = PluginService.isPluginEnable( PLUGIN_SITEMAP );
+
+        for ( String strObsolete : OBSOLETE_WEBAPP_SITEMAPS )
+        {
+            if ( bSitemapPluginEnabled && LEGACY_SITEMAP_FILE_PATH.equals( strObsolete ) )
+            {
+                continue;
+            }
+
+            if ( new File( AppPathService.getWebAppPath( ) + strObsolete ).exists( ) )
+            {
+                AppLogService.error(
+                        "SEO : {} is left over at the webapp root and no longer written. The sitemap is now generated outside the webapp and served by the plugin itself : remove that file, and point the Sitemap directive of robots.txt at /sitemap-seo.xml.",
+                        strObsolete );
+            }
         }
     }
 
