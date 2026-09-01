@@ -4,97 +4,210 @@
         <title>Plugin SEO</title>
     </properties>
     <head>
-        <meta name="keywords" content="seo, search, friendly url, canonical url, robot.txt " />
+        <meta name="keywords" content="seo, search, friendly url, canonical url, sitemap, url rewriting" />
     </head>
     <body>
         <section name="Plugin SEO">
             <subsection name="Introduction">
                 <p>
-                    This plugin enables centralized management of all modules to do SEO 
-                    (Search Engine Optimizations) sitemap, friendly URLs, canonical URLs, robots.txt, ...
+                    This plugin gathers the features a site needs to be indexed properly by search
+                    engines : friendly URLs, canonical URLs, a sitemap, and URL rewriting rules. All of
+                    them are managed from a single back office feature, <i>SEO management</i>, and stored
+                    in two tables : <code>seo_friendly_url</code> and <code>seo_rule</code>.
                 </p>
             </subsection>
-            
-            
+
             <subsection name="Friendly URLs">
-                <p>The friendly URLs module lets you create nicer URL for any resource of your site.</p>
+                <p>The friendly URLs module lets you expose a readable URL for any resource of your site.</p>
                 <p>For example the technical URL :</p>
                 <p>
-                    <code>http://mysite/jsp/site/Portal.jsp?page_id=122 </code>
+                    <code>http://mysite/jsp/site/Portal.jsp?page_id=122</code>
                 </p>
-                <p>can be accessible with a much more friendly URL</p>
+                <p>becomes accessible under a much friendlier one :</p>
                 <p>
-                    <code>http://mysite/pages/my_topic.html </code>
+                    <code>http://mysite/pages/my_topic.html</code>
+                </p>
+                <p>
+                    They are not written by hand. Generators walk the content of the site and derive one
+                    URL per resource from its name : <i>Budget 2024</i>, page 122, yields
+                    <code>/budget-2024</code>. Three options shape the result — inherit the path of the
+                    parent pages, append a <code>.html</code> suffix, and overwrite the URLs already
+                    generated. Any plugin may contribute its own generator by implementing
+                    <code>FriendlyUrlGenerator</code>.
+                </p>
+                <p>
+                    Pages keep linking to their technical URL unless the content post processor is
+                    enabled : it rewrites the links of every page served, so that visitors and search
+                    engines only ever see the friendly ones.
                 </p>
             </subsection>
-            
-            
+
+            <subsection name="Canonical URLs">
+                <p>
+                    When the same resource is reachable under several URLs, search engines have to be told
+                    which one to index, otherwise they split its ranking or pick one themselves. This
+                    module adds a <code>&lt;link rel="canonical"&gt;</code> element to the pages served,
+                    pointing at the friendly URL flagged as canonical.
+                </p>
+                <p>
+                    It is switched on and off from the back office, and each friendly URL carries its own
+                    canonical flag.
+                </p>
+            </subsection>
+
             <subsection name="Sitemap">
                 <p>
-                    The Sitemap module lets you create and generate a Sitemap file
-                    that contains all the page of your site to do a better search indexing.
+                    A sitemap is the list of the URLs of a site, in the XML format defined by
+                    <a href="https://www.sitemaps.org">sitemaps.org</a>, meant for search engine crawlers
+                    only — it is never shown to visitors, unlike the site map page of the site. It holds
+                    every friendly URL flagged for the sitemap, with the last modification date of the
+                    underlying resource.
                 </p>
-            </subsection>
-            
-            
-            <subsection name="Robots.txt">
                 <p>
-                    The robot.txt module lets you manage the file that will indicate to bots how to
-                    navigate in your site 
+                    The file is generated <b>outside the webapp</b>, and served by the plugin itself on
+                    <code>/sitemap-seo.xml</code> — the path to declare in the <code>Sitemap</code>
+                    directive of the <code>robots.txt</code> of the site. See <i>Generated files</i> below.
+                </p>
+                <p>
+                    The locations it publishes have to be absolute URLs, which the protocol requires and
+                    search engines enforce : they are built from <code>lutece.prod.url</code>, a property
+                    of lutece-core the site declares per environment. <b>Left undefined, the sitemap is
+                    generated with relative locations, which search engines reject</b>, and every
+                    generation logs an error saying so.
                 </p>
             </subsection>
-
 
             <subsection name="URL rewriting">
-                <p>The URL rewriting module lets you create rules to redirect automatically URL to another.</p>
-                <p>For example the URL :</p>
                 <p>
-                    <code>http://mysite/app/wiki </code>
+                    The URL rewriting module lets you create rules mapping a public URL onto the technical
+                    URL that serves it. For example :
                 </p>
-                <p>can be redirected to </p>
                 <p>
-                    <code>http://mysite/jsp/site/Portal.jsp?page=wiki </code>
+                    <code>http://mysite/app/wiki</code>
+                </p>
+                <p>is served by</p>
+                <p>
+                    <code>http://mysite/jsp/site/Portal.jsp?page=wiki</code>
+                </p>
+                <p>
+                    The rewriting happens inside the application, as a forward : the browser keeps the
+                    public URL in its address bar, and no redirection is sent. Two kinds of rules coexist —
+                    the generic rules of <code>seo_rule</code>, which use regular expressions and capture
+                    groups to cover a whole family of URLs at once, and one rule per row of
+                    <code>seo_friendly_url</code>, anchored at both ends.
+                </p>
+                <p>
+                    The filter reads the rules from those two tables and reloads them when they change, so
+                    a publication from the back office reaches every node of a cluster. No configuration
+                    file is involved.
                 </p>
             </subsection>
             <subsection name="URL rewriting diagnostic page">
                 <p>
-                    UrlRewriteFilter ships a diagnostic page displaying the rewrite rules actually
-                    loaded in memory, their parsing errors and the current request info. It tells
-                    whether a rule generated by the plugin has really been read by the filter, which
-                    neither the database nor the generated file can tell.
+                    UrlRewriteFilter ships a diagnostic page displaying the rewrite rules actually loaded
+                    in memory, their parsing errors and the current request info. It tells whether a rule
+                    published by the plugin has really been read by the filter, which the database alone
+                    cannot tell.
                 </p>
                 <p>
-                    It is <b>disabled by default</b>. To enable it on a development environment, set the
-                    <code>statusEnabled</code> parameter of the <code>seo_urlrewriter</code> filter to
-                    <code>true</code> in <code>WEB-INF/plugins/seo.xml</code> ; the page is then served
-                    on <code>&lt;context-path&gt;/status</code> (value of <code>statusPath</code>).
+                    It is <b>disabled by default</b>. To enable it on a development environment, set
+                    <code>seo.urlrewriter.statusEnabled=true</code> in
+                    <code>WEB-INF/conf/plugins/seo.properties</code> ; the page is then served on
+                    <code>&lt;context-path&gt;/status</code> (value of
+                    <code>seo.urlrewriter.statusPath</code>).
                 </p>
                 <p>
-                    Do not leave it enabled in production : access is filtered on the <code>Host</code>
-                    header (<code>statusEnabledOnHosts</code>), not on the client address.
+                    Every init parameter of the <code>seo_urlrewriter</code> filter declared in
+                    <code>WEB-INF/plugins/seo.xml</code> can be overridden that way, under the
+                    <code>seo.urlrewriter.</code> prefix. Resolution goes through the configuration API of
+                    the core, so a value may equally come from a system property or an environment
+                    variable such as <code>SEO_URLREWRITER_STATUSENABLED</code>.
+                </p>
+                <p>
+                    Do not leave the page enabled in production : access is filtered on the
+                    <code>Host</code> header (<code>seo.urlrewriter.statusEnabledOnHosts</code>), not on
+                    the client address.
                 </p>
             </subsection>
 
-            <subsection name="Sitemap — output file">
+            <subsection name="Generated files">
                 <p>
-                    The sitemap is written to <code>&lt;webapp&gt;/sitemap-seo.xml</code>, a path configurable
-                    through the <code>seo.sitemapFilePath</code> property of
-                    <code>WEB-INF/conf/plugins/seo.properties</code>.
+                    The sitemap is written to <code>sitemap-seo.xml</code> in the directory given by the
+                    <code>seo.generatedFilesPath</code> property of
+                    <code>WEB-INF/conf/plugins/seo.properties</code>. That directory lies outside the
+                    webapp : a webapp is a build artefact, replaced at every deployment, so a generated
+                    file kept inside it is lost — and on a site shipping its own
+                    <code>sitemap.xml</code>, overwritten.
                 </p>
                 <p>
-                    It used to be <code>&lt;webapp&gt;/sitemap.xml</code>, a path this plugin does not own. The
-                    <code>sitemap</code> plugin writes there as well, in hard code and with a different content
-                    — the site pages and documents, where this module publishes the friendly URLs flagged for
-                    the sitemap — so both daemons overwrote each other and the last one executed won. A site
-                    build shipping its own <code>sitemap.xml</code> overwrote both at every deployment.
+                    Left undefined, a subdirectory of the system temporary directory is used. That default
+                    is always writable, and harmless, since the daemon rebuilds the sitemap every hour and
+                    the servlet generates it on demand when the file is missing. Point the property at a
+                    persistent volume to keep the file across restarts.
                 </p>
                 <p>
-                    On an existing site nothing breaks, but the <code>Sitemap</code> directive of
-                    <code>robots.txt</code> keeps pointing at the former file, which nothing updates any more :
-                    point it at the new one, then remove the obsolete <code>sitemap.xml</code>. As long as that
-                    file is present, every generation logs a reminder. <code>robots.txt</code> accepts several
-                    <code>Sitemap</code> directives, so the <code>sitemap</code> plugin can keep announcing its
-                    own. Setting the property back to <code>/sitemap.xml</code> restores the former behaviour.
+                    Since no servlet container serves a file living outside the webapp,
+                    <code>SitemapServlet</code> publishes it, and a rewrite rule of this plugin exposes it
+                    on <code>/sitemap-seo.xml</code>.
+                </p>
+                <p>
+                    <b>Migration.</b> Former versions wrote the sitemap inside the webapp, as
+                    <code>sitemap.xml</code> then <code>sitemap-seo.xml</code>. Remove any such file left
+                    at the webapp root and point the <code>Sitemap</code> directive of
+                    <code>robots.txt</code> at <code>/sitemap-seo.xml</code> : as long as one is present,
+                    the web server keeps serving that frozen file to the search engines that discovered
+                    it, and every generation logs a reminder. Note that <code>robots.txt</code> belongs to
+                    the repository of each site, not to this plugin, and that it accepts several
+                    <code>Sitemap</code> directives.
+                </p>
+                <p>
+                    The rewrite rules are no longer written to a file. The
+                    <code>seo.configFilePath</code> property and the <code>confPath</code> parameter of
+                    the filter have been removed.
+                </p>
+            </subsection>
+
+            <subsection name="Configuration">
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Default</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td><code>seo.generatedFilesPath</code></td>
+                        <td>a subdirectory of the system temporary directory</td>
+                        <td>Directory of the generated files, outside the webapp</td>
+                    </tr>
+                    <tr>
+                        <td><code>daemon.seoFriendlyUrlGenerator.interval</code></td>
+                        <td><code>3600</code></td>
+                        <td>Seconds between two runs of the friendly URL generator</td>
+                    </tr>
+                    <tr>
+                        <td><code>daemon.seoSitemapGenerator.interval</code></td>
+                        <td><code>3600</code></td>
+                        <td>Seconds between two generations of the sitemap</td>
+                    </tr>
+                    <tr>
+                        <td><code>seo.urlrewriter.*</code></td>
+                        <td>the value declared in <code>seo.xml</code></td>
+                        <td>Overrides an init parameter of the rewrite filter</td>
+                    </tr>
+                </table>
+                <p>
+                    <code>lutece.prod.url</code> is read as well, but belongs to lutece-core : the site
+                    declares it per environment, in <code>conf/override/config.properties</code>. This
+                    plugin only reads it.
+                </p>
+            </subsection>
+
+            <subsection name="Daemons">
+                <p>
+                    <code>seoFriendlyUrlGenerator</code> regenerates the friendly URLs from the content of
+                    the site, then publishes the rewrite rules. <code>seoSitemapGenerator</code>
+                    regenerates the sitemap. Both run once at startup and then every hour, and each one
+                    can be switched off from the back office, independently of the interval.
                 </p>
             </subsection>
 
