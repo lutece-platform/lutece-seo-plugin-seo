@@ -22,7 +22,12 @@
         <filter>
             <filter-name>seo_urlrewriter</filter-name>
             <url-pattern>/*</url-pattern>
-            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+            <filter-class>fr.paris.lutece.plugins.seo.web.SeoUrlRewriteFilter</filter-class>
+            <!-- Every init parameter below is a default value : the property
+            seo.urlrewriter.<param-name>, resolved through the configuration API of the core
+            (MicroProfile Config), takes precedence when it is defined and not blank. It can come
+            from WEB-INF/conf/plugins/seo.properties, a system property or an environment variable
+            (SEO_URLREWRITER_<PARAM_NAME>). -->
             <!-- set the amount of seconds the conf file will be checked for reload
             can be a valid integer (0 denotes check every time,
             -1 denotes no reload check, default -1) -->
@@ -54,18 +59,16 @@
                 <param-name>statusPath</param-name>
                 <param-value>/status</param-value>
             </init-param>
-        <!-- you can disable status page if desired
-        can be: true, false (default true) -->
+        <!-- UrlRewriteFilter diagnostic page, served on <context-path> + statusPath.
+        It exposes the rewrite rules actually loaded in memory, their parsing errors
+        and the current request info : useful to tell whether a generated rule was
+        really read by the filter. Disabled by default, set to true on a development
+        environment when a friendly URL does not behave as expected.
+        Beware : access is filtered on the Host header (statusEnabledOnHosts), not on
+        the client address. -->
             <init-param>
                 <param-name>statusEnabled</param-name>
-                <param-value>true</param-value>
-            </init-param>
-        <!-- you may want to allow more hosts to look at the status page
-        statusEnabledOnHosts is a comma delimited list of hosts, * can
-        be used as a wildcard (defaults to "localhost, local, 127.0.0.1") -->
-            <init-param>
-                <param-name>statusEnabledOnHosts</param-name>
-                <param-value>localhost</param-value>
+                <param-value>false</param-value>
             </init-param>
         <!-- you may want to allow more hosts to look at the status page
         statusEnabledOnHosts is a comma delimited list of hosts, * can
