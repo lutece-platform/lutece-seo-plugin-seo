@@ -124,5 +124,14 @@
             <daemon-class>fr.paris.lutece.plugins.seo.service.sitemap.SitemapDaemon</daemon-class>
         </daemon>
     </daemons>
-
+    <servlets>
+        <!-- The sitemap is generated outside the webapp, so no container serves it.
+        This servlet publishes it, and a rewrite rule of this plugin exposes it on
+        /sitemap-seo.xml, the path to declare in robots.txt. -->
+        <servlet>
+            <servlet-name>seoSitemap</servlet-name>
+            <url-pattern>/servlet/plugins/seo/sitemap-seo.xml</url-pattern>
+            <servlet-class>fr.paris.lutece.plugins.seo.web.SitemapServlet</servlet-class>
+        </servlet>
+    </servlets>
 </plug-in>
