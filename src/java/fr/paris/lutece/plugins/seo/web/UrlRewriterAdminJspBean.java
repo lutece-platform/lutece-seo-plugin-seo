@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
@@ -48,7 +47,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.io.IOException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -296,19 +294,9 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
      */
     public String doGenerate( HttpServletRequest request )
     {
-        String strMessage = MESSAGE_GENERATION_SUCCESSFUL;
-        int nMessageType = AdminMessage.TYPE_CONFIRMATION;
-
-        try
-        {
-            RuleFileService.generateFile( );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( "Error generating rule file : " + e.getMessage( ), e );
-            strMessage = MESSAGE_GENERATION_FAILED;
-            nMessageType = AdminMessage.TYPE_STOP;
-        }
+        boolean bPublished = RuleFileService.publishRules( );
+        String strMessage = bPublished ? MESSAGE_GENERATION_SUCCESSFUL : MESSAGE_GENERATION_FAILED;
+        int nMessageType = bPublished ? AdminMessage.TYPE_CONFIRMATION : AdminMessage.TYPE_STOP;
 
         return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
     }
