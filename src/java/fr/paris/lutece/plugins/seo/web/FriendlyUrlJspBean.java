@@ -55,7 +55,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.io.IOException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -356,20 +355,9 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      */
     public String doGenerate( HttpServletRequest request )
     {
-        String strMessage;
-        int nMessageType;
-
-        try
+        if ( !RuleFileService.publishRules( ) )
         {
-            RuleFileService.generateFile( );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( "Error generating url file : " + e.getMessage( ), e );
-            strMessage = MESSAGE_GENERATION_FAILED;
-            nMessageType = AdminMessage.TYPE_STOP;
-
-            return AdminMessageService.getMessageUrl( request, strMessage, getHomeUrl( request ), nMessageType );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_GENERATION_FAILED, getHomeUrl( request ), AdminMessage.TYPE_STOP );
         }
 
         return getHomeUrl( request );
