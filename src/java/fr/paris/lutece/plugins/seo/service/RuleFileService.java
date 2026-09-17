@@ -39,9 +39,7 @@ import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.tuckey.web.filters.urlrewrite.Conf;
 
@@ -55,7 +53,6 @@ import java.text.MessageFormat;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,15 +65,40 @@ import java.util.Locale;
  * one local to each node. The filter now builds its configuration from {@link #getRulesXml()}, and
  * {@link #publishRules()} only stamps a new version in the datastore.
  * </p>
+ *
+ * <p>
+ * The document is assembled in plain Java, not through a FreeMarker template. The filter renders it during its
+ * <code>init</code>, which the core runs before it registers the FreeMarker auto-includes : a template processed at that
+ * point builds the FreeMarker configuration without the macros, and that configuration is cached for the whole life of
+ * the webapp. Every template rendered afterwards then fails on its first macro.
+ * </p>
  */
 public final class RuleFileService
 {
-    private static final String TEMPLATE_FILE = "/admin/plugins/seo/urlrewrite.xml";
-    private static final String MARK_RULES_LIST = "rules_list";
-    private static final String MARK_URL_LIST = "url_list";
     private static final String PROPERTY_REWRITE_CONFIG_LOG = "seo.config.log";
-    private static final String TAG_XML_DECLARATION = "<?xml";
     private static final String CONF_NAME = "seo rules (database)";
+
+    /** Path of the sitemap as declared in robots.txt, rewritten to the servlet of the plugin */
+    private static final String SITEMAP_RULE_FROM = "^/sitemap-seo\\.xml$";
+    private static final String SITEMAP_RULE_TO = "/servlet/plugins/seo/sitemap-seo.xml";
+
+    private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+            + "<!DOCTYPE urlrewrite PUBLIC \"-//tuckey.org//DTD UrlRewrite 4.0//EN\" \"http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd\">\n"
+            + "<!--\n\n" + "    Configuration of the UrlRewriteFilter\n" + "    http://tuckey.org/urlrewrite/\n\n"
+            + "    GENERATED DOCUMENT - not meant to be edited.\n"
+            + "    Produced by fr.paris.lutece.plugins.seo.service.RuleFileService from the\n"
+            + "    URL rewriter rules (seo_rule) and the friendly URLs (seo_friendly_url).\n\n" + "-->\n";
+    private static final String TAG_URLREWRITE_OPEN = "<urlrewrite>\n";
+    private static final String TAG_URLREWRITE_CLOSE = "</urlrewrite>\n";
+    private static final String TAG_RULE_OPEN = "    <rule>\n";
+    private static final String TAG_RULE_CLOSE = "    </rule>\n";
+    private static final String TAG_FROM_OPEN = "        <from>";
+    private static final String TAG_FROM_CLOSE = "</from>\n";
+    private static final String TAG_TO_OPEN = "        <to>";
+    private static final String TAG_TO_CLOSE = "</to>\n";
+    private static final String COMMENT_SITEMAP = "    <!-- Sitemap generated outside the webapp : served by SitemapServlet -->\n";
+    private static final String REGEX_START = "^";
+    private static final String REGEX_END = "$";
 
     /**
      * Private constructor
@@ -153,25 +175,100 @@ public final class RuleFileService
      * Renders the rewrite rules held in the database as the XML configuration expected by the rewrite filter. Free of any
      * side effect : the filter calls it on every reload.
      *
+     * <p>
+     * Every URL rewriter rule is written as it was entered, anchored at the start of the path. Every friendly URL is
+     * written as an exact match of the whole path. The rule exposing the sitemap comes first.
+     * </p>
+     *
      * @return The rules, as an urlrewrite configuration document
      */
     public static String getRulesXml( )
     {
-        HashMap model = new HashMap( );
-        model.put( MARK_RULES_LIST, UrlRewriterRuleHome.findAll( ) );
-        model.put( MARK_URL_LIST, FriendlyUrlHome.findAll( ) );
+        Collection<UrlRewriterRule> listRules = UrlRewriterRuleHome.findAll( );
+        List<FriendlyUrl> listUrl = FriendlyUrlHome.findAll( );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_FILE, Locale.getDefault( ), model );
+        StringBuilder sbRules = new StringBuilder( XML_HEADER.length( ) + 128 * ( 1 + listRules.size( ) + listUrl.size( ) ) );
+        sbRules.append( XML_HEADER ).append( TAG_URLREWRITE_OPEN );
 
-        String strRules = t.getHtml( );
+        sbRules.append( COMMENT_SITEMAP );
+        appendRule( sbRules, SITEMAP_RULE_FROM, SITEMAP_RULE_TO );
 
-        // the template may be preceded by whitespace, which is not allowed before an XML declaration
-        int nStartXml = strRules.indexOf( TAG_XML_DECLARATION );
-        if ( nStartXml > 0 )
+        for ( UrlRewriterRule rule : listRules )
         {
-            strRules = strRules.substring( nStartXml );
+            appendRule( sbRules, REGEX_START + rule.getRuleFrom( ), rule.getRuleTo( ) );
         }
 
-        return strRules;
+        for ( FriendlyUrl url : listUrl )
+        {
+            appendRule( sbRules, REGEX_START + url.getFriendlyUrl( ) + REGEX_END, url.getTechnicalUrl( ) );
+        }
+
+        sbRules.append( TAG_URLREWRITE_CLOSE );
+
+        return sbRules.toString( );
+    }
+
+    /**
+     * Appends a rule element.
+     *
+     * @param sbRules
+     *            The document under construction
+     * @param strFrom
+     *            The regular expression matched against the request path
+     * @param strTo
+     *            The path the request is rewritten to
+     */
+    private static void appendRule( StringBuilder sbRules, String strFrom, String strTo )
+    {
+        sbRules.append( TAG_RULE_OPEN );
+        sbRules.append( TAG_FROM_OPEN ).append( escapeXml( strFrom ) ).append( TAG_FROM_CLOSE );
+        sbRules.append( TAG_TO_OPEN ).append( escapeXml( strTo ) ).append( TAG_TO_CLOSE );
+        sbRules.append( TAG_RULE_CLOSE );
+    }
+
+    /**
+     * Escapes the characters XML reserves, so that a rule is read back exactly as it was entered : a regular expression
+     * or a target URL may well hold an ampersand, and the filter unescapes the text content when it parses the document.
+     *
+     * @param strValue
+     *            The value, possibly <code>null</code>
+     * @return The escaped value, empty when the value is <code>null</code>
+     */
+    private static String escapeXml( String strValue )
+    {
+        if ( strValue == null )
+        {
+            return "";
+        }
+
+        StringBuilder sbEscaped = new StringBuilder( strValue.length( ) + 16 );
+
+        for ( int i = 0; i < strValue.length( ); i++ )
+        {
+            char c = strValue.charAt( i );
+
+            switch( c )
+            {
+                case '&':
+                    sbEscaped.append( "&amp;" );
+                    break;
+                case '<':
+                    sbEscaped.append( "&lt;" );
+                    break;
+                case '>':
+                    sbEscaped.append( "&gt;" );
+                    break;
+                case '"':
+                    sbEscaped.append( "&quot;" );
+                    break;
+                case '\'':
+                    sbEscaped.append( "&apos;" );
+                    break;
+                default:
+                    sbEscaped.append( c );
+            }
+        }
+
+        return sbEscaped.toString( );
     }
 }
