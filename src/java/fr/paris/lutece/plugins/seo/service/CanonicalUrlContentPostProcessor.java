@@ -83,6 +83,11 @@ public class CanonicalUrlContentPostProcessor extends AbstractCacheableService<S
     @Override
     public String process( HttpServletRequest request, String strContent )
     {
+        // No content when the page answered by a redirect (MVC redirect of an XPage)
+        if ( strContent == null )
+        {
+            return null;
+        }
         if ( _canonicalUrlService.isCanonicalUrlsEnabled( ) )
         {
             String strBaseUrl = AppPathService.getBaseUrl( request );
