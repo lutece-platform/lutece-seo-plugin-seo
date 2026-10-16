@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.cache.CacheException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -151,32 +150,26 @@ public class FriendlyUrlService extends AbstractCacheableService<String, Object>
     @Override
     public void put( String key, Object value )
     {
-        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        try
         {
-            try
-            {
-                super.put( key, value );
-            }
-            catch( CacheException | IllegalStateException e )
-            {
-                AppLogService.error( "Cache put error for key {}", key, e );
-            }
+            super.put( key, value );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "Cache put error for key {}", key, e );
         }
     }
 
     @Override
     public Object get( String key )
     {
-        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        try
         {
-            try
-            {
-                return super.get( key );
-            }
-            catch( CacheException | IllegalStateException e )
-            {
-                AppLogService.error( "Cache get error for key {}", key, e );
-            }
+            return super.get( key );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "Cache get error for key {}", key, e );
         }
         return null;
     }
@@ -184,22 +177,15 @@ public class FriendlyUrlService extends AbstractCacheableService<String, Object>
     @Override
     public boolean remove( String key )
     {
-        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        try
         {
-            try
-            {
-                return super.remove( key );
-            }
-            catch( CacheException | IllegalStateException e )
-            {
-                AppLogService.error( "Cache remove error for key {}", key, e );
-            }
+            return super.remove( key );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "Cache remove error for key {}", key, e );
         }
         return false;
     }
 
-    private boolean isCacheAvailable( )
-    {
-        return _cache != null && !_cache.isClosed( );
-    }
 }
