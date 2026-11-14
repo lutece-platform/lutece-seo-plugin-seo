@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.seo.web;
 
+import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
+import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -166,8 +168,17 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         System.out.println( "doDeleteUrl" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_DELETE_URL ) );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doDeleteUrl( request );
+        try
+        {
+            instance.doDeleteUrl( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -189,6 +200,25 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         {
             fail( "a valid token must be accepted" );
         }
+    }
+
+    /**
+     * Deleting one url requires the token given with the confirmation.
+     */
+    @Test
+    public void testDoDeleteUrlWithoutToken( )
+    {
+        FriendlyUrl friendlyUrl = new FriendlyUrl( );
+        friendlyUrl.setFriendlyUrl( "/kept" );
+        friendlyUrl.setTechnicalUrl( "/jsp/site/Portal.jsp?page_id=2" );
+        FriendlyUrlHome.create( friendlyUrl );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, String.valueOf( friendlyUrl.getId( ) ) );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doDeleteUrl( request ) );
+        assertNotNull( FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId( ) ) );
+        FriendlyUrlHome.remove( friendlyUrl.getId( ) );
     }
 
     /**

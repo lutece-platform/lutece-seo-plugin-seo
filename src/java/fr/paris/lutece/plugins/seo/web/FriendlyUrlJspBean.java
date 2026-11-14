@@ -81,6 +81,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
 
     public static final String PARAMETER_URL_ID = "id_url";
+    public static final String ACTION_DELETE_URL = "seo/DoRemoveFriendlyUrl";
     public static final String ACTION_DELETE_ALL_URLS = "seo/DoRemoveAllFriendlyUrls";
     public static final String PARAMETER_TOGGLE = "toggle";
     public static final String PARAMETER_FROM = "rule_from";
@@ -330,6 +331,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         UrlItem url = new UrlItem( JSP_DO_DELETE_URL );
 
         url.addParameter( PARAMETER_URL_ID, strUrlId );
+        url.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_DELETE_URL ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_URL, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
@@ -340,9 +342,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return The forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doDeleteUrl( HttpServletRequest request )
+    public String doDeleteUrl( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_DELETE_URL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strUrlId = request.getParameter( PARAMETER_URL_ID );
         int nUrlId = Integer.parseInt( strUrlId );
 
