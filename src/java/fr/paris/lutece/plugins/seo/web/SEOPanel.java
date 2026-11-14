@@ -64,6 +64,18 @@ public interface SEOPanel
     String getPanelContent( );
 
     /**
+     * Returns the panel's content for a request, so that its forms carry the security tokens of the session
+     *
+     * @param request
+     *            The HTTP request
+     * @return The content
+     */
+    default String getPanelContent( HttpServletRequest request )
+    {
+        return getPanelContent( );
+    }
+
+    /**
      * Returns the panel's order
      * 
      * @return The order

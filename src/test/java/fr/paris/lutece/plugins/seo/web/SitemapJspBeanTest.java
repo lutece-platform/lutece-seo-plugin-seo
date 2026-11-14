@@ -34,16 +34,52 @@
 
 package fr.paris.lutece.plugins.seo.web;
 
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.enterprise.inject.spi.CDI;
 import org.junit.jupiter.api.Test;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * SitemapJspBeanTest
  */
 public class SitemapJspBeanTest extends LuteceTestCase
 {
+
+    /**
+     * Generating the sitemap requires the token of the dashboard form.
+     */
+    @Test
+    public void testDoGenerateSitemapWithoutToken( )
+    {
+        DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, "unchanged" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doGenerateSitemap( request ) );
+        assertEquals( "unchanged", DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, "" ) );
+    }
+
+    /**
+     * Toggling the sitemap daemon requires the token of the dashboard form.
+     */
+    @Test
+    public void testDoSitemapDaemonToggleWithoutToken( )
+    {
+        DatastoreService.setDataValue( SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, DatastoreService.VALUE_FALSE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doSitemapDaemonToggle( request ) );
+        assertEquals( DatastoreService.VALUE_FALSE, DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_DEAMON_ENABLED, "" ) );
+    }
 
     /**
      * Test of doGenerateSitemap method, of class SitemapJspBean.
@@ -54,7 +90,15 @@ public class SitemapJspBeanTest extends LuteceTestCase
         System.out.println( "doGenerateSitemap" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
-        instance.doGenerateSitemap( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, SitemapJspBean.ACTION_GENERATE_SITEMAP ) );
+        try
+        {
+            instance.doGenerateSitemap( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -66,7 +110,15 @@ public class SitemapJspBeanTest extends LuteceTestCase
         System.out.println( "doSitemapDaemonToggle" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SitemapJspBean instance = CDI.current( ).select( SitemapJspBean.class ).get( );
-        instance.doSitemapDaemonToggle( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, SitemapJspBean.ACTION_SITEMAP_DAEMON_TOGGLE ) );
+        try
+        {
+            instance.doSitemapDaemonToggle( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**

@@ -92,7 +92,7 @@ public class SEOJspBean extends PluginAdminPageJspBean
             Map<String, Object> mapPanel = new HashMap<>( );
             mapPanel.put( MARK_PANEL_INDEX, panel.getPanelIndex( ) );
             mapPanel.put( MARK_PANEL_TITLE, panel.getPanelTitle( ) );
-            mapPanel.put( MARK_PANEL_CONTENT, HtmlMarkup.of( panel.getPanelContent( ) ) );
+            mapPanel.put( MARK_PANEL_CONTENT, HtmlMarkup.of( panel.getPanelContent( request ) ) );
             listPanels.add( mapPanel );
         }
 

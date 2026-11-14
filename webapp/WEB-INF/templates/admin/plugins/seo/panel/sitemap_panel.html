@@ -12,10 +12,12 @@
 <@box>
 	<#assign titleTag><#if daemon_enabled><@tag color='success' tagIcon='check-circle'>#i18n{seo.panel.sitemap.labelStatus} #i18n{portal.util.labelEnabled}</@tag><#else><@tag color='danger' tagIcon='times-circle'>#i18n{seo.panel.sitemap.labelStatus} #i18n{portal.util.labelDisabled}</@tag></#if></#assign>
 	<@boxHeader title='#i18n{seo.panel.sitemap.titleGenerate} ${titleTag}' boxTools=true>
-		<@tform id='doGenerateSitemap' action='jsp/admin/plugins/seo/DoGenerateSitemap.jsp' method='get' type='inline'>
+		<@tform id='doGenerateSitemap' action='jsp/admin/plugins/seo/DoGenerateSitemap.jsp' method='post' type='inline'>
+			<@input type='hidden' name='token' id='token_generate_sitemap' value='${token_generate_sitemap!}' />
 			<@button type='submit' color='primary' buttonIcon='sync' title='#i18n{seo.panel.sitemap.buttonUpdateFile}' hideTitle=['xs','sm','md'] formId='doGenerateSitemap' size='' />
 		</@tform>
 		<@tform id='doSitemapDaemonToggle' method='post' action='jsp/admin/plugins/seo/DoSitemapDaemonToggle.jsp' type='inline'>
+			<@input type='hidden' name='token' id='token_sitemap_daemon_toggle' value='${token!}' />
 		<#if daemon_enabled>
 			<@button type='submit' color='danger' buttonIcon='stop' title='#i18n{seo.panel.sitemap.buttonDisableGenerate}' hideTitle=['xs','sm','md'] formId='doSitemapDaemonToggle' size='' />
 		<#else>

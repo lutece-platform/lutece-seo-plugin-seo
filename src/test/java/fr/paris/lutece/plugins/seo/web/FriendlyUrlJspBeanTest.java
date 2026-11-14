@@ -35,8 +35,10 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.business.FriendlyUrl;
 import fr.paris.lutece.plugins.seo.business.FriendlyUrlHome;
+import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -279,6 +281,80 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     }
 
     /**
+     * Generating the rule file requires the token of the dashboard form.
+     */
+    @Test
+    public void testDoGenerateWithoutToken( )
+    {
+        DatastoreService.setDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "unchanged" );
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doGenerate( request ) );
+        assertEquals( "unchanged", DatastoreService.getDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "" ) );
+    }
+
+    /**
+     * Generating the friendly urls requires the token of the generation form.
+     */
+    @Test
+    public void testDoGenerateAliasRulesWithoutToken( )
+    {
+        DatastoreService.setDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "unchanged" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "option_add_path", "on" );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doGenerateAliasRules( request ) );
+        assertEquals( "unchanged", DatastoreService.getDataValue( SEODataKeys.KEY_GENERATOR_ADD_PATH, "" ) );
+    }
+
+    /**
+     * Toggling an option requires the token of the dashboard form.
+     */
+    @Test
+    public void testDoToggleWithoutToken( )
+    {
+        DatastoreService.setDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, DatastoreService.VALUE_FALSE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_TOGGLE, FriendlyUrlJspBean.TOGGLE_CANONICAL_URLS );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doToggle( request ) );
+        assertEquals( DatastoreService.VALUE_FALSE, DatastoreService.getDataValue( SEODataKeys.KEY_CANONICAL_URLS_ENABLED, "" ) );
+    }
+
+    /**
+     * Updating the settings of a generator requires the token of the generation page.
+     */
+    @Test
+    public void testDoUpdateGeneratorSettingsWithoutToken( )
+    {
+        String strKey = SEODataKeys.PREFIX_GENERATOR + "test" + SEODataKeys.SUFFIX_CHANGE_FREQ;
+        DatastoreService.setDataValue( strKey, "unchanged" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "generator_key", "test" );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_CHANGE_FREQ, "daily" );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_PRIORITY, "0.5" );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doUpdateGeneratorSettings( request ) );
+        assertEquals( "unchanged", DatastoreService.getDataValue( strKey, "" ) );
+    }
+
+    /**
+     * The forms of the generation page carry a security token.
+     */
+    @Test
+    public void testGenerateAliasRulesFormsCarryToken( )
+    {
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        SEOJspBeanTest.assertFormsCarryToken( instance.getGenerateAliasRules( request ) );
+    }
+
+    /**
      * Deleting one url requires the token given with the confirmation.
      */
     @Test
@@ -328,9 +404,17 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testDoGenerate( )
     {
         System.out.println( "doGenerate" );
-        HttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doGenerate( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_GENERATE_RULE_FILE ) );
+        try
+        {
+            instance.doGenerate( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -352,9 +436,17 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testDoGenerateAliasRules( )
     {
         System.out.println( "doGenerateAliasRules" );
-        HttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doGenerateAliasRules( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_GENERATE_ALIAS_RULES ) );
+        try
+        {
+            instance.doGenerateAliasRules( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -369,7 +461,15 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         for ( String strToggle : TOGGLES )
         {
             request.setParameter( FriendlyUrlJspBean.PARAMETER_TOGGLE, strToggle );
-            instance.doToggle( request );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_TOGGLE ) );
+            try
+            {
+                instance.doToggle( request );
+            }
+            catch( AccessDeniedException e )
+            {
+                fail( "a valid token must be accepted" );
+            }
         }
     }
 
@@ -380,9 +480,17 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     public void testDoUpdateGeneratorSettings( )
     {
         System.out.println( "doUpdateGeneratorSettings" );
-        HttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doUpdateGeneratorSettings( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_UPDATE_GENERATOR_SETTINGS ) );
+        try
+        {
+            instance.doUpdateGeneratorSettings( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**

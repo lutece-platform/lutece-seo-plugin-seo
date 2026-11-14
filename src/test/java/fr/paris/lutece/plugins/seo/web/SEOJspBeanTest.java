@@ -45,6 +45,11 @@ import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * SEOJspBeanTest
  */
@@ -71,6 +76,45 @@ public class SEOJspBeanTest extends LuteceTestCase
             assertTrue( strHtml.contains( "id=\"doGenerateSitemap\"" ), "the sitemap panel must be rendered as HTML" );
             assertFalse( strHtml.contains( "&lt;form" ), "the content of a panel must not be escaped" );
         }
+    }
+
+    /**
+     * The forms of the panels of the dashboard (rule file, toggles, sitemap) carry a security token.
+     */
+    @Test
+    public void testPanelFormsCarryToken( )
+    {
+        HttpServletRequest request = new MockHttpServletRequest( );
+        SEOJspBean instance = CDI.current( ).select( SEOJspBean.class ).get( );
+
+        String strHtml = instance.getManageSEO( request );
+        assertFormsCarryToken( strHtml );
+
+        // one form per panel action: the token fields keep the ids of the page unique
+        Set<String> setIds = new HashSet<>( );
+        Matcher matcher = Pattern.compile( "\\sid=\"([^\"]+)\"" ).matcher( strHtml );
+        while ( matcher.find( ) )
+        {
+            assertTrue( setIds.add( matcher.group( 1 ) ), "duplicate id " + matcher.group( 1 ) );
+        }
+    }
+
+    /**
+     * Asserts that every form of a page carries a security token.
+     *
+     * @param strHtml
+     *            the page
+     */
+    static void assertFormsCarryToken( String strHtml )
+    {
+        Matcher matcher = Pattern.compile( "(?s)<form\\b.*?</form>" ).matcher( strHtml );
+        int nForms = 0;
+        while ( matcher.find( ) )
+        {
+            nForms++;
+            assertTrue( matcher.group( ).contains( "name=\"token\"" ), "form without token: " + matcher.group( ) );
+        }
+        assertTrue( nForms > 0, "no form found" );
     }
 
 }

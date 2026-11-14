@@ -85,6 +85,10 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     public static final String ACTION_MODIFY_URL = "seo/DoModifyFriendlyUrl";
     public static final String ACTION_DELETE_URL = "seo/DoRemoveFriendlyUrl";
     public static final String ACTION_DELETE_ALL_URLS = "seo/DoRemoveAllFriendlyUrls";
+    public static final String ACTION_GENERATE_RULE_FILE = "seo/DoGenerateRuleFile";
+    public static final String ACTION_GENERATE_ALIAS_RULES = "seo/DoGenerateAliasRules";
+    public static final String ACTION_UPDATE_GENERATOR_SETTINGS = "seo/DoUpdateGeneratorSettings";
+    public static final String ACTION_TOGGLE = "seo/DoFriendlyUrlToggle";
     public static final String PARAMETER_TOGGLE = "toggle";
     public static final String PARAMETER_FROM = "rule_from";
     public static final String PARAMETER_TO = "rule_to";
@@ -133,6 +137,9 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     private static final String MARK_SELECTED_CHANGE_FREQ = "selected_change_freq";
     private static final String MARK_PRIORITY_LIST = "priority_list";
     private static final String MARK_SELECTED_PRIORITY = "selected_priority";
+
+    private static final String MARK_TOKEN_GENERATOR_SETTINGS = "token_generator_settings";
+    private static final String MARK_TOKEN_GENERATE_RULE_FILE = "token_generate_rule_file";
 
     // Jsp Definition
     private static final String JSP_DO_DELETE_URL = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
@@ -422,9 +429,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return The forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doGenerate( HttpServletRequest request )
+    public String doGenerate( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_GENERATE_RULE_FILE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         if ( !RuleFileService.publishRules( ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_GENERATION_FAILED, getHomeUrl( request ), AdminMessage.TYPE_STOP );
@@ -446,6 +460,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
         model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
         model.put( MARK_GENERATORS_LIST, _friendlyUrlGeneratorService.getGenerators( ) );
+        model.put( MARK_TOKEN_GENERATOR_SETTINGS, SecurityTokenService.getInstance( ).getToken( request, ACTION_UPDATE_GENERATOR_SETTINGS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_GENERATE_ALIAS_RULES ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_GENERATE_ALIAS, getLocale( ), model );
 
@@ -458,9 +474,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return The page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doGenerateAliasRules( HttpServletRequest request )
+    public String doGenerateAliasRules( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_GENERATE_ALIAS_RULES ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         GeneratorOptions options = new GeneratorOptions( );
 
         options.setForceUpdate( getOption( request, PARAMETER_OPTION_FORCE_UPDATE ) );
@@ -498,9 +521,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return The page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doToggle( HttpServletRequest request )
+    public String doToggle( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_TOGGLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strToggle = request.getParameter( PARAMETER_TOGGLE );
 
         switch( strToggle )
@@ -588,9 +618,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return The forward URL
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doUpdateGeneratorSettings( HttpServletRequest request )
+    public String doUpdateGeneratorSettings( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_UPDATE_GENERATOR_SETTINGS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strKey = request.getParameter( PARAMETER_GENERATOR_KEY );
         String strChangeFreq = request.getParameter( PARAMETER_CHANGE_FREQ );
         String strPriority = request.getParameter( PARAMETER_PRIORITY );
@@ -620,7 +657,21 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     @Override
     public String getPanelContent( )
     {
+        return getPanelContent( getRequest( ) );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getPanelContent( HttpServletRequest request )
+    {
         Map<String, Object> model = new HashMap<String, Object>( );
+        if ( request != null )
+        {
+            model.put( MARK_TOKEN_GENERATE_RULE_FILE, SecurityTokenService.getInstance( ).getToken( request, ACTION_GENERATE_RULE_FILE ) );
+            model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_TOGGLE ) );
+        }
         model.put( MARK_REWRITE_CONFIG_UPDATE, DatastoreService.getDataValue( SEODataKeys.KEY_REWRITE_CONFIG_UPDATE, "" ) );
         model.put( MARK_CONFIG_UPTODATE, DatastoreService.getDataValue( SEODataKeys.KEY_CONFIG_UPTODATE, "" ).equals( DatastoreService.VALUE_TRUE ) );
         model.put( MARK_URL_REPLACE, DatastoreService.getDataValue( SEODataKeys.KEY_URL_REPLACE_ENABLED, "" ).equals( DatastoreService.VALUE_TRUE ) );
