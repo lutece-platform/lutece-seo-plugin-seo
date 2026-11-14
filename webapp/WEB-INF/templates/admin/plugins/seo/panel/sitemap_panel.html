@@ -2,7 +2,7 @@
 	<@boxHeader title='#i18n{seo.panel.sitemap.titleManageSitemap}' boxTools=true>
 		<@aButton href='http://www.sitemaps.org/fr/' title='#i18n{seo.panel.sitemap.labelMore}' hideTitle=['xs','sm','md'] buttonIcon='external-link' target='_blank' iconPosition='right' size='' />
 		<@offcanvas id='sitemapOffcanvas' title='Sitemap' btnTitle='#i18n{seo.panel.sitemap.buttonDisplaySitemap}' btnIcon='file' hideTitle=['xs','sm','md'] position='end' size='half'>
-			<@code class='language-html' id="sitemap" params={"data-lang": "html"} />
+			<div id="sitemapPreview" data-sitemap-url="${sitemap_url!}"><@code class='language-html' id="sitemap" /></div>
 		</@offcanvas>
 	</@boxHeader>
 	<@boxBody>
@@ -46,7 +46,10 @@ document.addEventListener( 'DOMContentLoaded', function() {
             sitemapEl.replaceChildren( alertEl );
         }
     }
-    fetch( 'sitemap.xml' )
+    const previewEl = document.getElementById( 'sitemapPreview' );
+    if ( !sitemapEl || !previewEl || !previewEl.dataset.sitemapUrl ) return;
+    // the servlet that serves the generated sitemap, an absolute URL built by SitemapJspBean
+    fetch( previewEl.dataset.sitemapUrl )
         .then( function( response ) {
             if ( !response.ok ) {
                 showError( );

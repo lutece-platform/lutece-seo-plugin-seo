@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.seo.service.sitemap.SitemapService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -63,6 +64,8 @@ public class SitemapJspBean extends SEOPanelJspBean implements SEOPanel
     private static final String PROPERTY_TITLE = "seo.panel.sitemap.title";
     private static final String MARK_LAST_GENERATION = "sitemapLastGeneration";
     private static final String MARK_DAEMON_ENABLED = "daemon_enabled";
+    private static final String MARK_SITEMAP_URL = "sitemap_url";
+    private static final String SERVLET_SITEMAP = "servlet/plugins/seo/sitemap-seo.xml";
     private static final int PANEL_ORDER = 2;
     private static final String PANEL_KEY = "SITE_MAP";
 
@@ -126,6 +129,7 @@ public class SitemapJspBean extends SEOPanelJspBean implements SEOPanel
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_LAST_GENERATION, DatastoreService.getDataValue( SEODataKeys.KEY_SITEMAP_UPDATE_LOG, "" ) );
         model.put( MARK_DAEMON_ENABLED, strDeamon.equals( DatastoreService.VALUE_TRUE ) );
+        model.put( MARK_SITEMAP_URL, ( ( getRequest( ) != null ) ? AppPathService.getBaseUrl( getRequest( ) ) : AppPathService.getBaseUrl( ) ) + SERVLET_SITEMAP );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT, getPanelLocale( ), model );
 
