@@ -139,7 +139,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_URL = "seo.message.confirmRemoveUrl";
-    private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationSuccessful";
+    private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationFailed";
 
     @Inject
     private FriendlyUrlService _friendlyUrlService;

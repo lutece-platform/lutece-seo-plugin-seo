@@ -107,7 +107,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_RULE = "seo.message.confirmRemoveRule";
     private static final String MESSAGE_GENERATION_SUCCESSFUL = "seo.message.generationSuccessful";
-    private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationSuccessful";
+    private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationFailed";
 
     // Variables
     private int _nDefaultItemsPerPage;
