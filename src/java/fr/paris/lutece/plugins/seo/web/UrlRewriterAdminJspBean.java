@@ -36,9 +36,11 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.plugins.seo.service.RuleFileService;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -75,6 +77,11 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
     public static final String PARAMETER_FROM = "rule_from";
     public static final String PARAMETER_TO = "rule_to";
     public static final String PARAMETER_URLREWRITERRULE_PAGE_INDEX = "urlrewriterrule_page_index";
+
+    // security token actions
+    public static final String ACTION_CREATE_RULE = "seo/DoCreateUrlRewriterRule";
+    public static final String ACTION_MODIFY_RULE = "seo/DoModifyUrlRewriterRule";
+    public static final String ACTION_DELETE_RULE = "seo/DoRemoveUrlRewriterRule";
 
     // templates
     private static final String TEMPLATE_MANAGE_URLREWRITERRULES = "/admin/plugins/seo/manage_urlrewriterrules.html";
@@ -157,6 +164,8 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
     {
         HashMap model = new HashMap( );
 
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_CREATE_RULE ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RULE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -168,9 +177,16 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
      * @param request
      *            The HTTP request
      * @return the forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateRule( HttpServletRequest request )
+    public String doCreateRule( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_CREATE_RULE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         UrlRewriterRule rule = new UrlRewriterRule( );
         String strErrorUrl = getData( request, rule );
 
@@ -201,6 +217,8 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
         HashMap model = new HashMap( );
         model.put( MARK_RULE, rule );
 
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_MODIFY_RULE ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -212,9 +230,16 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
      * @param request
      *            The HTTP request
      * @return The forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyRule( HttpServletRequest request )
+    public String doModifyRule( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_MODIFY_RULE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strRuleId = request.getParameter( PARAMETER_RULE_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 
@@ -268,6 +293,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
         String strRuleId = request.getParameter( PARAMETER_RULE_ID );
         UrlItem url = new UrlItem( JSP_DO_DELETE_RULE );
         url.addParameter( PARAMETER_RULE_ID, strRuleId );
+        url.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_DELETE_RULE ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RULE, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
@@ -278,9 +304,16 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
      * @param request
      *            The HTTP request
      * @return The forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doDeleteRule( HttpServletRequest request )
+    public String doDeleteRule( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_DELETE_RULE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strRuleId = request.getParameter( PARAMETER_RULE_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 

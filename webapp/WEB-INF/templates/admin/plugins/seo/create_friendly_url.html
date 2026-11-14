@@ -4,6 +4,7 @@
 		<@box>
 			<@boxBody>
 				<@tform name='create_friendly_url' action='jsp/admin/plugins/seo/DoCreateFriendlyUrl.jsp'>
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelFor='rule_from' labelKey='#i18n{seo.create_friendly_url.labelFriendlyUrl}' helpKey='#i18n{seo.create_friendly_url.labelFriendlyUrl.help}' mandatory=true>
 						<@input type='text' name='rule_from' id='rule_from' maxlength=100 />
 					</@formGroup>

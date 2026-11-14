@@ -81,6 +81,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
 
     public static final String PARAMETER_URL_ID = "id_url";
+    public static final String ACTION_CREATE_URL = "seo/DoCreateFriendlyUrl";
+    public static final String ACTION_MODIFY_URL = "seo/DoModifyFriendlyUrl";
     public static final String ACTION_DELETE_URL = "seo/DoRemoveFriendlyUrl";
     public static final String ACTION_DELETE_ALL_URLS = "seo/DoRemoveAllFriendlyUrls";
     public static final String PARAMETER_TOGGLE = "toggle";
@@ -209,6 +211,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
         model.put( MARK_SELECTED_PRIORITY, SitemapUtils.PRIORITY_VALUES [0] );
 
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_CREATE_URL ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RULE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -220,9 +224,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return the forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateUrl( HttpServletRequest request )
+    public String doCreateUrl( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_CREATE_URL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         FriendlyUrl url = new FriendlyUrl( );
         String strErrorUrl = getData( request, url );
 
@@ -255,6 +266,8 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
         model.put( MARK_CHANGE_FREQ_LIST, SitemapUtils.getChangeFrequencyValues( ) );
         model.put( MARK_PRIORITY_LIST, SitemapUtils.getPriorityValues( ) );
 
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_MODIFY_URL ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RULE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -266,9 +279,16 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
      * @param request
      *            The HTTP request
      * @return The forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyUrl( HttpServletRequest request )
+    public String doModifyUrl( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_MODIFY_URL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strRuleId = request.getParameter( PARAMETER_URL_ID );
         int nRuleId = Integer.parseInt( strRuleId );
 

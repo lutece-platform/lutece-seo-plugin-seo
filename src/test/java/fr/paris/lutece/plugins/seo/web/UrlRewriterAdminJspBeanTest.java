@@ -37,15 +37,21 @@ package fr.paris.lutece.plugins.seo.web;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.enterprise.inject.spi.CDI;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -107,8 +113,17 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "http://from.url" );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "http://to.url" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, UrlRewriterAdminJspBean.ACTION_CREATE_RULE ) );
         UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
-        instance.doCreateRule( request );
+        try
+        {
+            instance.doCreateRule( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -133,8 +148,17 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "http://from.url" );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "http://to.url" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, UrlRewriterAdminJspBean.ACTION_MODIFY_RULE ) );
         UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
-        instance.doModifyRule( request );
+        try
+        {
+            instance.doModifyRule( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -157,8 +181,98 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         System.out.println( "doDeleteRule" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, UrlRewriterAdminJspBean.ACTION_DELETE_RULE ) );
         UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
-        instance.doDeleteRule( request );
+        try
+        {
+            instance.doDeleteRule( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
+    }
+
+    /**
+     * Creates a rule for a test.
+     *
+     * @return the rule
+     */
+    private static UrlRewriterRule createRule( )
+    {
+        UrlRewriterRule rule = new UrlRewriterRule( );
+        rule.setRuleFrom( "/unchanged" );
+        rule.setRuleTo( "/to" );
+        UrlRewriterRuleHome.create( rule );
+
+        return rule;
+    }
+
+    /**
+     * Creating a rule requires the token of the creation form.
+     */
+    @Test
+    public void testDoCreateRuleWithoutToken( )
+    {
+        int nCount = UrlRewriterRuleHome.findAll( ).size( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "/created-without-token" );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "/to" );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doCreateRule( request ) );
+        assertEquals( nCount, UrlRewriterRuleHome.findAll( ).size( ) );
+    }
+
+    /**
+     * Modifying a rule requires the token of the modification form.
+     */
+    @Test
+    public void testDoModifyRuleWithoutToken( )
+    {
+        UrlRewriterRule rule = createRule( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, String.valueOf( rule.getIdRule( ) ) );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_FROM, "/changed" );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_TO, "/to" );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doModifyRule( request ) );
+        assertEquals( "/unchanged", UrlRewriterRuleHome.findByPrimaryKey( rule.getIdRule( ) ).getRuleFrom( ) );
+        UrlRewriterRuleHome.remove( rule.getIdRule( ) );
+    }
+
+    /**
+     * Deleting a rule requires the token given with the confirmation.
+     */
+    @Test
+    public void testDoDeleteRuleWithoutToken( )
+    {
+        UrlRewriterRule rule = createRule( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, String.valueOf( rule.getIdRule( ) ) );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doDeleteRule( request ) );
+        assertNotNull( UrlRewriterRuleHome.findByPrimaryKey( rule.getIdRule( ) ) );
+        UrlRewriterRuleHome.remove( rule.getIdRule( ) );
+    }
+
+    /**
+     * The creation and modification forms carry a token.
+     */
+    @Test
+    public void testFormsCarryToken( )
+    {
+        UrlRewriterRule rule = createRule( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, String.valueOf( rule.getIdRule( ) ) );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
+
+        assertTrue( instance.getCreateRule( request ).contains( "name=\"token\"" ), "create form" );
+        assertTrue( instance.getModifyRule( request ).contains( "name=\"token\"" ), "modify form" );
+        UrlRewriterRuleHome.remove( rule.getIdRule( ) );
     }
 
     /**
@@ -172,6 +286,7 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         rule.setRuleTo( "/to" );
         Map<String, Object> model = new HashMap<>( );
         model.put( "rule", rule );
+        model.put( SecurityTokenService.MARK_TOKEN, "token" );
 
         for ( String strTemplate : new String [ ] {
                 "admin/plugins/seo/create_urlrewriterrule.html", "admin/plugins/seo/modify_urlrewriterrule.html"

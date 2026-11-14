@@ -44,8 +44,10 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
@@ -121,8 +123,17 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         request.setParameter( FriendlyUrlJspBean.PARAMETER_CHANGE_FREQ, DATA_CHANGE_FREQ );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_PRIORITY, DATA_PRIORITY );
 
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_CREATE_URL ) );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doCreateUrl( request );
+        try
+        {
+            instance.doCreateUrl( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -145,8 +156,17 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         System.out.println( "doModifyUrl" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, "1" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_MODIFY_URL ) );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doModifyUrl( request );
+        try
+        {
+            instance.doModifyUrl( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
     }
 
     /**
@@ -200,6 +220,62 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
         {
             fail( "a valid token must be accepted" );
         }
+    }
+
+    /**
+     * Creating a url requires the token of the creation form.
+     */
+    @Test
+    public void testDoCreateUrlWithoutToken( )
+    {
+        int nCount = FriendlyUrlHome.findAll( ).size( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_FROM, "/created-without-token" );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_TO, DATA_TO );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doCreateUrl( request ) );
+        assertEquals( nCount, FriendlyUrlHome.findAll( ).size( ) );
+    }
+
+    /**
+     * Modifying a url requires the token of the modification form.
+     */
+    @Test
+    public void testDoModifyUrlWithoutToken( )
+    {
+        FriendlyUrl friendlyUrl = new FriendlyUrl( );
+        friendlyUrl.setFriendlyUrl( "/unchanged" );
+        friendlyUrl.setTechnicalUrl( "/jsp/site/Portal.jsp?page_id=2" );
+        FriendlyUrlHome.create( friendlyUrl );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, String.valueOf( friendlyUrl.getId( ) ) );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_FROM, "/changed" );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_TO, DATA_TO );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doModifyUrl( request ) );
+        assertEquals( "/unchanged", FriendlyUrlHome.findByPrimaryKey( friendlyUrl.getId( ) ).getFriendlyUrl( ) );
+        FriendlyUrlHome.remove( friendlyUrl.getId( ) );
+    }
+
+    /**
+     * The creation and modification forms carry a token.
+     */
+    @Test
+    public void testFormsCarryToken( )
+    {
+        FriendlyUrl friendlyUrl = new FriendlyUrl( );
+        friendlyUrl.setFriendlyUrl( "/form" );
+        friendlyUrl.setTechnicalUrl( "/jsp/site/Portal.jsp?page_id=2" );
+        FriendlyUrlHome.create( friendlyUrl );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( FriendlyUrlJspBean.PARAMETER_URL_ID, String.valueOf( friendlyUrl.getId( ) ) );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertTrue( instance.getCreateUrl( request ).contains( "name=\"token\"" ), "create form" );
+        assertTrue( instance.getModifyUrl( request ).contains( "name=\"token\"" ), "modify form" );
+        FriendlyUrlHome.remove( friendlyUrl.getId( ) );
     }
 
     /**

@@ -4,6 +4,7 @@
 		<@box>
 			<@boxBody>
 				<@tform action='jsp/admin/plugins/seo/DoCreateUrlRewriterRule.jsp'>
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelFor='rule_from' labelKey='#i18n{seo.create_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.create_urlrewriterrule.labelRuleFrom.help}' mandatory=true>
 						<@input type='text' name='rule_from' id='rule_from' value='' maxlength=100 />
 					</@formGroup>
