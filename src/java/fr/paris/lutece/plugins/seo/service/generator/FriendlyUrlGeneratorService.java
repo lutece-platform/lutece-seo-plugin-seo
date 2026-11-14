@@ -102,7 +102,7 @@ public class FriendlyUrlGeneratorService
         for ( FriendlyUrlGenerator generator : _listGenerators )
         {
             GeneratorSettings gs = new GeneratorSettings( );
-            String strKey = generator.getClass( ).getName( );
+            String strKey = generator.getKey( );
             gs.setKey( strKey );
             gs.setName( generator.getName( ) );
 

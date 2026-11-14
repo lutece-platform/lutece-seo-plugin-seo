@@ -59,4 +59,15 @@ public interface FriendlyUrlGenerator
      * @return The name
      */
     String getName( );
+
+    /**
+     * Get the key of the generator settings. Called through the CDI proxy, the method runs on the bean itself, so the key is the
+     * class of the generator and not the class of its proxy.
+     * 
+     * @return The key
+     */
+    default String getKey( )
+    {
+        return getClass( ).getName( );
+    }
 }
