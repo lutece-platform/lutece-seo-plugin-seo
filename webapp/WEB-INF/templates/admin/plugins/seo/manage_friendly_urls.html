@@ -33,7 +33,7 @@
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn align='end'>
 					<@offcanvas targetUrl='jsp/admin/plugins/seo/ModifyFriendlyUrl.jsp?id_url=${url.id}' targetElement='#modify_friendly_url' id='edit-url-${url.id}' btnTitle='#i18n{portal.util.labelModify}' hideTitle=['xs','sm','md'] btnIcon='pencil' btnColor='primary' position='end' title='#i18n{portal.util.labelModify}' />
-					<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}' buttonIcon='trash' btnTitle='#i18n{portal.util.labelDelete}' title='#i18n{portal.util.labelDelete}' hideTitle=['xs','sm','md'] />
+					<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveFriendlyUrl.jsp?id_url=${url.id}' buttonIcon='trash' btnTitle='#i18n{portal.util.labelDelete}' title='#i18n{portal.util.labelDelete}' hideTitle=['xs','sm','md'] params={ "aria-label": i18n( 'portal.util.labelDelete' ) + ' ' + ( url.friendlyUrl!'' ) } />
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 			</#list>

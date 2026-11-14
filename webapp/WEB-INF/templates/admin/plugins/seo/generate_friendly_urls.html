@@ -7,21 +7,21 @@
 				<@manageFeature>
 					<#list generators_list as generator>
 					<@tform action='jsp/admin/plugins/seo/DoUpdateGeneratorSettings.jsp' method='post'>
-						<@input type='hidden' name='generator_key' value='${generator.key!}' />
+						<@input type='hidden' name='generator_key' id='generator_key_${generator?index}' value='${generator.key!}' />
 						<@manageFeatureItem>
 							<@manageFeatureItemColumn auto=true flex=false>
 								<strong>${generator.name!}</strong>
 							</@manageFeatureItemColumn>
 							<@manageFeatureItemColumn auto=true flex=false valign='top'>
-								<@p class='fw-bold fs-3'>#i18n{seo.generate_friendly_urls.columnChangeFreq}</@p>
-								<@select name='change_freq' items=change_freq_list default_value=generator.defaultChangeFreq />
+								<label class="form-label fw-bold fs-3" for="change_freq_${generator?index}">#i18n{seo.generate_friendly_urls.columnChangeFreq}</label>
+								<@select name='change_freq' id='change_freq_${generator?index}' items=change_freq_list default_value=generator.defaultChangeFreq />
 							</@manageFeatureItemColumn>
 							<@manageFeatureItemColumn auto=true flex=false valign='top'>
-								<@p class='fw-bold fs-3'>#i18n{seo.generate_friendly_urls.columnPriority}</@p>
-								<@select name='priority' items=priority_list default_value=generator.defaultPriority />
+								<label class="form-label fw-bold fs-3" for="priority_${generator?index}">#i18n{seo.generate_friendly_urls.columnPriority}</label>
+								<@select name='priority' id='priority_${generator?index}' items=priority_list default_value=generator.defaultPriority />
 							</@manageFeatureItemColumn>
 							<@manageFeatureItemColumn auto=true align='end'>
-								<@button type='submit' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='sync' size='sm' />
+								<@button type='submit' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='sync' size='sm' params={ "aria-label": i18n( 'portal.util.labelModify' ) + ' ' + ( generator.name!'' ) } />
 							</@manageFeatureItemColumn>
 						</@manageFeatureItem>
 					</@tform>

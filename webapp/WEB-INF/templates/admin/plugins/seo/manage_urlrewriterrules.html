@@ -19,7 +19,7 @@
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn align='end'>
 					<@offcanvas targetUrl='jsp/admin/plugins/seo/ModifyUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' targetElement='#modify_urlrewriterrule' id='edit-rule-${urlrewriterrule.idRule}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='pencil' btnColor='primary' position='end' title='#i18n{portal.util.labelModify}' hideTitle=['xs','sm'] />
-					<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' />
+					<@aButton color='danger' href='jsp/admin/plugins/seo/RemoveUrlRewriterRule.jsp?id_rule=${urlrewriterrule.idRule}' title='#i18n{portal.util.labelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' params={ "aria-label": i18n( 'portal.util.labelDelete' ) + ' ' + ( urlrewriterrule.ruleFrom!'' ) } />
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 			</#list>
