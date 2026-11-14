@@ -104,7 +104,7 @@ public final class FriendlyUrlUtils
             strUrl = removeBaseUrl( strUrl, strBaseUrl );
             strUrl = strUrl.replaceAll( "&amp;", "&" );
             strFriendlyUrl = map.get( strUrl );
-            sbOutput.append( ( strFriendlyUrl != null ) ? strFriendlyUrl : strUrl );
+            sbOutput.append( ( strFriendlyUrl != null ) ? escapeAttribute( strFriendlyUrl ) : strUrl );
 
             if ( strFriendlyUrl != null )
             {
@@ -118,6 +118,18 @@ public final class FriendlyUrlUtils
         sbOutput.append( strCurrent );
 
         return sbOutput.toString( );
+    }
+
+    /**
+     * Escapes a value written in a double-quoted HTML attribute
+     * 
+     * @param strValue
+     *            The value
+     * @return The value with the characters &amp; &lt; &gt; &quot; and ' written as entities
+     */
+    public static String escapeAttribute( String strValue )
+    {
+        return strValue.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" ).replace( "\"", "&quot;" ).replace( "'", "&#39;" );
     }
 
     /**

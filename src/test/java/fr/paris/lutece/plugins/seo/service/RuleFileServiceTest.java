@@ -4,10 +4,17 @@
  */
 package fr.paris.lutece.plugins.seo.service;
 
+import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
+import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import org.junit.jupiter.api.Test;
+import org.tuckey.web.filters.urlrewrite.Conf;
+import org.tuckey.web.filters.urlrewrite.NormalRule;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,6 +36,36 @@ public class RuleFileServiceTest extends LuteceTestCase
         assertTrue( strRules.startsWith( "<?xml" ), "the rules must start with the XML declaration : " + strRules.substring( 0, Math.min( 40, strRules.length( ) ) ) );
         assertTrue( strRules.contains( "<urlrewrite>" ), "the rules must hold an urlrewrite element" );
         assertTrue( strRules.contains( "</urlrewrite>" ), "the urlrewrite element must be closed" );
+    }
+
+    /**
+     * The template is rendered with the HTML output format the core gives to a .xml template: a rule holding XML
+     * special characters is escaped, and the filter reads it back unchanged.
+     */
+    @Test
+    public void testGetRulesXmlEscapesTheRules( )
+    {
+        String strTo = "/jsp/site/Portal.jsp?page=seo&id=1&label=\"a\"<b>";
+        UrlRewriterRule rule = new UrlRewriterRule( );
+        rule.setRuleFrom( "/seo-escaping-test/(\\d+)" );
+        rule.setRuleTo( strTo );
+        rule = UrlRewriterRuleHome.create( rule );
+
+        try
+        {
+            String strRules = RuleFileService.getRulesXml( );
+
+            assertTrue( strRules.contains( "<to>/jsp/site/Portal.jsp?page=seo&amp;id=1&amp;label=&quot;a&quot;&lt;b&gt;</to>" ), strRules );
+
+            Conf conf = new Conf( new ByteArrayInputStream( strRules.getBytes( StandardCharsets.UTF_8 ) ), "test" );
+            assertTrue( conf.isOk( ), "the filter must accept the rules" );
+            assertTrue( conf.getRules( ).stream( ).anyMatch( r -> r instanceof NormalRule && strTo.equals( ( (NormalRule) r ).getTo( ) ) ),
+                    "the filter must read the rule unchanged" );
+        }
+        finally
+        {
+            UrlRewriterRuleHome.remove( rule.getIdRule( ) );
+        }
     }
 
     /**

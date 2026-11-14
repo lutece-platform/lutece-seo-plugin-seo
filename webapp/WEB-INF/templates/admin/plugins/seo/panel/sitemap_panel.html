@@ -2,7 +2,7 @@
 	<@boxHeader title='#i18n{seo.panel.sitemap.titleManageSitemap}' boxTools=true>
 		<@aButton href='http://www.sitemaps.org/fr/' title='#i18n{seo.panel.sitemap.labelMore}' hideTitle=['xs','sm','md'] buttonIcon='external-link' target='_blank' iconPosition='right' size='' />
 		<@offcanvas id='sitemapOffcanvas' title='Sitemap' btnTitle='#i18n{seo.panel.sitemap.buttonDisplaySitemap}' btnIcon='file' hideTitle=['xs','sm','md'] position='end' size='half'>
-			<@code class='language-html' params='id="sitemap" data-lang="html"' />
+			<@code class='language-html' id="sitemap" params={"data-lang": "html"} />
 		</@offcanvas>
 	</@boxHeader>
 	<@boxBody>
@@ -35,28 +35,29 @@
 <script>
 document.addEventListener( 'DOMContentLoaded', function() {
     const sitemapEl = document.getElementById( 'sitemap' );
+    const errorMessage = '${i18n('seo.panel.sitemap.errorFileNotFound')?js_string?no_esc}';
+    function showError( ) {
+        if ( sitemapEl ) {
+            const alertEl = document.createElement( 'div' );
+            alertEl.className = 'alert alert-danger';
+            const iconEl = document.createElement( 'i' );
+            iconEl.className = 'ti ti-alert-circle me-2';
+            alertEl.append( iconEl, errorMessage );
+            sitemapEl.replaceChildren( alertEl );
+        }
+    }
     fetch( 'sitemap.xml' )
         .then( function( response ) {
             if ( !response.ok ) {
-				if( sitemapEl ){
-					sitemapEl.innerHTML = '<div class="alert alert-danger"><i class="ti ti-alert-circle me-2"></i>${'#i18n{seo.panel.sitemap.errorFileNotFound}'?js_string}</div>';
-				}
+                showError( );
                 return;
             }
             return response.text();
         } )
         .then( function( text ) {
-            if ( !text ) return;
-            let content = text.replace( /&/g, '&amp;' ).replace( />/g, '&gt;' ).replace( /</g, '&lt;' ).replace( /"/g, '&quot;' );
-            content = content.replace( /&lt;url&gt;/g, '<br><b>&lt;url&gt;</b><br>' ).replace( /&lt;\/url&gt;/g, '<b>&lt;/url&gt;</b><br>' );
-            content = content.replace( /&lt;loc&gt;/g, '<b>&lt;loc&gt;</b>' ).replace( /&lt;\/loc&gt;/g, '<b>&lt;/loc&gt;</b><br>' );
-            content = content.replace( /&lt;priority&gt;/g, '<b>&lt;priority&gt;</b>' ).replace( /&lt;\/priority&gt;/g, '<b>&lt;/priority&gt;</b><br>' );
-            content = content.replace( /&lt;lastmod&gt;/g, '<b>&lt;lastmod&gt;</b>' ).replace( /&lt;\/lastmod&gt;/g, '<b>&lt;/lastmod&gt;</b><br>' );
-            content = content.replace( /&lt;changefreq&gt;/g, '<b>&lt;changefreq&gt;</b>' ).replace( /&lt;\/changefreq&gt;/g, '<b>&lt;/changefreq&gt;</b><br>' );
-            sitemapEl.innerHTML = content;
+            if ( !text || !sitemapEl ) return;
+            sitemapEl.textContent = text;
         } )
-        .catch( function() {
-            if( sitemapEl ){ sitemapEl.innerHTML = '<div class="alert alert-danger"><i class="ti ti-alert-circle me-2"></i>${'#i18n{seo.panel.sitemap.errorFileNotFound}'?js_string}</div>' };
-        } );
+        .catch( showError );
 } );
 </script>

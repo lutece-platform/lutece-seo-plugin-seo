@@ -134,7 +134,7 @@ public class CanonicalUrlService
         sb.append( strContent.substring( 0, nPos + HEAD.length( ) ) );
         sb.append( COMMENT );
         sb.append( CANONICAL_TAG_BEGIN );
-        sb.append( strUrl );
+        sb.append( FriendlyUrlUtils.escapeAttribute( strUrl ) );
         sb.append( CANONICAL_TAG_END );
         sb.append( strContent.substring( nPos + HEAD.length( ) ) );
 

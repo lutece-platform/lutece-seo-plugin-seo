@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.plugins.seo.service.PanelService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -43,7 +44,9 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,6 +65,9 @@ public class SEOJspBean extends PluginAdminPageJspBean
     // templates
     private static final String TEMPLATE_MANAGE_SEO = "/admin/plugins/seo/manage_seo.html";
     private static final String MARK_PANELS_LIST = "panels_list";
+    private static final String MARK_PANEL_INDEX = "panelIndex";
+    private static final String MARK_PANEL_TITLE = "panelTitle";
+    private static final String MARK_PANEL_CONTENT = "panelContent";
 
     @Inject
     private PanelService _panelService;
@@ -75,14 +81,23 @@ public class SEOJspBean extends PluginAdminPageJspBean
      */
     public String getManageSEO( HttpServletRequest request )
     {
+        List<Map<String, Object>> listPanels = new ArrayList<>( );
+
         for ( SEOPanel panel : _panelService.getPanels( ) )
         {
             panel.setPanelLocale( getLocale( ) );
             panel.setRequest( request );
+
+            // The content of a panel is HTML rendered by its own template
+            Map<String, Object> mapPanel = new HashMap<>( );
+            mapPanel.put( MARK_PANEL_INDEX, panel.getPanelIndex( ) );
+            mapPanel.put( MARK_PANEL_TITLE, panel.getPanelTitle( ) );
+            mapPanel.put( MARK_PANEL_CONTENT, HtmlMarkup.of( panel.getPanelContent( ) ) );
+            listPanels.add( mapPanel );
         }
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_PANELS_LIST, _panelService.getPanels( ) );
+        model.put( MARK_PANELS_LIST, listPanels );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEO, getLocale( ), model );
 

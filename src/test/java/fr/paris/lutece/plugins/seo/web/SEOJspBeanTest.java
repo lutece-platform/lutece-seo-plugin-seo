@@ -42,6 +42,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * SEOJspBeanTest
  */
@@ -62,7 +65,11 @@ public class SEOJspBeanTest extends LuteceTestCase
         {
             CommonsService.activateCommons( ci.getKey( ) );
             System.out.println( "############################ Tests using " + ci.getName( ) + " " + ci.getDescription( ) );
-            instance.getManageSEO( request );
+            String strHtml = instance.getManageSEO( request );
+
+            // the panels are HTML rendered by their own templates, written as markup by manage_seo.html
+            assertTrue( strHtml.contains( "id=\"doGenerateSitemap\"" ), "the sitemap panel must be rendered as HTML" );
+            assertFalse( strHtml.contains( "&lt;form" ), "the content of a panel must not be escaped" );
         }
     }
 

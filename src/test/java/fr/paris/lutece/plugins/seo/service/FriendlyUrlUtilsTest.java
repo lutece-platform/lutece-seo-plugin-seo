@@ -100,6 +100,20 @@ public class FriendlyUrlUtilsTest extends LuteceTestCase
         System.out.println( result );
     }
 
+    /**
+     * A friendly URL is written in the href attribute of a link as an attribute value.
+     */
+    @Test
+    public void testReplaceByFriendlyUrlEscapesTheFriendlyUrl( )
+    {
+        Map<String, String> map = new HashMap<>( );
+        map.put( "jsp/site/Portal.jsp?page_id=2", "page\" data-x=\"1&b" );
+
+        String result = FriendlyUrlUtils.replaceByFriendlyUrl( "<a href=\"jsp/site/Portal.jsp?page_id=2\">link</a>", map, BASE_URL );
+
+        assertEquals( "<a href=\"page&quot; data-x=&quot;1&amp;b\">link</a>", result );
+    }
+
     public String getFileContent( String strResource ) throws IOException
     {
         InputStream is = getClass( ).getResourceAsStream( "/" + strResource );
