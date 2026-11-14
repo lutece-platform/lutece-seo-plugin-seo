@@ -34,12 +34,22 @@
 
 package fr.paris.lutece.plugins.seo.web;
 
+import fr.paris.lutece.plugins.seo.business.UrlRewriterRule;
 import fr.paris.lutece.plugins.seo.business.UrlRewriterRuleHome;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.enterprise.inject.spi.CDI;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
@@ -149,6 +159,28 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         request.setParameter( UrlRewriterAdminJspBean.PARAMETER_RULE_ID, strID );
         UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
         instance.doDeleteRule( request );
+    }
+
+    /**
+     * The alias field of the create and modify rule forms shows its own help text, not the label followed by ".help".
+     */
+    @Test
+    public void testRuleFormsHelpText( )
+    {
+        UrlRewriterRule rule = new UrlRewriterRule( );
+        rule.setRuleFrom( "/from" );
+        rule.setRuleTo( "/to" );
+        Map<String, Object> model = new HashMap<>( );
+        model.put( "rule", rule );
+
+        for ( String strTemplate : new String [ ] {
+                "admin/plugins/seo/create_urlrewriterrule.html", "admin/plugins/seo/modify_urlrewriterrule.html"
+        } )
+        {
+            String strHtml = AppTemplateService.getTemplate( strTemplate, Locale.ENGLISH, model ).getHtml( );
+            assertFalse( strHtml.contains( ".help" ), strTemplate );
+            assertTrue( strHtml.contains( I18nService.getLocalizedString( "seo.create_urlrewriterrule.labelRuleFrom.help", Locale.ENGLISH ) ), strTemplate );
+        }
     }
 
     /**

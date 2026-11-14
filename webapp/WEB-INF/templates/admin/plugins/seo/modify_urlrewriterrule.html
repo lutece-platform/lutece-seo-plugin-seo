@@ -5,7 +5,7 @@
 			<@boxBody>
 				<@tform action='jsp/admin/plugins/seo/DoModifyUrlRewriterRule.jsp'>
 					<@input type='hidden' name='id_rule' value='${rule.idRule!}' />
-					<@formGroup labelFor='rule_from' labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}.help' mandatory=true>
+					<@formGroup labelFor='rule_from' labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleFrom.help}' mandatory=true>
 						<@input type='text' name='rule_from' id='rule_from' value='${rule.ruleFrom!}' maxlength=100 />
 					</@formGroup>
 					<@formGroup labelFor='rule_to' labelKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo}' helpKey='#i18n{seo.modify_urlrewriterrule.labelRuleTo.help}' mandatory=true>
