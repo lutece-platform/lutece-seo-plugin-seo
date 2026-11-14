@@ -34,11 +34,17 @@
 package fr.paris.lutece.plugins.seo.web;
 
 import fr.paris.lutece.portal.business.template.CommonsInclude;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
@@ -171,9 +177,42 @@ public class FriendlyUrlJspBeanTest extends LuteceTestCase
     private void doDeleteAllUrls( )
     {
         System.out.println( "doDeleteAllUrls" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, FriendlyUrlJspBean.ACTION_DELETE_ALL_URLS ) );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+        try
+        {
+            instance.doDeleteAllUrls( request );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "a valid token must be accepted" );
+        }
+    }
+
+    /**
+     * Deleting all the urls requires the token given with the confirmation.
+     */
+    @Test
+    public void testDoDeleteAllUrlsWithoutToken( )
+    {
         HttpServletRequest request = new MockHttpServletRequest( );
         FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
-        instance.doDeleteAllUrls( request );
+
+        assertThrows( AccessDeniedException.class, ( ) -> instance.doDeleteAllUrls( request ) );
+    }
+
+    /**
+     * The confirmation of the deletion of all the urls carries a token.
+     */
+    @Test
+    public void testDeleteAllUrls( )
+    {
+        HttpServletRequest request = new MockHttpServletRequest( );
+        FriendlyUrlJspBean instance = CDI.current( ).select( FriendlyUrlJspBean.class ).get( );
+
+        assertNotNull( instance.deleteAllUrls( request ) );
     }
 
     /**

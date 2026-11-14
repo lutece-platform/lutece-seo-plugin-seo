@@ -42,10 +42,12 @@ import fr.paris.lutece.plugins.seo.service.SEODataKeys;
 import fr.paris.lutece.plugins.seo.service.generator.FriendlyUrlGeneratorService;
 import fr.paris.lutece.plugins.seo.service.generator.GeneratorOptions;
 import fr.paris.lutece.plugins.seo.service.sitemap.SitemapUtils;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -79,6 +81,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     public static final String RIGHT_MANAGE_SEO = SEOJspBean.RIGHT_MANAGE_SEO;
 
     public static final String PARAMETER_URL_ID = "id_url";
+    public static final String ACTION_DELETE_ALL_URLS = "seo/DoRemoveAllFriendlyUrls";
     public static final String PARAMETER_TOGGLE = "toggle";
     public static final String PARAMETER_FROM = "rule_from";
     public static final String PARAMETER_TO = "rule_to";
@@ -130,6 +133,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
     // Jsp Definition
     private static final String JSP_DO_DELETE_URL = "jsp/admin/plugins/seo/DoRemoveFriendlyUrl.jsp";
+    private static final String JSP_DO_DELETE_ALL_URLS = "jsp/admin/plugins/seo/DoRemoveAllFriendlyUrls.jsp";
     private static final String JSP_URL_MANAGE_FRIENDLY_URLS = "jsp/admin/plugins/seo/ManageFriendlyUrls.jsp";
     private static final String JSP_MANAGE_FRIENDLY_URLS = "ManageFriendlyUrls.jsp";
     private static final String JSP_GENERATE_FRIENDLY_URLS = "GenerateAliasRules.jsp";
@@ -139,6 +143,7 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
 
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_URL = "seo.message.confirmRemoveUrl";
+    private static final String MESSAGE_CONFIRM_REMOVE_ALL_URLS = "seo.message.confirmRemoveAllUrls";
     private static final String MESSAGE_GENERATION_FAILED = "seo.message.generationFailed";
 
     @Inject
@@ -347,14 +352,36 @@ public class FriendlyUrlJspBean extends SEOPanelJspBean
     }
 
     /**
+     * Confirm the deletion of all the urls
+     *
+     * @param request
+     *            The HTTP request
+     * @return The forward url
+     */
+    public String deleteAllUrls( HttpServletRequest request )
+    {
+        UrlItem url = new UrlItem( JSP_DO_DELETE_ALL_URLS );
+        url.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_DELETE_ALL_URLS ) );
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_ALL_URLS, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+    }
+
+    /**
      * Remove all URL
      * 
      * @param request
      *            The HTTP request
      * @return The forward url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doDeleteAllUrls( HttpServletRequest request )
+    public String doDeleteAllUrls( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_DELETE_ALL_URLS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         FriendlyUrlHome.removeAll( );
 
         return JSP_MANAGE_FRIENDLY_URLS;
