@@ -77,7 +77,8 @@ public class FriendlyUrlGeneratorService
      */
     public void generate( GeneratorOptions options )
     {
-        Collection<FriendlyUrl> listExisting = FriendlyUrlHome.findAll( );
+        // Holds also the friendly URLs created during the run, so that two pages of the same name do not get the same friendly URL
+        Collection<FriendlyUrl> listExisting = new ArrayList<>( FriendlyUrlHome.findAll( ) );
 
         List<FriendlyUrl> listRules = new ArrayList<>( );
 
@@ -125,7 +126,8 @@ public class FriendlyUrlGeneratorService
      * @param options
      *            Options
      */
-    private void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting, GeneratorOptions options )
+    // package visibility for the tests
+    void processRuleList( List<FriendlyUrl> listRules, Collection<FriendlyUrl> listExisting, GeneratorOptions options )
     {
         AppLogService.info( "Processing Url rewriting Alias rules" );
         AppLogService.info( "* Option Force update existing rules : {}", options.isForceUpdate( ) ? "on" : "off" );
@@ -134,20 +136,21 @@ public class FriendlyUrlGeneratorService
 
         for ( FriendlyUrl url : listRules )
         {
-            if ( options.isHtmlSuffix( ) )
-            {
-                url.setFriendlyUrl( url.getFriendlyUrl( ) + SUFFIX_HTML );
-            }
+            String strSuffix = options.isHtmlSuffix( ) ? SUFFIX_HTML : "";
+            String strFriendlyUrl = url.getFriendlyUrl( );
+            url.setFriendlyUrl( strFriendlyUrl + strSuffix );
 
-            int nExistingRuleId = getExistingRuleId( listExisting, url );
+            FriendlyUrl existingUrl = getExistingUrl( listExisting, url );
 
-            if ( nExistingRuleId != NOT_FOUND )
+            if ( existingUrl != null )
             {
                 if ( options.isForceUpdate( ) )
                 {
                     // update the existing alias
-                    url.setId( nExistingRuleId );
+                    url.setId( existingUrl.getId( ) );
+                    makeFriendlyUrlUnique( listExisting, url, strFriendlyUrl, strSuffix );
                     FriendlyUrlHome.update( url );
+                    existingUrl.setFriendlyUrl( url.getFriendlyUrl( ) );
                     AppLogService.info( "Updated : {} -> {}", url.getFriendlyUrl( ), url.getTechnicalUrl( ) );
                 }
                 else
@@ -158,31 +161,70 @@ public class FriendlyUrlGeneratorService
             else
             {
                 // create a new alias
+                url.setId( NOT_FOUND );
+                makeFriendlyUrlUnique( listExisting, url, strFriendlyUrl, strSuffix );
                 FriendlyUrlHome.create( url );
+                listExisting.add( url );
                 AppLogService.info( "Created : {} -> {}", url.getFriendlyUrl( ), url.getTechnicalUrl( ) );
             }
         }
     }
 
     /**
-     * Get existing rule if
+     * Adds a number to a friendly URL used by another technical URL (pages of the same name), until it is unique
+     *
+     * @param listExisting
+     *            The existing rules
+     * @param url
+     *            The URL
+     * @param strFriendlyUrl
+     *            The friendly URL without suffix
+     * @param strSuffix
+     *            The suffix
+     */
+    private void makeFriendlyUrlUnique( Collection<FriendlyUrl> listExisting, FriendlyUrl url, String strFriendlyUrl, String strSuffix )
+    {
+        int nIndex = 2;
+
+        while ( isFriendlyUrlUsedByAnother( listExisting, url ) )
+        {
+            url.setFriendlyUrl( strFriendlyUrl + "-" + nIndex++ + strSuffix );
+        }
+    }
+
+    /**
+     * Tells if the friendly URL of a URL is used by another rule
+     *
+     * @param listExisting
+     *            The existing rules
+     * @param url
+     *            The URL
+     * @return true if another rule uses the friendly URL
+     */
+    private boolean isFriendlyUrlUsedByAnother( Collection<FriendlyUrl> listExisting, FriendlyUrl url )
+    {
+        return listExisting.stream( ).anyMatch( u -> u.getId( ) != url.getId( ) && u.getFriendlyUrl( ).equals( url.getFriendlyUrl( ) ) );
+    }
+
+    /**
+     * Get the existing rule of the technical URL of a URL
      *
      * @param listExisting
      *            The list of existing rules
      * @param url
      *            The URL
-     * @return The ID
+     * @return The existing rule, or null
      */
-    private int getExistingRuleId( Collection<FriendlyUrl> listExisting, FriendlyUrl url )
+    private FriendlyUrl getExistingUrl( Collection<FriendlyUrl> listExisting, FriendlyUrl url )
     {
         for ( FriendlyUrl u : listExisting )
         {
-            if ( u.getTechnicalUrl( ).equals( url.getTechnicalUrl( ) ) || u.getFriendlyUrl( ).equals( url.getFriendlyUrl( ) ) )
+            if ( u.getTechnicalUrl( ).equals( url.getTechnicalUrl( ) ) )
             {
-                return u.getId( );
+                return u;
             }
         }
 
-        return NOT_FOUND;
+        return null;
     }
 }
