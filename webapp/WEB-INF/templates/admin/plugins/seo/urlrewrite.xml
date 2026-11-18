@@ -18,16 +18,17 @@
         <from>^/sitemap-seo\.xml$</from>
         <to>/servlet/plugins/seo/sitemap-seo.xml</to>
     </rule>
-    <#list rules_list as rule>
-        <rule>
-            <from>^${rule.ruleFrom}</from>
-            <to>${rule.ruleTo}</to>
-        </rule>
-    </#list>
+    <#-- The friendly URLs match a whole URL: they come before the rules, which match the start of the URL (the rule /map must not take /mapping.html) -->
     <#list url_list as url>
         <rule>
             <from>^${url.friendlyUrl}$</from>
             <to>${url.technicalUrl}</to>
+        </rule>
+    </#list>
+    <#list rules_list as rule>
+        <rule>
+            <from>^${rule.ruleFrom}</from>
+            <to>${rule.ruleTo}</to>
         </rule>
     </#list>
 </urlrewrite>
