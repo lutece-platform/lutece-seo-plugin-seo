@@ -132,7 +132,7 @@ public class UrlRewriterAdminJspBean extends SEOPanelJspBean implements SEOPanel
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MANAGE_URLREWRITERRULES );
 
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = Paginator.getPageIndex( request, PARAMETER_URLREWRITERRULE_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_URLREWRITERRULE_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 

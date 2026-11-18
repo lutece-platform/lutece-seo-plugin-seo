@@ -53,7 +53,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -354,4 +356,47 @@ public class UrlRewriterAdminJspBeanTest extends LuteceTestCase
         instance.getPanelKey( );
     }
 
+
+    /**
+     * The page links of the rules list carry the parameter urlrewriterrule_page_index: it must select the page
+     */
+    @Test
+    public void testPaginationOfTheRules( )
+    {
+        UrlRewriterRule ruleA = createRule( "/seo-paging-test-a" );
+        UrlRewriterRule ruleB = createRule( "/seo-paging-test-b" );
+        UrlRewriterAdminJspBean instance = CDI.current( ).select( UrlRewriterAdminJspBean.class ).get( );
+
+        try
+        {
+            List<UrlRewriterRule> listRules = new ArrayList<>( UrlRewriterRuleHome.findAll( ) );
+            int nPageOfB = 1 + listRules.stream( ).map( UrlRewriterRule::getIdRule ).toList( ).indexOf( ruleB.getIdRule( ) );
+
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "items_per_page", "1" );
+            request.setParameter( UrlRewriterAdminJspBean.PARAMETER_URLREWRITERRULE_PAGE_INDEX, String.valueOf( nPageOfB ) );
+            String strHtml = instance.getManageUrlRewriterRules( request );
+
+            assertTrue( strHtml.contains( ruleB.getRuleFrom( ) ), "the page " + nPageOfB + " must list the rule B" );
+            assertFalse( strHtml.contains( ruleA.getRuleFrom( ) ), "the page " + nPageOfB + " must not list the rule A" );
+        }
+        finally
+        {
+            // the bean keeps the paging: back to the first page with the default number of items
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "items_per_page", "50" );
+            request.setParameter( UrlRewriterAdminJspBean.PARAMETER_URLREWRITERRULE_PAGE_INDEX, "1" );
+            instance.getManageUrlRewriterRules( request );
+            UrlRewriterRuleHome.remove( ruleA.getIdRule( ) );
+            UrlRewriterRuleHome.remove( ruleB.getIdRule( ) );
+        }
+    }
+
+    private static UrlRewriterRule createRule( String strFrom )
+    {
+        UrlRewriterRule rule = new UrlRewriterRule( );
+        rule.setRuleFrom( strFrom );
+        rule.setRuleTo( "/jsp/site/Portal.jsp?page=seo-paging-test" );
+        return UrlRewriterRuleHome.create( rule );
+    }
 }
